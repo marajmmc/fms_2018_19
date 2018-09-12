@@ -43,3 +43,6 @@ $config['system_file_type_image']='Image';
 $config['system_file_type_video']='Video';
 $config['system_file_type_video_ext']='wmv|mp4|mov|ftv|mkv|3gp|avi';
 $config['system_file_type_video_max_size']=102400;//100mb
+
+$config['system_status_file_open']='Open';
+$config['system_status_file_close']='Close';

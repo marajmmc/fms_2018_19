@@ -62,23 +62,14 @@ function system_off_events()
     $(document).off('input', '#items_container .quantity_approve');
     $(document).off('input', '#items_container .quantity_request');
 
-    /*SMS */
-    /*$(document).off('input','#quantity_convert');
-    $(document).off('input','#quantity_packet_actual');
-    $(document).off('input','#price_complete_other_variety_taka');
-    $(document).off('change','#principal_id');
-    $(document).off('input','#items_container .quantity_open');
-    $(document).off('change','#items_container .price_unit_currency');
-    $(document).off('input','#price_open_other_currency');
-    $(document).off('input','.quantity_receive');
-    $(document).off('input','#quantity_receive');
-    $(document).off('input','.quantity_release');
-    $(document).off('input','#price_release_other_currency');
-    $(document).off('change','#supplier_id');
-    $(document).off('input','#price_unit_tk');
-    $(document).off('input','.number_of_reel');
-    $(document).off('input','.quantity_supply');
-    $(document).off('change','.price_unit_tk');
-    $(document).off('change','#packing_item');*/
+    /*FMS */
+    $(document).off("change","#id_company");
+    $(document).off("change","#id_department");
+    $(document).off("change","#employee_id");
+    $(document).off("change","#id_category");
+    $(document).off("change","#id_sub_category");
+    $(document).off("change","#id_class");
+    $(document).off("change","#id_type");
+    $(document).off("change","#id_hc_location");
 
 }
