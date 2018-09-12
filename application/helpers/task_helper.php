@@ -43,3 +43,12 @@ class Task_helper
     }
 }
 
+if(!function_exists('pr')){
+    function pr($arr=array(), $die = 1){
+        echo '<pre>';
+        print_r($arr);
+        echo '</pre>';
+        if($die) die();
+    }
+}
+
