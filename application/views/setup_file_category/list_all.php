@@ -72,38 +72,25 @@ $CI->load->view('action_buttons', array('action_buttons' => $action_buttons));
     </div>
 </div>
 <div class="clearfix"></div>
+
 <script type="text/javascript">
     $(document).ready(function () {
-        system_preset({controller: '<?php echo $CI->router->class; ?>'});
-        var url = "<?php echo site_url($CI->controller_url.'/index/get_items_all');?>";
-
+        var url = "<?php echo site_url($CI->controller_url.'/index/get_items_all'); ?>";
         // prepare the data
-        var source = {
+        var source =
+        {
             dataType: "json",
             dataFields: [
+                { name: 'id', type: 'int' },
                 <?php
-                 foreach($system_preference_items as $key=>$item)
-                 {
-                 if($key=='id')
-                 {
-                 ?>
-                { name: '<?php echo $key ?>', type: 'number' },
-                <?php
-                 }
-                 else
-                 {
-                 ?>
-                { name: '<?php echo $key ?>', type: 'string' },
-                <?php
-                 }
-             }
-            ?>
+                foreach($system_preference_items as $key => $value){ ?>
+                { name: '<?php echo $key; ?>', type: 'string' },
+                <?php } ?>
             ],
             id: 'id',
             type: 'POST',
             url: url
         };
-
         var dataAdapter = new $.jqx.dataAdapter(source);
         // create jqxgrid.
         $("#system_jqx_container").jqxGrid(
@@ -120,14 +107,14 @@ $CI->load->view('action_buttons', array('action_buttons' => $action_buttons));
                 selectionmode: 'singlerow',
                 altrows: true,
                 height: '350px',
-                columnsreorder: true,
                 enablebrowserselection: true,
+                columnsreorder: true,
                 columns: [
-                    { text: '<?php echo $CI->lang->line('LABEL_ID'); ?>', dataField: 'id', hidden: <?php echo $system_preference_items['id']?0:1;?>},
-                    { text: '<?php echo $CI->lang->line('LABEL_NAME'); ?>', dataField: 'name', hidden: <?php echo $system_preference_items['name']?0:1;?>},
-                    { text: '<?php echo $CI->lang->line('LABEL_ORDER'); ?>', dataField: 'ordering', hidden: <?php echo $system_preference_items['ordering']?0:1;?>},
+                    { text: '<?php echo $CI->lang->line('LABEL_ID'); ?>', pinned: true, dataField: 'id', width: '50', hidden: <?php echo $system_preference_items['id']?0:1;?>},
+                    { text: '<?php echo $CI->lang->line('LABEL_NAME'); ?>', pinned: true, dataField: 'name', width: '220', hidden: <?php echo $system_preference_items['name']?0:1;?>},
                     { text: '<?php echo $CI->lang->line('LABEL_REMARKS'); ?>', dataField: 'remarks', hidden: <?php echo $system_preference_items['remarks']?0:1;?>},
-                    { text: '<?php echo $CI->lang->line('LABEL_STATUS');?>', dataField: 'status', cellsalign: 'center', filtertype: 'list', width: 70, hidden: <?php echo $system_preference_items['status']?0:1;?>}
+                    { text: '<?php echo $CI->lang->line('LABEL_ORDER'); ?>', dataField: 'ordering', width: '80', cellsalign: 'right', hidden: <?php echo $system_preference_items['ordering']?0:1;?>},
+                    { text: '<?php echo $CI->lang->line('LABEL_STATUS');?>', dataField: 'status', cellsalign: 'center', filtertype: 'list', width: 100, hidden: <?php echo $system_preference_items['status']?0:1;?>}
                 ]
             });
     });

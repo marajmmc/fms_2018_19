@@ -20,13 +20,13 @@ class Setup_file_category extends Root_Controller
         {
             $this->system_list();
         }
-        if ($action == "list_all")
-        {
-            $this->system_list_all();
-        }
         elseif ($action == "get_items")
         {
             $this->system_get_items();
+        }
+        elseif ($action == "list_all")
+        {
+            $this->system_list_all();
         }
         elseif ($action == "get_items_all")
         {
@@ -66,8 +66,8 @@ class Setup_file_category extends Root_Controller
     {
         $data['id'] = 1;
         $data['name'] = 1;
-        $data['ordering'] = 1;
         $data['remarks'] = 1;
+        $data['ordering'] = 1;
         if ($method == 'list_all')
         {
             $data['status'] = 1;
@@ -140,7 +140,7 @@ class Setup_file_category extends Root_Controller
             {
                 $ajax['system_message'] = $this->message;
             }
-            $ajax['system_page_url'] = site_url($this->controller_url);
+            $ajax['system_page_url'] = site_url($this->controller_url . "/index/list_all");
             $this->json_return($ajax);
         }
         else
@@ -165,7 +165,7 @@ class Setup_file_category extends Root_Controller
             $data['item']['id'] = 0;
             $data['item']['name'] = '';
             $data['item']['remarks'] = '';
-            $data['item']['ordering'] = 0;
+            $data['item']['ordering'] = 99;
             $data['item']['status'] = 'Active';
 
             $ajax['status'] = true;
@@ -302,167 +302,6 @@ class Setup_file_category extends Root_Controller
         }
     }
 
-    /*
-    private function system_edit($id)
-    {
-        if(isset($this->permissions['action2']) && ($this->permissions['action2']==1))
-        {
-            if($id>0)
-            {
-                $item_id=$id;
-            }
-            else
-            {
-                $item_id=$this->input->post('id');
-            }
-            $data['item']=Query_helper::get_info($this->config->item('table_system_setup_print'),'*',array('id ='.$item_id),1);
-            $data['title']="Edit (".$data['item']['purpose'].')';
-            $ajax['status']=true;
-            $ajax['system_content'][]=array('id'=>'#system_content','html'=>$this->load->view($this->controller_url.'/add_edit',$data,true));
-            if($this->message)
-            {
-                $ajax['system_message']=$this->message;
-            }
-            $ajax['system_page_url']=site_url($this->controller_url.'/index/edit/'.$item_id);
-            $this->json_return($ajax);
-        }
-        else
-        {
-            $ajax['status']=false;
-            $ajax['system_message']=$this->lang->line("YOU_DONT_HAVE_ACCESS");
-            $this->json_return($ajax);
-        }
-    }
-    private function system_save()
-    {
-        $id = $this->input->post("id");
-        $user = User_helper::get_user();
-        $time=time();
-        $item_head=$this->input->post('item');
-        if($id>0)
-        {
-            if(!(isset($this->permissions['action2']) && ($this->permissions['action2']==1)))
-            {
-                $ajax['status']=false;
-                $ajax['system_message']=$this->lang->line("YOU_DONT_HAVE_ACCESS");
-                $this->json_return($ajax);
-            }
-        }
-        else
-        {
-            if(!(isset($this->permissions['action1']) && ($this->permissions['action1']==1)))
-            {
-                $ajax['status']=false;
-                $ajax['system_message']=$this->lang->line("YOU_DONT_HAVE_ACCESS");
-                $this->json_return($ajax);
-            }
-        }
-        if(!$this->check_validation())
-        {
-            $ajax['status']=false;
-            $ajax['system_message']=$this->message;
-            $this->json_return($ajax);
-        }
-        if($id>0)
-        {
-            $path='images/print/'.$id;
-            $dir=(FCPATH).$path;
-            if(!is_dir($dir))
-            {
-                mkdir($dir, 0777);
-            }
-            $uploaded_images = System_helper::upload_file($path);
-            if(array_key_exists('image_header',$uploaded_images))
-            {
-                if($uploaded_images['image_header']['status'])
-                {
-                    $item_head['image_header_name']=$uploaded_images['image_header']['info']['file_name'];
-                    $item_head['image_header_location']=$path.'/'.$uploaded_images['image_header']['info']['file_name'];
-                }
-                else
-                {
-                    $ajax['status']=false;
-                    $ajax['system_message']=$uploaded_images['image_header']['message'];
-                    $this->json_return($ajax);
-                }
-            }
-            if(array_key_exists('image_footer',$uploaded_images))
-            {
-                if($uploaded_images['image_footer']['status'])
-                {
-                    $item_head['image_footer_name']=$uploaded_images['image_footer']['info']['file_name'];
-                    $item_head['image_footer_location']=$path.'/'.$uploaded_images['image_footer']['info']['file_name'];
-                }
-                else
-                {
-                    $ajax['status']=false;
-                    $ajax['system_message']=$uploaded_images['image_footer']['message'];
-                    $this->json_return($ajax);
-                }
-            }
-        }
-        $this->db->trans_start();  //DB Transaction Handle START
-
-        if($id>0)
-        {
-            $data=$item_head;
-            $data['date_updated']=$time;
-            $data['user_updated']=$user->user_id;
-            Query_helper::update($this->config->item('table_system_setup_print'),$data,array('id='.$id));
-        }
-        else
-        {
-            $data=$item_head;
-            $data['user_created'] = $user->user_id;
-            $data['date_created'] = $time;
-            Query_helper::add($this->config->item('table_system_setup_print'),$data);
-        }
-
-        $this->db->trans_complete();   //DB Transaction Handle END
-        if ($this->db->trans_status() === TRUE)
-        {
-            $this->message=$this->lang->line("MSG_SAVED_SUCCESS");
-            $this->system_list();
-        }
-        else
-        {
-            $ajax['status']=false;
-            $ajax['system_message']=$this->lang->line("MSG_SAVED_FAIL");
-            $this->json_return($ajax);
-        }
-    }
-    private function system_details($id)
-    {
-        if(isset($this->permissions['action0']) && ($this->permissions['action0']==1))
-        {
-            if($id>0)
-            {
-                $item_id=$id;
-            }
-            else
-            {
-                $item_id=$this->input->post('id');
-            }
-            $data['item']=Query_helper::get_info($this->config->item('table_system_setup_print'),'*',array('id ='.$item_id),1);
-
-            $data['title']="Details (".$data['item']['purpose'].')';
-            $ajax['status']=true;
-            $ajax['system_content'][]=array('id'=>'#system_content','html'=>$this->load->view($this->controller_url.'/details',$data,true));
-            if($this->message)
-            {
-                $ajax['system_message']=$this->message;
-            }
-            $ajax['system_page_url']=site_url($this->controller_url.'/index/details/'.$item_id);
-            $this->json_return($ajax);
-        }
-        else
-        {
-            $ajax['status']=false;
-            $ajax['system_message']=$this->lang->line("YOU_DONT_HAVE_ACCESS");
-            $this->json_return($ajax);
-        }
-    }
-    */
     private function check_validation()
     {
         $this->load->library('form_validation');
@@ -476,5 +315,4 @@ class Setup_file_category extends Root_Controller
         }
         return true;
     }
-
 }
