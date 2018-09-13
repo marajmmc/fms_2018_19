@@ -2,13 +2,6 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 $CI =& get_instance();
 $action_buttons = array();
-if (isset($CI->permissions['action0']) && ($CI->permissions['action0'] == 1))
-{
-    $action_buttons[] = array(
-        'label' => 'All List',
-        'href' => site_url($CI->controller_url . '/index/list_all')
-    );
-}
 if (isset($CI->permissions['action1']) && ($CI->permissions['action1'] == 1))
 {
     $action_buttons[] = array(
@@ -126,7 +119,8 @@ $CI->load->view('action_buttons', array('action_buttons' => $action_buttons));
                     { text: '<?php echo $CI->lang->line('LABEL_NAME'); ?>', dataField: 'name', hidden: <?php echo $system_preference_items['name']?0:1;?>},
                     { text: '<?php echo $CI->lang->line('LABEL_CATEGORY_NAME'); ?>', dataField: 'category_name', width: '220', hidden: <?php echo $system_preference_items['category_name']?0:1;?>},
                     { text: '<?php echo $CI->lang->line('LABEL_SUB_CATEGORY_NAME'); ?>', dataField: 'sub_category_name', width: '220', hidden: <?php echo $system_preference_items['sub_category_name']?0:1;?>},
-                    { text: '<?php echo $CI->lang->line('LABEL_ORDER'); ?>', dataField: 'ordering', width: '80', cellsalign: 'right', hidden: <?php echo $system_preference_items['ordering']?0:1;?>}
+                    { text: '<?php echo $CI->lang->line('LABEL_ORDER'); ?>', dataField: 'ordering', width: '80', cellsalign: 'right', hidden: <?php echo $system_preference_items['ordering']?0:1;?>},
+                    { text: '<?php echo $CI->lang->line('LABEL_STATUS');?>', dataField: 'status', cellsalign: 'right', filtertype: 'list', width: 100, hidden: <?php echo $system_preference_items['status']?0:1;?>}
                 ]
             });
     });

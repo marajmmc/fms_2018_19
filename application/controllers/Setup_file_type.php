@@ -24,14 +24,6 @@ class Setup_file_type extends Root_Controller
         {
             $this->system_get_items();
         }
-        elseif ($action == "list_all")
-        {
-            $this->system_list_all();
-        }
-        elseif ($action == "get_items_all")
-        {
-            $this->system_get_items_all();
-        }
         elseif ($action == "add")
         {
             $this->system_add();
@@ -70,10 +62,7 @@ class Setup_file_type extends Root_Controller
         $data['sub_category_name'] = 1;
         $data['class_name'] = 1;
         $data['ordering'] = 1;
-        if ($method == 'list_all')
-        {
-            $data['status'] = 1;
-        }
+        $data['status'] = 1;
         return $data;
     }
 
@@ -147,63 +136,6 @@ class Setup_file_type extends Root_Controller
         $this->db->select('file_sub_category.name sub_category_name');
         $this->db->join($this->config->item('table_fms_setup_file_category') . ' file_category', 'file_category.id=file_sub_category.id_category');
         $this->db->select('file_category.name category_name');
-        $this->db->where('file_type.status=', $this->config->item('system_status_active'));
-        $this->db->order_by('file_type.ordering');
-        $this->db->limit($pagesize, $current_records);
-        $items = $this->db->get()->result_array();
-        $this->json_return($items);
-    }
-
-    private function system_list_all()
-    {
-        if (isset($this->permissions['action0']) && ($this->permissions['action0'] == 1))
-        {
-            $user = User_helper::get_user();
-            $method = 'list_all';
-            $data['system_preference_items'] = System_helper::get_preference($user->user_id, $this->controller_url, $method, $this->get_preference_headers($method));
-            $data['title'] = "All File Type List";
-            $ajax['status'] = true;
-            $ajax['system_content'][] = array("id" => "#system_content", "html" => $this->load->view($this->controller_url . "/list_all", $data, true));
-            if ($this->message)
-            {
-                $ajax['system_message'] = $this->message;
-            }
-            $ajax['system_page_url'] = site_url($this->controller_url . "/index/list_all");
-            $this->json_return($ajax);
-        }
-        else
-        {
-            $ajax['status'] = false;
-            $ajax['system_message'] = $this->lang->line("YOU_DONT_HAVE_ACCESS");
-            $this->json_return($ajax);
-        }
-    }
-
-    private function system_get_items_all()
-    {
-        $current_records = $this->input->post('total_records');
-        if (!$current_records)
-        {
-            $current_records = 0;
-        }
-        $pagesize = $this->input->post('pagesize');
-        if (!$pagesize)
-        {
-            $pagesize = 40;
-        }
-        else
-        {
-            $pagesize = $pagesize * 2;
-        }
-
-        $this->db->from($this->config->item('table_fms_setup_file_type') . ' file_type');
-        $this->db->select('file_type.*');
-        $this->db->join($this->config->item('table_fms_setup_file_class') . ' file_class', 'file_type.id_class=file_class.id');
-        $this->db->select('file_class.name class_name');
-        $this->db->join($this->config->item('table_fms_setup_file_sub_category') . ' file_sub_category', 'file_sub_category.id=file_class.id_sub_category');
-        $this->db->select('file_sub_category.name sub_category_name');
-        $this->db->join($this->config->item('table_fms_setup_file_category') . ' file_category', 'file_category.id=file_sub_category.id_category');
-        $this->db->select('file_category.name category_name');
         $this->db->order_by('file_type.ordering');
         $this->db->limit($pagesize, $current_records);
         $items = $this->db->get()->result_array();
@@ -221,14 +153,14 @@ class Setup_file_type extends Root_Controller
                 'name' => '',
                 'id_sub_category' => '',
                 'id_category' => '',
-                'id_class'=>'',
+                'id_class' => '',
                 'ordering' => 99,
                 'status' => $this->config->item('system_status_active'),
                 'remarks' => ''
             );
             $data['categories'] = Query_helper::get_info($this->config->item('table_fms_setup_file_category'), array('id', 'name'), array('status ="' . $this->config->item('system_status_active') . '"'));
             $data['sub_categories'] = array();
-            $data['classes']=array();
+            $data['classes'] = array();
             $ajax['status'] = true;
             $ajax['system_content'][] = array("id" => "#system_content", "html" => $this->load->view($this->controller_url . "/add_edit", $data, true));
             if ($this->message)
@@ -259,14 +191,14 @@ class Setup_file_type extends Root_Controller
                 $item_id = $this->input->post('id');
             }
 
-            $this->db->from($this->config->item('table_fms_setup_file_type').' file_type');
+            $this->db->from($this->config->item('table_fms_setup_file_type') . ' file_type');
             $this->db->select('file_type.*');
-            $this->db->join($this->config->item('table_fms_setup_file_class').' file_class','file_class.id = file_type.id_class');
+            $this->db->join($this->config->item('table_fms_setup_file_class') . ' file_class', 'file_class.id = file_type.id_class');
             $this->db->select('file_class.id_sub_category');
-            $this->db->join($this->config->item('table_fms_setup_file_sub_category').' file_sub_category','file_sub_category.id = file_class.id_sub_category');
+            $this->db->join($this->config->item('table_fms_setup_file_sub_category') . ' file_sub_category', 'file_sub_category.id = file_class.id_sub_category');
             $this->db->select('file_sub_category.id_category');
-            $this->db->where('file_type.id',$item_id);
-            $data['item']=$this->db->get()->row_array();
+            $this->db->where('file_type.id', $item_id);
+            $data['item'] = $this->db->get()->row_array();
             if (!$data['item'])
             {
                 System_helper::invalid_try('Edit Not Exists', $item_id);
@@ -277,7 +209,7 @@ class Setup_file_type extends Root_Controller
 
             $data['categories'] = Query_helper::get_info($this->config->item('table_fms_setup_file_category'), array('id', 'name'), array('status ="' . $this->config->item('system_status_active') . '"'));
             $data['sub_categories'] = Query_helper::get_info($this->config->item('table_fms_setup_file_sub_category'), array('id', 'name'), array('id_category=' . $data['item']['id_category'], 'status ="' . $this->config->item('system_status_active') . '"'));
-            $data['classes']=Query_helper::get_info($this->config->item('table_fms_setup_file_class'),array('id','name'),array('id_sub_category='.$data['item']['id_sub_category'],'status ="'.$this->config->item('system_status_active').'"'));
+            $data['classes'] = Query_helper::get_info($this->config->item('table_fms_setup_file_class'), array('id', 'name'), array('id_sub_category=' . $data['item']['id_sub_category'], 'status ="' . $this->config->item('system_status_active') . '"'));
 
             $data['title'] = "Edit File Type :: " . $data['item']['name'];
             $ajax['status'] = true;

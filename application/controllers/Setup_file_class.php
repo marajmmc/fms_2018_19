@@ -24,14 +24,6 @@ class Setup_file_class extends Root_Controller
         {
             $this->system_get_items();
         }
-        elseif ($action == "list_all")
-        {
-            $this->system_list_all();
-        }
-        elseif ($action == "get_items_all")
-        {
-            $this->system_get_items_all();
-        }
         elseif ($action == "add")
         {
             $this->system_add();
@@ -69,10 +61,7 @@ class Setup_file_class extends Root_Controller
         $data['category_name'] = 1;
         $data['sub_category_name'] = 1;
         $data['ordering'] = 1;
-        if ($method == 'list_all')
-        {
-            $data['status'] = 1;
-        }
+        $data['status'] = 1;
         return $data;
     }
 
@@ -122,60 +111,6 @@ class Setup_file_class extends Root_Controller
     }
 
     private function system_get_items()
-    {
-        $current_records = $this->input->post('total_records');
-        if (!$current_records)
-        {
-            $current_records = 0;
-        }
-        $pagesize = $this->input->post('pagesize');
-        if (!$pagesize)
-        {
-            $pagesize = 40;
-        }
-        else
-        {
-            $pagesize = $pagesize * 2;
-        }
-        $this->db->from($this->config->item('table_fms_setup_file_class') . ' file_class');
-        $this->db->select('file_class.*');
-        $this->db->join($this->config->item('table_fms_setup_file_sub_category') . ' file_sub_category', 'file_sub_category.id = file_class.id_sub_category');
-        $this->db->select('file_sub_category.name sub_category_name');
-        $this->db->join($this->config->item('table_fms_setup_file_category') . ' file_category', 'file_category.id = file_sub_category.id_category');
-        $this->db->select('file_category.name category_name');
-        $this->db->where('file_class.status', $this->config->item('system_status_active'));
-        $this->db->order_by('file_class.ordering');
-        $this->db->limit($pagesize, $current_records);
-        $items = $this->db->get()->result_array();
-        $this->json_return($items);
-    }
-
-    private function system_list_all()
-    {
-        if (isset($this->permissions['action0']) && ($this->permissions['action0'] == 1))
-        {
-            $user = User_helper::get_user();
-            $method = 'list_all';
-            $data['system_preference_items'] = System_helper::get_preference($user->user_id, $this->controller_url, $method, $this->get_preference_headers($method));
-            $data['title'] = "All File Class List";
-            $ajax['status'] = true;
-            $ajax['system_content'][] = array("id" => "#system_content", "html" => $this->load->view($this->controller_url . "/list_all", $data, true));
-            if ($this->message)
-            {
-                $ajax['system_message'] = $this->message;
-            }
-            $ajax['system_page_url'] = site_url($this->controller_url . "/index/list_all");
-            $this->json_return($ajax);
-        }
-        else
-        {
-            $ajax['status'] = false;
-            $ajax['system_message'] = $this->lang->line("YOU_DONT_HAVE_ACCESS");
-            $this->json_return($ajax);
-        }
-    }
-
-    private function system_get_items_all()
     {
         $current_records = $this->input->post('total_records');
         if (!$current_records)

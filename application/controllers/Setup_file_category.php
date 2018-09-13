@@ -24,14 +24,6 @@ class Setup_file_category extends Root_Controller
         {
             $this->system_get_items();
         }
-        elseif ($action == "list_all")
-        {
-            $this->system_list_all();
-        }
-        elseif ($action == "get_items_all")
-        {
-            $this->system_get_items_all();
-        }
         elseif ($action == "add")
         {
             $this->system_add();
@@ -68,10 +60,7 @@ class Setup_file_category extends Root_Controller
         $data['name'] = 1;
         $data['remarks'] = 1;
         $data['ordering'] = 1;
-        if ($method == 'list_all')
-        {
-            $data['status'] = 1;
-        }
+        $data['status'] = 1;
         return $data;
     }
 
@@ -121,37 +110,6 @@ class Setup_file_category extends Root_Controller
     }
 
     private function system_get_items()
-    {
-        $items = Query_helper::get_info($this->config->item('table_fms_setup_file_category'), array('*'), array('status ="' . $this->config->item('system_status_active') . '"'), 0, 0, array('ordering ASC'));
-        $this->json_return($items);
-    }
-
-    private function system_list_all()
-    {
-        if (isset($this->permissions['action0']) && ($this->permissions['action0'] == 1))
-        {
-            $user = User_helper::get_user();
-            $method = 'list_all';
-            $data['system_preference_items'] = System_helper::get_preference($user->user_id, $this->controller_url, $method, $this->get_preference_headers($method));
-            $data['title'] = "All Category List";
-            $ajax['status'] = true;
-            $ajax['system_content'][] = array("id" => "#system_content", "html" => $this->load->view($this->controller_url . "/list_all", $data, true));
-            if ($this->message)
-            {
-                $ajax['system_message'] = $this->message;
-            }
-            $ajax['system_page_url'] = site_url($this->controller_url . "/index/list_all");
-            $this->json_return($ajax);
-        }
-        else
-        {
-            $ajax['status'] = false;
-            $ajax['system_message'] = $this->lang->line("YOU_DONT_HAVE_ACCESS");
-            $this->json_return($ajax);
-        }
-    }
-
-    private function system_get_items_all()
     {
         $items = Query_helper::get_info($this->config->item('table_fms_setup_file_category'), array('*'), array(), 0, 0, array('ordering ASC'));
         $this->json_return($items);
