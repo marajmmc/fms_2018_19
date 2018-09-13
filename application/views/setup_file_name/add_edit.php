@@ -45,11 +45,11 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
         </div>
         <div class="row show-grid">
             <div class="col-xs-4">
-                <label class="control-label pull-right"><?php echo $this->lang->line('LABEL_COMPANY_NAME');?><span style="color:#FF0000">*</span></label>
+                <label class="control-label pull-right"><?php echo $CI->lang->line('LABEL_COMPANY_NAME');?><span style="color:#FF0000">*</span></label>
             </div>
             <div class="col-sm-4 col-xs-8">
                 <select id="id_company" name="item[id_company]" class="form-control" tabindex="-1">
-                    <option value=""><?php echo $this->lang->line('SELECT');?></option>
+                    <option value=""><?php echo $CI->lang->line('SELECT');?></option>
                     <?php
                     foreach($companies as $company)
                     {?>
@@ -66,7 +66,7 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
             </div>
             <div class="col-sm-4 col-xs-8">
                 <select id="id_department" name="item[id_department]" class="form-control" tabindex="-1">
-                    <option value=""><?php echo $this->lang->line('SELECT');?></option>
+                    <option value=""><?php echo $CI->lang->line('SELECT');?></option>
                     <?php
                     foreach($departments as $department)
                     {?>
@@ -83,7 +83,7 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
             </div>
             <div class="col-sm-4 col-xs-8">
                 <select id="employee_id" name="item[employee_id]" class="form-control" tabindex="-1">
-                    <option value=""><?php echo $this->lang->line('SELECT');?></option>
+                    <option value=""><?php echo $CI->lang->line('SELECT');?></option>
                     <?php
                     foreach($employees as $employee)
                     {?>
@@ -100,7 +100,7 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
             </div>
             <div class="col-sm-4 col-xs-8">
                 <select id="id_category" class="form-control" tabindex="-1">
-                    <option value=""><?php echo $this->lang->line('SELECT');?></option>
+                    <option value=""><?php echo $CI->lang->line('SELECT');?></option>
                     <?php
                     foreach($categories as $category)
                     {?>
@@ -117,7 +117,7 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
             </div>
             <div class="col-sm-4 col-xs-8">
                 <select id="id_sub_category" class="form-control">
-                    <option value=""><?php echo $this->lang->line('SELECT');?></option>
+                    <option value=""><?php echo $CI->lang->line('SELECT');?></option>
                     <?php
                     foreach($sub_categories as $sub_category)
                     {?>
@@ -134,7 +134,7 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
             </div>
             <div class="col-sm-4 col-xs-8">
                 <select id="id_class" class="form-control" tabindex="-1">
-                    <option value=""><?php echo $this->lang->line('SELECT');?></option>
+                    <option value=""><?php echo $CI->lang->line('SELECT');?></option>
                     <?php
                     foreach($classes as $class)
                     {?>
@@ -151,7 +151,7 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
             </div>
             <div class="col-sm-4 col-xs-8">
                 <select id="id_type" name="item[id_type]" class="form-control">
-                    <option value=""><?php echo $this->lang->line('SELECT');?></option>
+                    <option value=""><?php echo $CI->lang->line('SELECT');?></option>
                     <?php
                     foreach($types as $type)
                     {?>
@@ -181,7 +181,7 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
         </div>
         <div class="row show-grid">
             <div class="col-xs-4">
-                <label for="name" class="control-label pull-right"><?php echo $this->lang->line('LABEL_FILE_NAME');?><span style="color:#FF0000">*</span></label>
+                <label for="name" class="control-label pull-right"><?php echo $CI->lang->line('LABEL_FILE_NAME');?><span style="color:#FF0000">*</span></label>
             </div>
             <div class="col-sm-4 col-xs-8">
                 <input type="text" name="item[name]" id="name" class="form-control" value="<?php echo $item['name'];?>"/>
