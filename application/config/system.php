@@ -46,3 +46,7 @@ $config['system_file_type_video_max_size']=102400;//100mb
 
 $config['system_status_file_open']='Open';
 $config['system_status_file_close']='Close';
+
+$config['system_fms_max_actions']=4;
+$config['system_image_base_url']='http://localhost/fms_2018_19/';
+$config['system_folder_upload']='files';

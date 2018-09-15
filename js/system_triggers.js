@@ -72,4 +72,8 @@ function system_off_events()
     $(document).off("change","#id_type");
     $(document).off("change","#id_hc_location");
 
+    $(document).off("click",".system_button_add_more");
+    $(document).off("click",".system_button_add_delete");
+    $(document).off("click",".fms_tasks_edit");
+
 }
