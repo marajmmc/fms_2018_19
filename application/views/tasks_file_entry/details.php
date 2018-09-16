@@ -25,6 +25,7 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
     {
         padding-top: 15px;
     }
+
 </style>
 <div class="row widget">
     <div class="widget-header">
@@ -172,89 +173,98 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
             <?php } ?>
         </div>
     </div>
-    <div class="panel-group" id="accordion">
-        <?php
-        $location=$CI->config->item('system_image_base_url');
-        foreach($file_items as $file_item)
-        {
-            $show_item=true;
-            if(!isset($stored_files[$file_item['id']]) && $file_item['status']!=$CI->config->item('system_status_active'))
-            {
-                $show_item=false;
-            }
-            if($show_item)
-            {
-                ?>
-                <div class="panel panel-success item_panel">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a class="external" data-toggle="collapse" data-parent="#accordion" href="#collapse_<?php echo $file_item['id']; ?>"><?php echo '+ '.$file_item['name']; ?></a>
-                        </h4>
-                    </div>
-                    <div id="collapse_<?php echo $file_item['id']; ?>" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            <div style="overflow-x: auto;" class="row show-grid">
-                                <table class="table table-bordered">
-                                    <thead>
-                                    <tr>
-                                        <th>File Name</th>
-                                        <th>Picture/Thumbnail</th>
-                                        <th>Entry Date</th>
-                                        <th><?php echo $CI->lang->line('LABEL_REMARKS'); ?></th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <?php
-                                    if(!isset($stored_files[$file_item['id']]))
-                                    {
-                                        $stored_files[$file_item['id']]=array();
-                                    }
-                                    foreach($stored_files[$file_item['id']] as $file)
-                                    {
-                                        ?>
-                                        <tr>
-                                            <td><?php echo $file['name']; ?></td>
-                                            <td>
-                                                <?php
-                                                if(substr($file['mime_type'],0,5)=='image')
-                                                {
-                                                    ?>
-                                                    <img src="<?php echo $location.$file['file_path']; ?>" style="max-width: 250px;max-height:150px">
-                                                <?php
-                                                }
-                                                else
-                                                {
-                                                    $extension=pathinfo($file['name'],PATHINFO_EXTENSION);
-                                                    if(strtolower($extension)=='pdf')
-                                                    {
-                                                        $href_text='Read the PDF File';
-                                                    }
-                                                    else
-                                                    {
-                                                        $href_text='Download the '.strtoupper($extension).' File';
-                                                    }
-                                                    ?>
-                                                    <a href="<?php echo $location.$file['file_path']; ?>" class="btn btn-success external" target="_blank"><?php echo $href_text; ?></a>
-                                                <?php
-                                                }
+    <div class="panel panel-default item_panel">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <label class=""><a class="external text-success" data-toggle="collapse" data-target="#collapse_item_info" href="#">+ File Item Info</a></label>
+            </h4>
+        </div>
+        <div id="collapse_item_info" class="panel-collapse collapse in item_panel_content">
+            <div class="panel-group" id="accordion">
+                <?php
+                $location=$CI->config->item('system_image_base_url');
+                foreach($file_items as $file_item)
+                {
+                    $show_item=true;
+                    if(!isset($stored_files[$file_item['id']]) && $file_item['status']!=$CI->config->item('system_status_active'))
+                    {
+                        $show_item=false;
+                    }
+                    if($show_item)
+                    {
+                        ?>
+                        <div class="panel panel-success item_panel">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a class="external" data-toggle="collapse" data-parent="#accordion" href="#collapse_<?php echo $file_item['id']; ?>"><?php echo '+ '.$file_item['name']; ?></a>
+                                </h4>
+                            </div>
+                            <div id="collapse_<?php echo $file_item['id']; ?>" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <div style="overflow-x: auto;" class="row show-grid">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                            <tr>
+                                                <th>File Name</th>
+                                                <th>Picture/Thumbnail</th>
+                                                <th>Entry Date</th>
+                                                <th><?php echo $CI->lang->line('LABEL_REMARKS'); ?></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <?php
+                                            if(!isset($stored_files[$file_item['id']]))
+                                            {
+                                                $stored_files[$file_item['id']]=array();
+                                            }
+                                            foreach($stored_files[$file_item['id']] as $file)
+                                            {
                                                 ?>
-                                            </td>
-                                            <td><?php echo System_helper::display_date($file['date_entry']); ?></td>
-                                            <td><?php echo $file['remarks']; ?></td>
-                                        </tr>
-                                    <?php
-                                    }
-                                    ?>
-                                    </tbody>
-                                </table>
+                                                <tr>
+                                                    <td><?php echo $file['name']; ?></td>
+                                                    <td>
+                                                        <?php
+                                                        if(substr($file['mime_type'],0,5)=='image')
+                                                        {
+                                                            ?>
+                                                            <img src="<?php echo $location.$file['file_path']; ?>" style="max-width: 250px;max-height:150px">
+                                                        <?php
+                                                        }
+                                                        else
+                                                        {
+                                                            $extension=pathinfo($file['name'],PATHINFO_EXTENSION);
+                                                            if(strtolower($extension)=='pdf')
+                                                            {
+                                                                $href_text='Read the PDF File';
+                                                            }
+                                                            else
+                                                            {
+                                                                $href_text='Download the '.strtoupper($extension).' File';
+                                                            }
+                                                            ?>
+                                                            <a href="<?php echo $location.$file['file_path']; ?>" class="btn btn-success external" target="_blank"><?php echo $href_text; ?></a>
+                                                        <?php
+                                                        }
+                                                        ?>
+                                                    </td>
+                                                    <td><?php echo System_helper::display_date($file['date_entry']); ?></td>
+                                                    <td><?php echo $file['remarks']; ?></td>
+                                                </tr>
+                                            <?php
+                                            }
+                                            ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            <?php
-            }
-        }
-        ?>
+                    <?php
+                    }
+                }
+                ?>
+            </div>
+        </div>
     </div>
 </div>
 

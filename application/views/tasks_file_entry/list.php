@@ -133,7 +133,7 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
                 enablebrowserselection:true,
                 columnsreorder: true,
                 columns:[
-                    { text: '<?php echo $CI->lang->line('LABEL_ID'); ?>',pinned:true,dataField: 'id',width:'50',rendered:tooltiprenderer,hidden: <?php echo $system_preference_items['id']?0:1;?>},
+                    { text: '<?php echo $CI->lang->line('LABEL_ID'); ?>',pinned:true,dataField: 'id',width:'50',cellsalign: 'right',rendered:tooltiprenderer,hidden: <?php echo $system_preference_items['id']?0:1;?>},
                     { text: '<?php echo $CI->lang->line('LABEL_FILE_NAME'); ?>',pinned:true,dataField: 'file_name',width:'220',rendered: tooltiprenderer,hidden: <?php echo $system_preference_items['file_name']?0:1;?>},
                     { text: '<?php echo $CI->lang->line('LABEL_RESPONSIBLE_EMPLOYEE'); ?>',dataField: 'responsible_employee',width:'180',rendered: tooltiprenderer,hidden: <?php echo $system_preference_items['responsible_employee']?0:1;?>},
                     { text: '<?php echo $CI->lang->line('LABEL_DATE_OPENING'); ?>',dataField: 'date_opening',width:'100',rendered: tooltiprenderer,hidden: <?php echo $system_preference_items['date_opening']?0:1;?>},
