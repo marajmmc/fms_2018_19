@@ -40,10 +40,6 @@ class Setup_file_sub_category extends Root_Controller
         {
             $this->system_set_preference('list');
         }
-        elseif ($action == "set_preference_all")
-        {
-            $this->system_set_preference('list_all');
-        }
         elseif ($action == "save_preference")
         {
             System_helper::save_preference();
@@ -286,7 +282,6 @@ class Setup_file_sub_category extends Root_Controller
             $this->json_return($ajax);
         }
     }
-
 
     private function check_validation()
     {

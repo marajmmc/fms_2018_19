@@ -67,7 +67,7 @@ $CI->load->view('action_buttons', array('action_buttons' => $action_buttons));
                 <select id="id_sub_category" name="item[id_sub_category]" class="form-control">
                     <option value=""><?php echo $this->lang->line('SELECT');?></option>
                     <?php foreach($sub_categories as $sub_category){ ?>
-                        <option value="<?php echo $sub_category['value']?>" <?php if($sub_category['value']==$item['id_sub_category']){echo "selected";}?>><?php echo $sub_category['text'];?></option>
+                        <option value="<?php echo $sub_category['id']?>" <?php if($sub_category['id']==$item['id_sub_category']){echo "selected";}?>><?php echo $sub_category['name'];?></option>
                     <?php } ?>
                 </select>
             </div>

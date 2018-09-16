@@ -40,10 +40,6 @@ class Setup_file_class extends Root_Controller
         {
             $this->system_set_preference('list');
         }
-        elseif ($action == "set_preference_all")
-        {
-            $this->system_set_preference('list_all');
-        }
         elseif ($action == "save_preference")
         {
             System_helper::save_preference();
@@ -185,10 +181,10 @@ class Setup_file_class extends Root_Controller
                 $item_id = $this->input->post('id');
             }
 
-            $this->db->select('file_class.*');
-            $this->db->select('file_sub_category.id_category');
             $this->db->from($this->config->item('table_fms_setup_file_class') . ' file_class');
+            $this->db->select('file_class.*');
             $this->db->join($this->config->item('table_fms_setup_file_sub_category') . ' file_sub_category', 'file_sub_category.id=file_class.id_sub_category');
+            $this->db->select('file_sub_category.id_category');
             $this->db->where('file_class.id', $item_id);
             $data['item'] = $this->db->get()->row_array();
             if (!$data['item'])

@@ -179,3 +179,4 @@ $lang['LABEL_COMPANY_NAME'] = 'Company';
 $lang['LABEL_DEPARTMENT_NAME'] = 'Department';
 $lang['LABEL_NUMBER_OF_PAGE'] = 'Number of Page';
 $lang['LABEL_FILE_STATUS']="File Open/Close Status";
+$lang['LABEL_FILE_TOTAL_PERMISSION'] = "Total File Permission";
