@@ -299,36 +299,18 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
             $("#id_class").val("");
             $("#id_type").val("");
             var id_category=$("#id_category").val();
+            $("#sub_category_container").hide();
+            $("#class_container").hide();
+            $("#type_container").hide();
             if(id_category>0)
             {
                 $("#sub_category_container").show();
                 $("#class_container").hide();
                 $("#type_container").hide();
-                $.ajax(
-                    {
-                        url: '<?php echo site_url('common_controller/get_sub_categories_by_category_id'); ?>',
-                        type: 'POST',
-                        datatype: "JSON",
-                        data:
-                        {
-                            html_container_id:'#id_sub_category',
-                            id_category:id_category
-                        },
-                        success: function (data, status)
-                        {
-
-                        },
-                        error: function (xhr, desc, err)
-                        {
-                            console.log("error");
-                        }
-                    });
-            }
-            else
-            {
-                $("#sub_category_container").hide();
-                $("#class_container").hide();
-                $("#type_container").hide();
+                if(system_sub_categories[id_category]!==undefined)
+                {
+                    $('#id_sub_category').html(get_dropdown_with_select(system_sub_categories[id_category]));
+                }
             }
         });
         $(document).on("change","#id_sub_category",function()
@@ -336,66 +318,30 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
             $("#id_class").val("");
             $("#id_type").val("");
             var id_sub_category=$('#id_sub_category').val();
+            $('#class_container').hide();
+            $('#type_container').hide();
             if(id_sub_category>0)
             {
                 $('#class_container').show();
                 $('#type_container').hide();
-                $.ajax(
-                    {
-                        url: '<?php echo site_url('common_controller/get_classes_by_sub_category_id'); ?>',
-                        type: 'POST',
-                        datatype: "JSON",
-                        data:
-                        {
-                            html_container_id:'#id_class',
-                            id_sub_category:id_sub_category
-                        },
-                        success: function (data, status)
-                        {
-
-                        },
-                        error: function (xhr, desc, err)
-                        {
-                            console.log("error");
-                        }
-                    });
-            }
-            else
-            {
-                $('#class_container').hide();
-                $('#type_container').hide();
+                if(system_class[id_sub_category]!==undefined)
+                {
+                    $('#id_class').html(get_dropdown_with_select(system_class[id_sub_category]));
+                }
             }
         });
         $(document).on("change","#id_class",function()
         {
             $("#id_type").val("");
             var id_class=$('#id_class').val();
+            $('#type_container').hide();
             if(id_class>0)
             {
                 $('#type_container').show();
-                $.ajax(
-                    {
-                        url: '<?php echo site_url('common_controller/get_types_by_class_id'); ?>',
-                        type: 'POST',
-                        datatype: "JSON",
-                        data:
-                        {
-                            html_container_id:'#id_type',
-                            id_class:id_class
-                        },
-                        success: function (data, status)
-                        {
-
-                        },
-                        error: function (xhr, desc, err)
-                        {
-                            console.log("error");
-                        }
-                    });
-            }
-            else
-            {
-                $('#type_container').hide();
+                if(system_types[id_class]!==undefined)
+                {
+                    $('#id_type').html(get_dropdown_with_select(system_types[id_class]));
+                }
             }
         });
     });
