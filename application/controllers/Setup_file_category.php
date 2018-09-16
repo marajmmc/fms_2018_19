@@ -111,7 +111,21 @@ class Setup_file_category extends Root_Controller
 
     private function system_get_items()
     {
-        $items = Query_helper::get_info($this->config->item('table_fms_setup_file_category'), array('*'), array(), 0, 0, array('ordering ASC'));
+        $current_records = $this->input->post('total_records');
+        if (!$current_records)
+        {
+            $current_records = 0;
+        }
+        $pagesize = $this->input->post('pagesize');
+        if (!$pagesize)
+        {
+            $pagesize = 40;
+        }
+        else
+        {
+            $pagesize = $pagesize * 2;
+        }
+        $items = Query_helper::get_info($this->config->item('table_fms_setup_file_category'), array('*'), array(), $pagesize, $current_records, array('ordering ASC'));
         $this->json_return($items);
     }
 
