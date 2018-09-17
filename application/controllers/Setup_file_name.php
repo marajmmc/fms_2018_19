@@ -62,6 +62,7 @@ class Setup_file_name extends Root_Controller
         $data['company_name']= 1;
         $data['department_name']= 1;
         $data['ordering']= 1;
+        $data['status'] = 1;
         return $data;
     }
     private function system_set_preference($method='list')
@@ -159,7 +160,6 @@ class Setup_file_name extends Root_Controller
         $this->db->where('sub_category.status=',$this->config->item('system_status_active'));
         $this->db->where('class.status=',$this->config->item('system_status_active'));
         $this->db->where('type.status=',$this->config->item('system_status_active'));
-        $this->db->where('file_name.status=',$this->config->item('system_status_active'));
         $this->db->where('ui.revision',1);
 
         $this->db->order_by('category.ordering');
@@ -170,7 +170,6 @@ class Setup_file_name extends Root_Controller
         $this->db->group_by('file_name.id');
         $this->db->limit($pagesize,$current_records);
         $items=$this->db->get()->result_array();
-
         foreach($items as &$item)
         {
             $item['date_opening']=System_helper::display_date($item['date_start']);

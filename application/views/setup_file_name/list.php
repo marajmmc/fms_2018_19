@@ -143,7 +143,8 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
                     { text: '<?php echo $CI->lang->line('LABEL_TYPE_NAME'); ?>', dataField: 'type_name', width:'100', hidden: <?php echo $system_preference_items['type_name']?0:1;?>},
                     { text: '<?php echo $CI->lang->line('LABEL_COMPANY_NAME'); ?>', dataField: 'company_name', width:'100', hidden: <?php echo $system_preference_items['company_name']?0:1;?>},
                     { text: '<?php echo $CI->lang->line('LABEL_DEPARTMENT_NAME'); ?>', dataField: 'department_name', width:'100', hidden: <?php echo $system_preference_items['department_name']?0:1;?>},
-                    { text: '<?php echo $CI->lang->line('LABEL_ORDERING'); ?>', dataField: 'ordering', width:'50', hidden: <?php echo $system_preference_items['ordering']?0:1;?>}
+                    { text: '<?php echo $CI->lang->line('LABEL_ORDERING'); ?>', dataField: 'ordering', width:'50', hidden: <?php echo $system_preference_items['ordering']?0:1;?>},
+                    { text: '<?php echo $CI->lang->line('LABEL_STATUS');?>', dataField: 'status',filtertype: 'list', width: 100, hidden: <?php echo $system_preference_items['status']?0:1;?>}
                 ]
             });
     });
