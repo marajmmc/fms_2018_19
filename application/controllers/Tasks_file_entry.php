@@ -166,7 +166,10 @@ class Tasks_file_entry extends Root_Controller
         $this->db->where('type.status', $this->config->item('system_status_active'));
         $this->db->where('file_name.status', $this->config->item('system_status_active'));
         $this->db->where('user_info.revision', 1);
-        $this->db->where('assigned_file.user_group_id', $user->user_group);
+        if($user->user_group !=1)
+        {
+            $this->db->where('assigned_file.user_group_id',$user->user_group);
+        }
         $this->db->where('assigned_file.revision', 1);
         $this->db->order_by('file_name.id', 'DESC');
         $this->db->order_by('category.ordering');
