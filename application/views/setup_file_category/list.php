@@ -119,7 +119,7 @@ $CI->load->view('action_buttons', array('action_buttons' => $action_buttons));
                     { text: '<?php echo $CI->lang->line('LABEL_NAME'); ?>', pinned: true, dataField: 'name', width: '220', hidden: <?php echo $system_preference_items['name']?0:1;?>},
                     { text: '<?php echo $CI->lang->line('LABEL_REMARKS'); ?>', dataField: 'remarks', hidden: <?php echo $system_preference_items['remarks']?0:1;?>},
                     { text: '<?php echo $CI->lang->line('LABEL_ORDER'); ?>', dataField: 'ordering', width: '80', cellsalign: 'right', hidden: <?php echo $system_preference_items['ordering']?0:1;?>},
-                    { text: '<?php echo $CI->lang->line('LABEL_STATUS');?>', dataField: 'status', cellsalign: 'right', filtertype: 'list', width: 100, hidden: <?php echo $system_preference_items['status']?0:1;?>}
+                    { text: '<?php echo $CI->lang->line('LABEL_STATUS');?>', dataField: 'status', cellsalign: 'center', filtertype: 'list', width: 100, hidden: <?php echo $system_preference_items['status']?0:1;?>}
                 ]
             });
     });
