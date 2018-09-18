@@ -334,7 +334,7 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
                                                             if($file_permissions['action2']==1 && $file_permissions['editable'])
                                                             {
                                                                 ?>
-                                                                <input type="text" name="items_old[<?php echo $file['id']; ?>][date_entry]" class="form-control datepicker_old" value="<?php echo System_helper::display_date($file['date_entry']); ?>">
+                                                                <input type="text" name="items_old[<?php echo $file['id']; ?>][date_entry]" class="form-control datepicker_old" value="<?php echo System_helper::display_date($file['date_entry']); ?>" readonly>
                                                             <?php
                                                             }
                                                             elseif($file_permissions['action3']==1 && $file_permissions['editable'])
@@ -423,7 +423,7 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
                 <input type="hidden" class="file_item">
             </td>
             <td>
-                <input type="text" class="form-control date_entry" value="<?php echo System_helper::display_date(time()); ?>">
+                <input type="text" class="form-control datepicker date_entry" value="<?php echo System_helper::display_date(time()); ?>" readonly>
             </td>
             <td>
                 <textarea class="form-control remarks"></textarea>
@@ -437,6 +437,7 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
     jQuery(document).ready(function()
     {
         system_off_events();
+        $('.datepicker_old').datepicker({dateFormat : display_date_format});
         $('.browse_button_old').filestyle({input: false,icon: false,buttonText: "Edit",buttonName: "btn-primary"});
         $(document).on("click", ".system_button_add_more", function(event)
         {

@@ -40,137 +40,61 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
                 <label class=""><a class="external text-danger" data-toggle="collapse" data-target="#collapse_basic_info" href="#">+ Basic Info</a></label>
             </h4>
         </div>
-        <div id="collapse_basic_info" class="panel-collapse collapse in item_panel_content">
-            <div class="row show-grid">
-                <div class="col-xs-4">
-                    <label class="control-label pull-right"><?php echo $CI->lang->line('LABEL_FILE_NAME'); ?></label>
-                </div>
-                <div class="col-sm-4 col-xs-8">
-                    <label><?php echo $item['name'] ?></label>
-                </div>
-            </div>
-            <div class="row show-grid">
-                <div class="col-xs-4">
-                    <label class="control-label pull-right"><?php echo $CI->lang->line('LABEL_RESPONSIBLE_EMPLOYEE'); ?></label>
-                </div>
-                <div class="col-sm-4 col-xs-8">
-                    <label><?php echo $item['responsible_employee'] ?></label>
-                </div>
-            </div>
-            <div class="row show-grid">
-                <div class="col-xs-4">
-                    <label class="control-label pull-right"><?php echo $CI->lang->line('LABEL_HC_LOCATION'); ?></label>
-                </div>
-                <div class="col-sm-4 col-xs-8">
-                    <label><?php echo $item['hc_location'] ?></label>
-                </div>
-            </div>
-            <div class="row show-grid">
-                <div class="col-xs-4">
-                    <label class="control-label pull-right"><?php echo $CI->lang->line('LABEL_DATE_OPENING'); ?></label>
-                </div>
-                <div class="col-sm-4 col-xs-8">
-                    <label><?php echo System_helper::display_date($item['date_start']); ?></label>
-                </div>
-            </div>
-            <div class="row show-grid">
-                <div class="col-xs-4">
-                    <label class="control-label pull-right"><?php echo $CI->lang->line('LABEL_FILE_STATUS'); ?></label>
-                </div>
-                <div class="col-sm-4 col-xs-8">
-                    <label><?php echo $item['status_file']; ?></label>
-                </div>
-            </div>
-            <div class="row show-grid">
-                <div class="col-xs-4">
-                    <label class="control-label pull-right"><?php echo $CI->lang->line('LABEL_CATEGORY_NAME'); ?></label>
-                </div>
-                <div class="col-sm-4 col-xs-8">
-                    <label><?php echo $item['category_name'] ?></label>
-                </div>
-            </div>
-            <div class="row show-grid">
-                <div class="col-xs-4">
-                    <label class="control-label pull-right"><?php echo $CI->lang->line('LABEL_SUB_CATEGORY_NAME'); ?></label>
-                </div>
-                <div class="col-sm-4 col-xs-8">
-                    <label><?php echo $item['sub_category_name'] ?></label>
-                </div>
-            </div>
-            <div class="row show-grid">
-                <div class="col-xs-4">
-                    <label class="control-label pull-right"><?php echo $CI->lang->line('LABEL_CLASS_NAME'); ?></label>
-                </div>
-                <div class="col-sm-4 col-xs-8">
-                    <label><?php echo $item['class_name'] ?></label>
-                </div>
-            </div>
-            <div class="row show-grid">
-                <div class="col-xs-4">
-                    <label class="control-label pull-right"><?php echo $CI->lang->line('LABEL_TYPE_NAME'); ?></label>
-                </div>
-                <div class="col-sm-4 col-xs-8">
-                    <label><?php echo $item['type_name'] ?></label>
-                </div>
-            </div>
-            <div class="row show-grid">
-                <div class="col-xs-4">
-                    <label class="control-label pull-right"><?php echo $CI->lang->line('LABEL_COMPANY_NAME'); ?></label>
-                </div>
-                <div class="col-sm-4 col-xs-8">
-                    <label><?php echo $item['company_name'] ?></label>
-                </div>
-            </div>
-            <div class="row show-grid">
-                <div class="col-xs-4">
-                    <label class="control-label pull-right"><?php echo $CI->lang->line('LABEL_DEPARTMENT_NAME'); ?></label>
-                </div>
-                <div class="col-sm-4 col-xs-8">
-                    <label><?php echo $item['department_name'] ?></label>
-                </div>
-            </div>
-            <div class="row show-grid">
-                <div class="col-xs-4">
-                    <label class="control-label pull-right"><?php echo $CI->lang->line('LABEL_NUMBER_OF_PAGE'); ?></label>
-                </div>
-                <div class="col-sm-4 col-xs-8">
-                    <label><?php echo $item['number_of_page'] ?></label>
-                </div>
-            </div>
-            <div class="row show-grid">
-                <div class="col-xs-4">
-                    <label class="control-label pull-right">File Created By</label>
-                </div>
-                <div class="col-sm-4 col-xs-8">
-                    <label><?php echo $users[$item['user_created']]['name'] ?></label>
-                </div>
-            </div>
-            <div class="row show-grid">
-                <div class="col-xs-4">
-                    <label class="control-label pull-right">File Created Time</label>
-                </div>
-                <div class="col-sm-4 col-xs-8">
-                    <label><?php echo System_helper::display_date_time($item['date_created']);?></label>
-                </div>
-            </div>
-            <?php if($item['date_updated']){?>
-                <div class="row show-grid">
-                    <div class="col-xs-4">
-                        <label class="control-label pull-right">File Updated By</label>
-                    </div>
-                    <div class="col-sm-4 col-xs-8">
-                        <label><?php echo $users[$item['user_updated']]['name'] ?></label>
-                    </div>
-                </div>
-                <div class="row show-grid">
-                    <div class="col-xs-4">
-                        <label class="control-label pull-right">File Updated Time</label>
-                    </div>
-                    <div class="col-sm-4 col-xs-8">
-                        <label><?php echo System_helper::display_date_time($item['date_updated']);?></label>
-                    </div>
-                </div>
-            <?php } ?>
+        <div id="collapse_basic_info" class="panel-collapse collapse in">
+            <table class="table table-bordered table-responsive system_table_details_view">
+                <thead>
+                    <tr>
+                        <th class="widget-header header_caption"><label class="control-label pull-right"><?php echo $CI->lang->line('LABEL_FILE_NAME'); ?></label></th>
+                        <th class=""><label class="control-label"><?php echo $item['name'] ?></label></th>
+                        <th class="widget-header header_caption"><label class="control-label pull-right"><?php echo $CI->lang->line('LABEL_CATEGORY_NAME'); ?></label></th>
+                        <th class=" header_value"><label class="control-label"><?php echo $item['category_name'] ?></label></th>
+                    </tr>
+                    <tr>
+                        <th class="widget-header header_caption"><label class="control-label pull-right"><?php echo $CI->lang->line('LABEL_RESPONSIBLE_EMPLOYEE'); ?></label></th>
+                        <th class=""><label class="control-label"><?php echo $item['responsible_employee'] ?></label></th>
+                        <th class="widget-header header_caption"><label class="control-label pull-right"><?php echo $CI->lang->line('LABEL_SUB_CATEGORY_NAME'); ?></label></th>
+                        <th class=" header_value"><label class="control-label"><?php echo $item['sub_category_name'] ?></label></th>
+                    </tr>
+                    <tr>
+                        <th class="widget-header header_caption"><label class="control-label pull-right"><?php echo $CI->lang->line('LABEL_HC_LOCATION'); ?></label></th>
+                        <th class=""><label class="control-label"><?php echo $item['hc_location'] ?></label></th>
+                        <th class="widget-header header_caption"><label class="control-label pull-right"><?php echo $CI->lang->line('LABEL_CLASS_NAME'); ?></label></th>
+                        <th class=" header_value"><label class="control-label"><?php echo $item['class_name'] ?></label></th>
+                    </tr>
+                    <tr>
+                        <th class="widget-header header_caption"><label class="control-label pull-right"><?php echo $CI->lang->line('LABEL_DATE_OPENING'); ?></label></th>
+                        <th class=""><label class="control-label"><?php echo System_helper::display_date($item['date_start']); ?></label></th>
+                        <th class="widget-header header_caption"><label class="control-label pull-right"><?php echo $CI->lang->line('LABEL_TYPE_NAME'); ?></label></th>
+                        <th class=" header_value"><label class="control-label"><?php echo $item['type_name'] ?></label></th>
+                    </tr>
+                    <tr>
+                        <th class="widget-header header_caption"><label class="control-label pull-right"><?php echo $CI->lang->line('LABEL_FILE_STATUS'); ?></label></th>
+                        <th class=""><label class="control-label"><?php echo $item['status_file']; ?></label></th>
+                        <th class="widget-header header_caption"><label class="control-label pull-right"><?php echo $CI->lang->line('LABEL_COMPANY_NAME'); ?></label></th>
+                        <th class=" header_value"><label class="control-label"><?php echo $item['company_name'] ?></label></th>
+                    </tr>
+                    <tr>
+                        <th class="widget-header header_caption"><label class="control-label pull-right"><?php echo $CI->lang->line('LABEL_NUMBER_OF_PAGE'); ?></label></th>
+                        <th class=""><label class="control-label"><?php echo $item['number_of_page'] ?></label></th>
+                        <th class="widget-header header_caption"><label class="control-label pull-right"><?php echo $CI->lang->line('LABEL_DEPARTMENT_NAME'); ?></label></th>
+                        <th class=" header_value"><label class="control-label"><?php echo $item['department_name'] ?></label></th>
+                    </tr>
+                    <tr>
+                        <th class="widget-header header_caption"><label class="control-label pull-right">File Created By</label></th>
+                        <th class=""><label class="control-label"><?php echo $users[$item['user_created']]['name'] ?></label></th>
+                        <th class="widget-header header_caption"><label class="control-label pull-right">File Created Time</label></th>
+                        <th class=" header_value"><label class="control-label"><?php echo System_helper::display_date_time($item['date_created']);?></label></th>
+                    </tr>
+                    <?php if($item['date_updated']){?>
+                        <tr>
+                            <th class="widget-header header_caption"><label class="control-label pull-right">File Updated By</label></th>
+                            <th class=""><label class="control-label"><?php echo $users[$item['user_updated']]['name'] ?></label></th>
+                            <th class="widget-header header_caption"><label class="control-label pull-right">File Updated Time</label></th>
+                            <th class=" header_value"><label class="control-label"><?php echo System_helper::display_date_time($item['date_updated']);?></label></th>
+                        </tr>
+                    <?php } ?>
+                </thead>
+            </table>
         </div>
     </div>
     <div class="panel panel-default item_panel">
