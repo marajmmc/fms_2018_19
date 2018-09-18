@@ -128,6 +128,8 @@ class Setup_file_class extends Root_Controller
         $this->db->select('file_sub_category.name sub_category_name');
         $this->db->join($this->config->item('table_fms_setup_file_category') . ' file_category', 'file_category.id = file_sub_category.id_category');
         $this->db->select('file_category.name category_name');
+        $this->db->order_by('file_category.ordering');
+        $this->db->order_by('file_sub_category.ordering');
         $this->db->order_by('file_class.ordering');
         $this->db->limit($pagesize, $current_records);
         $items = $this->db->get()->result_array();

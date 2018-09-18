@@ -59,7 +59,7 @@ $CI->load->view('action_buttons', array('action_buttons' => $action_buttons));
             </div>
         </div>
 
-        <div class="row show-grid" id="id_sub_category_container" style="<?php echo (!($item['id_sub_category']>0))? 'display:none':''; ?>">
+        <div class="row show-grid" id="sub_category_container" style="<?php echo (!($item['id_sub_category']>0))? 'display:none':''; ?>">
             <div class="col-xs-4">
                 <label class="control-label pull-right"><?php echo $this->lang->line('LABEL_SUB_CATEGORY_NAME'); ?> <span style="color:#FF0000">*</span></label>
             </div>
@@ -124,38 +124,24 @@ $CI->load->view('action_buttons', array('action_buttons' => $action_buttons));
 <script>
     jQuery(document).ready(function()
     {
-        $(document).off("change", "#id_category");
-        $(document).off("change", "#id_sub_category");
         $(document).on("change","#id_category",function()
         {
             $("#id_sub_category").val("");
+            $("#id_class").val("");
+            $("#id_type").val("");
             var id_category=$("#id_category").val();
+            $("#sub_category_container").hide();
+            $("#class_container").hide();
+            $("#type_container").hide();
             if(id_category>0)
             {
-                $("#id_sub_category_container").show();
-                $.ajax(
-                    {
-                        url: '<?php echo site_url('common_controller/get_sub_categories_by_category_id'); ?>',
-                        type: 'POST',
-                        datatype: "JSON",
-                        data:
-                        {
-                            html_container_id:'#id_sub_category',
-                            id_category:id_category
-                        },
-                        success: function (data, status)
-                        {
-
-                        },
-                        error: function (xhr, desc, err)
-                        {
-                            console.log("error");
-                        }
-                    });
-            }
-            else
-            {
-                $("#id_sub_category_container").hide();
+                $("#sub_category_container").show();
+                $("#class_container").hide();
+                $("#type_container").hide();
+                if(system_sub_categories[id_category]!==undefined)
+                {
+                    $('#id_sub_category').html(get_dropdown_with_select(system_sub_categories[id_category]));
+                }
             }
         });
     });
