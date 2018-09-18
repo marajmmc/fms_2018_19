@@ -328,6 +328,13 @@ class Tasks_file_entry extends Root_Controller
                 $ajax['system_page_url'] = site_url($this->controller_url . '/index/edit/' . $item_id);
                 $this->json_return($ajax);
             }
+            else
+            {
+                System_helper::invalid_try('Edit',$item_id,'Dont have file permission');
+                $ajax['status']=false;
+                $ajax['system_message']='Invalid Try';
+                $this->json_return($ajax);
+            }
         }
         else
         {
@@ -521,6 +528,13 @@ class Tasks_file_entry extends Root_Controller
                         $this->json_return($ajax);
                     }
                 }
+            }
+            else
+            {
+                System_helper::invalid_try('Edit',$id,'Dont have file permission');
+                $ajax['status']=false;
+                $ajax['system_message']='Invalid Try';
+                $this->json_return($ajax);
             }
             $this->message = $this->lang->line('MSG_SAVED_SUCCESS');
             $this->system_list();
