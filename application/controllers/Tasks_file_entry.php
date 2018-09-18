@@ -77,6 +77,7 @@ class Tasks_file_entry extends Root_Controller
             $data['company_name'] = 1;
             $data['department_name'] = 1;
             $data['ordering'] = 1;
+            $data['status'] = 1;
         }
         else
         {
@@ -129,7 +130,7 @@ class Tasks_file_entry extends Root_Controller
         }
         $user = User_helper::get_user();
         $this->db->from($this->config->item('table_fms_setup_file_name') . ' file_name');
-        $this->db->select('file_name.id,file_name.name file_name,file_name.date_start date_opening,file_name.status_file file_status,file_name.ordering');
+        $this->db->select('file_name.id,file_name.name file_name,file_name.date_start date_opening,file_name.status_file file_status,file_name.status,file_name.ordering');
 
         $this->db->join($this->config->item('table_fms_setup_assign_file_user_group') . ' assigned_file', 'assigned_file.id_file=file_name.id');
         $this->db->join($this->config->item('table_fms_setup_file_type') . ' type', 'type.id=file_name.id_type');
@@ -164,12 +165,9 @@ class Tasks_file_entry extends Root_Controller
         $this->db->where('sub_category.status', $this->config->item('system_status_active'));
         $this->db->where('class.status', $this->config->item('system_status_active'));
         $this->db->where('type.status', $this->config->item('system_status_active'));
-        $this->db->where('file_name.status', $this->config->item('system_status_active'));
+        $this->db->where('file_name.status !=', $this->config->item('system_status_delete'));
         $this->db->where('user_info.revision', 1);
-        if($user->user_group !=1)
-        {
-            $this->db->where('assigned_file.user_group_id',$user->user_group);
-        }
+        $this->db->where('assigned_file.user_group_id',$user->user_group);
         $this->db->where('assigned_file.revision', 1);
         $this->db->order_by('file_name.id', 'DESC');
         $this->db->order_by('category.ordering');
