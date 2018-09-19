@@ -759,7 +759,7 @@ class Tasks_file_entry extends Root_Controller
     private function check_validation()
     {
         $this->load->library('form_validation');
-        $this->form_validation->set_rules('item[name]',$this->lang->line('LABEL_NAME'),'required');
+        $this->form_validation->set_rules('item[name]',$this->lang->line('LABEL_NAME'),'required|trim');
         $this->form_validation->set_rules('item[id_type]',$this->lang->line('LABEL_TYPE_NAME'),'required');
         $this->form_validation->set_rules('item[id_hc_location]',$this->lang->line('LABEL_HC_LOCATION'),'required');
         $this->form_validation->set_rules('item[date_start]',$this->lang->line('LABEL_DATE_START'),'required');

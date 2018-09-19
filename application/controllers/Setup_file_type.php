@@ -89,7 +89,7 @@ class Setup_file_type extends Root_Controller
             $user = User_helper::get_user();
             $method = 'list';
             $data['system_preference_items'] = System_helper::get_preference($user->user_id, $this->controller_url, $method, $this->get_preference_headers($method));
-            $data['title'] = "Active File Type List";
+            $data['title'] = "File Type List";
             $ajax['status'] = true;
             $ajax['system_content'][] = array("id" => "#system_content", "html" => $this->load->view($this->controller_url . "/list", $data, true));
             if ($this->message)
@@ -132,6 +132,9 @@ class Setup_file_type extends Root_Controller
         $this->db->select('file_sub_category.name sub_category_name');
         $this->db->join($this->config->item('table_fms_setup_file_category') . ' file_category', 'file_category.id=file_sub_category.id_category');
         $this->db->select('file_category.name category_name');
+        $this->db->order_by('file_category.ordering');
+        $this->db->order_by('file_sub_category.ordering');
+        $this->db->order_by('file_class.ordering');
         $this->db->order_by('file_type.ordering');
         $this->db->limit($pagesize, $current_records);
         $items = $this->db->get()->result_array();

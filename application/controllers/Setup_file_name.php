@@ -286,7 +286,7 @@ class Setup_file_name extends Root_Controller
             $data['employees']=$this->db->get()->result_array();
 
 
-            $data['title']='Edit '.$this->lang->line('LABEL_FILE_NAME').' ('.$data['item']['name'].')';
+            $data['title']='Edit '.$this->lang->line('LABEL_FILE_NAME').' :: '.$data['item']['name'];
             $ajax['status']=true;
             $ajax['system_content'][]=array("id"=>"#system_content","html"=>$this->load->view($this->controller_url."/add_edit",$data,true));
             if($this->message)
@@ -386,7 +386,7 @@ class Setup_file_name extends Root_Controller
         $this->form_validation->set_rules('item[id_company]',$this->lang->line('LABEL_COMPANY_NAME'),'required');
         $this->form_validation->set_rules('item[id_department]',$this->lang->line('LABEL_DEPARTMENT_NAME'),'required');
         $this->form_validation->set_rules('item[employee_id]',$this->lang->line('LABEL_RESPONSIBLE_EMPLOYEE'),'required');
-        $this->form_validation->set_rules('item[name]',$this->lang->line('LABEL_FILE_NAME'),'required');
+        $this->form_validation->set_rules('item[name]',$this->lang->line('LABEL_FILE_NAME'),'required|trim');
         $this->form_validation->set_rules('item[id_type]',$this->lang->line('LABEL_TYPE_NAME'),'required');
         $this->form_validation->set_rules('item[id_hc_location]',$this->lang->line('LABEL_HC_LOCATION'),'required');
         $this->form_validation->set_rules('item[status_file]',$this->lang->line('LABEL_FILE_STATUS'),'required');

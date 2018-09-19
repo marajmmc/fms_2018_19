@@ -87,7 +87,7 @@ class Setup_file_category extends Root_Controller
             $user = User_helper::get_user();
             $method = 'list';
             $data['system_preference_items'] = System_helper::get_preference($user->user_id, $this->controller_url, $method, $this->get_preference_headers($method));
-            $data['title'] = "Active Category List";
+            $data['title'] = "Category List";
             $ajax['status'] = true;
             $ajax['system_content'][] = array("id" => "#system_content", "html" => $this->load->view($this->controller_url . "/list", $data, true));
             if ($this->message)
@@ -273,7 +273,7 @@ class Setup_file_category extends Root_Controller
     private function check_validation()
     {
         $this->load->library('form_validation');
-        $this->form_validation->set_rules('item[name]', $this->lang->line('LABEL_NAME'), 'required');
+        $this->form_validation->set_rules('item[name]', $this->lang->line('LABEL_NAME'), 'required|trim');
         $this->form_validation->set_rules('item[ordering]', $this->lang->line('LABEL_ORDER'), 'required');
         $this->form_validation->set_rules('item[status]', $this->lang->line('LABEL_STATUS'), 'required');
         if ($this->form_validation->run() == FALSE)

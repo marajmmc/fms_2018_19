@@ -45,7 +45,7 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
         </div>
         <div style="" class="row show-grid">
             <div class="col-xs-4">
-                <label for="id_category" class="control-label pull-right"><?php echo $CI->lang->line('LABEL_CATEGORY_NAME');?><span style="color:#FF0000">*</span></label>
+                <label for="id_category" class="control-label pull-right"><?php echo $CI->lang->line('LABEL_CATEGORY_NAME');?> <span style="color:#FF0000">*</span></label>
             </div>
             <div class="col-sm-4 col-xs-8">
                 <select id="id_category" class="form-control" tabindex="-1">
@@ -62,7 +62,7 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
         </div>
         <div style="<?php if(!($item['id_sub_category']>0)){echo 'display:none';} ?>" class="row show-grid" id="sub_category_container">
             <div class="col-xs-4">
-                <label for="id_sub_category" class="control-label pull-right"><?php echo $CI->lang->line('LABEL_SUB_CATEGORY_NAME');?><span style="color:#FF0000">*</span></label>
+                <label for="id_sub_category" class="control-label pull-right"><?php echo $CI->lang->line('LABEL_SUB_CATEGORY_NAME');?> <span style="color:#FF0000">*</span></label>
             </div>
             <div class="col-sm-4 col-xs-8">
                 <select id="id_sub_category" class="form-control">
@@ -79,7 +79,7 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
         </div>
         <div style="<?php if(!($item['id_class']>0)){echo 'display:none';} ?>" class="row show-grid" id="class_container">
             <div class="col-xs-4">
-                <label for="id_class" class="control-label pull-right"><?php echo $CI->lang->line('LABEL_CLASS_NAME');?><span style="color:#FF0000">*</span></label>
+                <label for="id_class" class="control-label pull-right"><?php echo $CI->lang->line('LABEL_CLASS_NAME');?> <span style="color:#FF0000">*</span></label>
             </div>
             <div class="col-sm-4 col-xs-8">
                 <select id="id_class" class="form-control" tabindex="-1">
@@ -96,7 +96,7 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
         </div>
         <div style="<?php if(!($item['id_type']>0)){echo 'display:none';} ?>" class="row show-grid" id="type_container">
             <div class="col-xs-4">
-                <label for="id_type" class="control-label pull-right"><?php echo $CI->lang->line('LABEL_TYPE_NAME');?><span style="color:#FF0000">*</span></label>
+                <label for="id_type" class="control-label pull-right"><?php echo $CI->lang->line('LABEL_TYPE_NAME');?> <span style="color:#FF0000">*</span></label>
             </div>
             <div class="col-sm-4 col-xs-8">
                 <select id="id_type" name="item[id_type]" class="form-control">
@@ -113,7 +113,7 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
         </div>
         <div class="row show-grid">
             <div class="col-xs-4">
-                <label for="name" class="control-label pull-right"><?php echo $CI->lang->line('LABEL_NAME');?><span style="color:#FF0000">*</span></label>
+                <label for="name" class="control-label pull-right"><?php echo $CI->lang->line('LABEL_NAME');?> <span style="color:#FF0000">*</span></label>
             </div>
             <div class="col-sm-4 col-xs-8">
                 <input type="text" name="item[name]" id="name" class="form-control" value="<?php echo $item['name'];?>"/>
@@ -121,7 +121,7 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
         </div>
         <div style="" class="row show-grid">
             <div class="col-xs-4">
-                <label for="ordering" class="control-label pull-right"><?php echo $CI->lang->line('LABEL_ORDER');?><span style="color:#FF0000">*</span></label>
+                <label for="ordering" class="control-label pull-right"><?php echo $CI->lang->line('LABEL_ORDER');?> <span style="color:#FF0000">*</span></label>
             </div>
             <div class="col-sm-4 col-xs-8">
                 <input type="text" name="item[ordering]" id="ordering" class="form-control float_type_positive" value="<?php echo $item['ordering'] ?>" >
@@ -137,11 +137,10 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
         </div>
         <div style="" class="row show-grid">
             <div class="col-xs-4">
-                <label for="status" class="control-label pull-right"><?php echo $CI->lang->line('LABEL_STATUS');?><span style="color:#FF0000">*</span></label>
+                <label for="status" class="control-label pull-right"><?php echo $CI->lang->line('LABEL_STATUS');?> <span style="color:#FF0000">*</span></label>
             </div>
             <div class="col-sm-4 col-xs-8">
                 <select id="status" name="item[status]" class="form-control">
-                    <!--<option value=""></option>-->
                     <option value="<?php echo $CI->config->item('system_status_active'); ?>" <?php if ($item['status'] == $CI->config->item('system_status_active')) { echo "selected='selected'"; } ?> ><?php echo $CI->lang->line('ACTIVE') ?></option>
                     <option value="<?php echo $CI->config->item('system_status_inactive'); ?>" <?php if ($item['status'] == $CI->config->item('system_status_inactive')) { echo "selected='selected'"; } ?> ><?php echo $CI->lang->line('INACTIVE') ?></option>
                 </select>
@@ -151,112 +150,60 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
     <div class="clearfix"></div>
 </form>
 <script type="text/javascript">
-    jQuery(document).ready(function()
+    jQuery(document).ready(function($)
     {
-        //$(".datepicker").datepicker({dateFormat : display_date_format});
         $(document).on("change","#id_category",function()
         {
-            $("#id_sub_category").val("");
-            $("#id_class").val("");
-            $("#id_type").val("");
+            $("#id_sub_category").html(get_dropdown_with_select(""));
+            $("#id_class").html(get_dropdown_with_select(""));
+            $("#id_type").html(get_dropdown_with_select(""));
+
             var id_category=$("#id_category").val();
+            $("#sub_category_container").hide();
+            $("#class_container").hide();
+            $("#type_container").hide();
             if(id_category>0)
             {
                 $("#sub_category_container").show();
                 $("#class_container").hide();
                 $("#type_container").hide();
-                $.ajax(
-                    {
-                        url: '<?php echo site_url('common_controller/get_sub_categories_by_category_id'); ?>',
-                        type: 'POST',
-                        datatype: "JSON",
-                        data:
-                        {
-                            html_container_id:'#id_sub_category',
-                            id_category:id_category
-                        },
-                        success: function (data, status)
-                        {
-
-                        },
-                        error: function (xhr, desc, err)
-                        {
-                            console.log("error");
-                        }
-                    });
-            }
-            else
-            {
-                $("#sub_category_container").hide();
-                $("#class_container").hide();
-                $("#type_container").hide();
+                if(system_sub_categories[id_category]!==undefined)
+                {
+                    $('#id_sub_category').html(get_dropdown_with_select(system_sub_categories[id_category]));
+                }
             }
         });
         $(document).on("change","#id_sub_category",function()
         {
-            $("#id_class").val("");
-            $("#id_type").val("");
+            $('#id_class').html(get_dropdown_with_select(""));
+            $("#id_type").html(get_dropdown_with_select(""));
+
             var id_sub_category=$('#id_sub_category').val();
+            $('#class_container').hide();
+            $('#type_container').hide();
             if(id_sub_category>0)
             {
                 $('#class_container').show();
                 $('#type_container').hide();
-                $.ajax(
-                    {
-                        url: '<?php echo site_url('common_controller/get_classes_by_sub_category_id'); ?>',
-                        type: 'POST',
-                        datatype: "JSON",
-                        data:
-                        {
-                            html_container_id:'#id_class',
-                            id_sub_category:id_sub_category
-                        },
-                        success: function (data, status)
-                        {
-
-                        },
-                        error: function (xhr, desc, err)
-                        {
-                            console.log("error");
-                        }
-                    });
-            }
-            else
-            {
-                $('#class_container').hide();
-                $('#type_container').hide();
+                if(system_class[id_sub_category]!==undefined)
+                {
+                    $('#id_class').html(get_dropdown_with_select(system_class[id_sub_category]));
+                }
             }
         });
         $(document).on("change","#id_class",function()
         {
-            $("#id_type").val("");
+            $("#id_type").html(get_dropdown_with_select(""));
+
             var id_class=$('#id_class').val();
+            $('#type_container').hide();
             if(id_class>0)
             {
                 $('#type_container').show();
-                $.ajax(
-                    {
-                        url: '<?php echo site_url('common_controller/get_types_by_class_id'); ?>',
-                        type: 'POST',
-                        datatype: "JSON",
-                        data:
-                        {
-                            html_container_id:'#id_type',
-                            id_class:id_class
-                        },
-                        success: function (data, status)
-                        {
-
-                        },
-                        error: function (xhr, desc, err)
-                        {
-                            console.log("error");
-                        }
-                    });
-            }
-            else
-            {
-                $('#type_container').hide();
+                if(system_types[id_class]!==undefined)
+                {
+                    $('#id_type').html(get_dropdown_with_select(system_types[id_class]));
+                }
             }
         });
     });

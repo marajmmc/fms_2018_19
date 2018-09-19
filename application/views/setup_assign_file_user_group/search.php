@@ -58,40 +58,25 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
 <script>
     jQuery(document).ready(function()
     {
-        $(document).off("change", "#id_category");
-        $(document).off("change", "#id_sub_category");
-        $(document).off("click", ".system-prevent-click");
         $(document).on("change","#id_category",function()
         {
-            $("#id_sub_category").val("");
-            $('#edit_form').empty();
-            var id_category=$('#id_category').val();
+            $("#id_sub_category").html(get_dropdown_with_select(""));
+            $("#id_class").html(get_dropdown_with_select(""));
+            $("#id_type").html(get_dropdown_with_select(""));
+
+            var id_category=$("#id_category").val();
+            $("#sub_category_container").hide();
+            $("#class_container").hide();
+            $("#type_container").hide();
             if(id_category>0)
             {
-                $('#sub_category_container').show();
-                $.ajax(
-                    {
-                        url: '<?php echo site_url('common_controller/get_sub_categories_by_category_id'); ?>',
-                        type: 'POST',
-                        datatype: "JSON",
-                        data:
-                        {
-                            id_category:id_category,
-                            html_container_id:"#id_sub_category"
-                        },
-                        success: function (data, status)
-                        {
-
-                        },
-                        error: function (xhr, desc, err)
-                        {
-                            console.log("error");
-                        }
-                    });
-            }
-            else
-            {
-                $('#sub_category_container').hide();
+                $("#sub_category_container").show();
+                $("#class_container").hide();
+                $("#type_container").hide();
+                if(system_sub_categories[id_category]!==undefined)
+                {
+                    $('#id_sub_category').html(get_dropdown_with_select(system_sub_categories[id_category]));
+                }
             }
         });
         $(document).on("change","#id_sub_category",function()

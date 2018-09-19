@@ -122,13 +122,14 @@ $CI->load->view('action_buttons', array('action_buttons' => $action_buttons));
 </form>
 
 <script>
-    jQuery(document).ready(function()
+    jQuery(document).ready(function($)
     {
         $(document).on("change","#id_category",function()
         {
-            $("#id_sub_category").val("");
-            $("#id_class").val("");
-            $("#id_type").val("");
+            $("#id_sub_category").html(get_dropdown_with_select(""));
+            $("#id_class").html(get_dropdown_with_select(""));
+            $("#id_type").html(get_dropdown_with_select(""));
+
             var id_category=$("#id_category").val();
             $("#sub_category_container").hide();
             $("#class_container").hide();

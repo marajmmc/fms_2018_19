@@ -137,13 +137,14 @@ $CI->load->view('action_buttons', array('action_buttons' => $action_buttons));
 </form>
 
 <script type="text/javascript">
-    jQuery(document).ready(function()
+    jQuery(document).ready(function($)
     {
         $(document).on("change","#id_category",function()
         {
-            $("#id_sub_category").val("");
-            $("#id_class").val("");
-            $("#id_type").val("");
+            $("#id_sub_category").html(get_dropdown_with_select(""));
+            $("#id_class").html(get_dropdown_with_select(""));
+            $("#id_type").html(get_dropdown_with_select(""));
+
             var id_category=$("#id_category").val();
             $("#sub_category_container").hide();
             $("#class_container").hide();
@@ -161,21 +162,18 @@ $CI->load->view('action_buttons', array('action_buttons' => $action_buttons));
         });
         $(document).on("change","#id_sub_category",function()
         {
-            $("#id_class").val("");
-            $("#id_type").val("");
+            $('#id_class').html(get_dropdown_with_select(""));
+            $("#id_type").html(get_dropdown_with_select(""));
+
             var id_sub_category=$('#id_sub_category').val();
             $('#class_container').hide();
             $('#type_container').hide();
-
             if(id_sub_category>0)
             {
-
                 $('#class_container').show();
                 $('#type_container').hide();
                 if(system_class[id_sub_category]!==undefined)
                 {
-//                    console.log("SubCAT: "+id_sub_category);
-//                    console.log("==>>>>" + get_dropdown_with_select(system_class[id_sub_category]));
                     $('#id_class').html(get_dropdown_with_select(system_class[id_sub_category]));
                 }
             }

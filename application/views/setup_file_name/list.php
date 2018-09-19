@@ -133,18 +133,18 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
                 [
                     { text: '<?php echo $CI->lang->line('LABEL_ID'); ?>',pinned:true, dataField: 'id', width:'50', hidden: <?php echo $system_preference_items['id']?0:1;?>},
                     { text: '<?php echo $CI->lang->line('LABEL_FILE_NAME'); ?>',pinned:true, dataField: 'file_name', width:'300', hidden: <?php echo $system_preference_items['file_name']?0:1;?>},
-                    { text: '<?php echo $CI->lang->line('LABEL_RESPONSIBLE_EMPLOYEE'); ?>', dataField: 'responsible_employee', width:'200', hidden: <?php echo $system_preference_items['responsible_employee']?0:1;?>},
+                    { text: '<?php echo $CI->lang->line('LABEL_RESPONSIBLE_EMPLOYEE'); ?>', dataField: 'responsible_employee', width:'220', hidden: <?php echo $system_preference_items['responsible_employee']?0:1;?>},
                     { text: '<?php echo $CI->lang->line('LABEL_DATE_OPENING'); ?>', dataField: 'date_opening', width:'100', hidden: <?php echo $system_preference_items['date_opening']?0:1;?>},
-                    { text: '<?php echo $CI->lang->line('LABEL_NUMBER_OF_PAGE'); ?>', dataField: 'number_of_page', width:'50', hidden: <?php echo $system_preference_items['number_of_page']?0:1;?>},
+                    { text: '<?php echo $CI->lang->line('LABEL_NUMBER_OF_PAGE'); ?>', dataField: 'number_of_page', cellsalign: 'right', width:'120', hidden: <?php echo $system_preference_items['number_of_page']?0:1;?>},
                     { text: '<?php echo $CI->lang->line('LABEL_HC_LOCATION'); ?>', dataField: 'hc_location', width:'200', hidden: <?php echo $system_preference_items['hc_location']?0:1;?>},
-                    { text: '<?php echo $CI->lang->line('LABEL_CATEGORY_NAME'); ?>', dataField: 'category_name', width:'100', hidden: <?php echo $system_preference_items['category_name']?0:1;?>},
-                    { text: '<?php echo $CI->lang->line('LABEL_SUB_CATEGORY_NAME'); ?>', dataField: 'sub_category_name', width:'100', hidden: <?php echo $system_preference_items['sub_category_name']?0:1;?>},
-                    { text: '<?php echo $CI->lang->line('LABEL_CLASS_NAME'); ?>', dataField: 'class_name', width:'100', hidden: <?php echo $system_preference_items['class_name']?0:1;?>},
-                    { text: '<?php echo $CI->lang->line('LABEL_TYPE_NAME'); ?>', dataField: 'type_name', width:'100', hidden: <?php echo $system_preference_items['type_name']?0:1;?>},
-                    { text: '<?php echo $CI->lang->line('LABEL_COMPANY_NAME'); ?>', dataField: 'company_name', width:'100', hidden: <?php echo $system_preference_items['company_name']?0:1;?>},
-                    { text: '<?php echo $CI->lang->line('LABEL_DEPARTMENT_NAME'); ?>', dataField: 'department_name', width:'100', hidden: <?php echo $system_preference_items['department_name']?0:1;?>},
-                    { text: '<?php echo $CI->lang->line('LABEL_ORDERING'); ?>', dataField: 'ordering', width:'50', hidden: <?php echo $system_preference_items['ordering']?0:1;?>},
-                    { text: '<?php echo $CI->lang->line('LABEL_STATUS');?>', dataField: 'status',filtertype: 'list', width: 100, hidden: <?php echo $system_preference_items['status']?0:1;?>}
+                    { text: '<?php echo $CI->lang->line('LABEL_CATEGORY_NAME'); ?>', dataField: 'category_name', filtertype:'list', width:'160', hidden: <?php echo $system_preference_items['category_name']?0:1;?>},
+                    { text: '<?php echo $CI->lang->line('LABEL_SUB_CATEGORY_NAME'); ?>', dataField: 'sub_category_name', filtertype:'list', width:'160', hidden: <?php echo $system_preference_items['sub_category_name']?0:1;?>},
+                    { text: '<?php echo $CI->lang->line('LABEL_CLASS_NAME'); ?>', dataField: 'class_name', width:'160', hidden: <?php echo $system_preference_items['class_name']?0:1;?>},
+                    { text: '<?php echo $CI->lang->line('LABEL_TYPE_NAME'); ?>', dataField: 'type_name', width:'160', hidden: <?php echo $system_preference_items['type_name']?0:1;?>},
+                    { text: '<?php echo $CI->lang->line('LABEL_COMPANY_NAME'); ?>', dataField: 'company_name', filtertype:'list', width:'200', hidden: <?php echo $system_preference_items['company_name']?0:1;?>},
+                    { text: '<?php echo $CI->lang->line('LABEL_DEPARTMENT_NAME'); ?>', dataField: 'department_name', filtertype:'list', width:'120', hidden: <?php echo $system_preference_items['department_name']?0:1;?>},
+                    { text: '<?php echo $CI->lang->line('LABEL_ORDERING'); ?>', dataField: 'ordering', cellsalign: 'right', width:'80', hidden: <?php echo $system_preference_items['ordering']?0:1;?>},
+                    { text: '<?php echo $CI->lang->line('LABEL_STATUS');?>', dataField: 'status', cellsalign: 'center', filtertype:'list', width: 80, hidden: <?php echo $system_preference_items['status']?0:1;?>}
                 ]
             });
     });

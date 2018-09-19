@@ -45,7 +45,7 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
         </div>
         <div class="row show-grid">
             <div class="col-xs-4">
-                <label class="control-label pull-right"><?php echo $CI->lang->line('LABEL_COMPANY_NAME');?><span style="color:#FF0000">*</span></label>
+                <label class="control-label pull-right"><?php echo $CI->lang->line('LABEL_COMPANY_NAME');?> <span style="color:#FF0000">*</span></label>
             </div>
             <div class="col-sm-4 col-xs-8">
                 <select id="id_company" name="item[id_company]" class="form-control" tabindex="-1">
@@ -62,7 +62,7 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
         </div>
         <div style="<?php if(!($item['id_department']>0)){echo 'display:none';} ?>" class="row show-grid" id="department_container">
             <div class="col-xs-4">
-                <label for="id_department" class="control-label pull-right"><?php echo $CI->lang->line('LABEL_DEPARTMENT_NAME'); ?><span style="color:#FF0000">*</span></label>
+                <label for="id_department" class="control-label pull-right"><?php echo $CI->lang->line('LABEL_DEPARTMENT_NAME'); ?> <span style="color:#FF0000">*</span></label>
             </div>
             <div class="col-sm-4 col-xs-8">
                 <select id="id_department" name="item[id_department]" class="form-control" tabindex="-1">
@@ -79,7 +79,7 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
         </div>
         <div style="<?php if(!($item['employee_id']>0)){echo 'display: none';} ?>" class="row show-grid" id="employee_id_container">
             <div class="col-xs-4">
-                <label for="employee_id" class="control-label pull-right"><?php echo $CI->lang->line('LABEL_RESPONSIBLE_EMPLOYEE'); ?><span style="color:#FF0000">*</span></label>
+                <label for="employee_id" class="control-label pull-right"><?php echo $CI->lang->line('LABEL_RESPONSIBLE_EMPLOYEE'); ?> <span style="color:#FF0000">*</span></label>
             </div>
             <div class="col-sm-4 col-xs-8">
                 <select id="employee_id" name="item[employee_id]" class="form-control" tabindex="-1">
@@ -96,7 +96,7 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
         </div>
         <div style="" class="row show-grid">
             <div class="col-xs-4">
-                <label for="id_category" class="control-label pull-right"><?php echo $CI->lang->line('LABEL_CATEGORY_NAME');?><span style="color:#FF0000">*</span></label>
+                <label for="id_category" class="control-label pull-right"><?php echo $CI->lang->line('LABEL_CATEGORY_NAME');?> <span style="color:#FF0000">*</span></label>
             </div>
             <div class="col-sm-4 col-xs-8">
                 <select id="id_category" class="form-control" tabindex="-1">
@@ -113,7 +113,7 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
         </div>
         <div style="<?php if(!($item['id_sub_category']>0)){echo 'display:none';} ?>" class="row show-grid" id="sub_category_container">
             <div class="col-xs-4">
-                <label for="id_sub_category" class="control-label pull-right"><?php echo $CI->lang->line('LABEL_SUB_CATEGORY_NAME');?><span style="color:#FF0000">*</span></label>
+                <label for="id_sub_category" class="control-label pull-right"><?php echo $CI->lang->line('LABEL_SUB_CATEGORY_NAME');?> <span style="color:#FF0000">*</span></label>
             </div>
             <div class="col-sm-4 col-xs-8">
                 <select id="id_sub_category" class="form-control">
@@ -130,7 +130,7 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
         </div>
         <div style="<?php if(!($item['id_class']>0)){echo 'display:none';} ?>" class="row show-grid" id="class_container">
             <div class="col-xs-4">
-                <label for="id_class" class="control-label pull-right"><?php echo $CI->lang->line('LABEL_CLASS_NAME');?><span style="color:#FF0000">*</span></label>
+                <label for="id_class" class="control-label pull-right"><?php echo $CI->lang->line('LABEL_CLASS_NAME');?> <span style="color:#FF0000">*</span></label>
             </div>
             <div class="col-sm-4 col-xs-8">
                 <select id="id_class" class="form-control" tabindex="-1">
@@ -147,7 +147,7 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
         </div>
         <div style="<?php if(!($item['id_type']>0)){echo 'display:none';} ?>" class="row show-grid" id="type_container">
             <div class="col-xs-4">
-                <label for="id_type" class="control-label pull-right"><?php echo $CI->lang->line('LABEL_TYPE_NAME');?><span style="color:#FF0000">*</span></label>
+                <label for="id_type" class="control-label pull-right"><?php echo $CI->lang->line('LABEL_TYPE_NAME');?> <span style="color:#FF0000">*</span></label>
             </div>
             <div class="col-sm-4 col-xs-8">
                 <select id="id_type" name="item[id_type]" class="form-control">
@@ -164,7 +164,7 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
         </div>
         <div class="row show-grid">
             <div class="col-xs-4">
-                <label for="id_hc_location" class="control-label pull-right"><?php echo $CI->lang->line('LABEL_HC_LOCATION');?><span style="color:#FF0000">*</span></label>
+                <label for="id_hc_location" class="control-label pull-right"><?php echo $CI->lang->line('LABEL_HC_LOCATION');?> <span style="color:#FF0000">*</span></label>
             </div>
             <div class="col-sm-4 col-xs-8">
                 <select id="id_hc_location" name="item[id_hc_location]" class="form-control">
@@ -181,7 +181,7 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
         </div>
         <div class="row show-grid">
             <div class="col-xs-4">
-                <label for="name" class="control-label pull-right"><?php echo $CI->lang->line('LABEL_FILE_NAME');?><span style="color:#FF0000">*</span></label>
+                <label for="name" class="control-label pull-right"><?php echo $CI->lang->line('LABEL_FILE_NAME');?> <span style="color:#FF0000">*</span></label>
             </div>
             <div class="col-sm-4 col-xs-8">
                 <input type="text" name="item[name]" id="name" class="form-control" value="<?php echo $item['name'];?>"/>
@@ -189,7 +189,7 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
         </div>
         <div class="row show-grid">
             <div class="col-xs-4">
-                <label for="status_file" class="control-label pull-right"><?php echo $CI->lang->line('LABEL_FILE_STATUS');?><span style="color:#FF0000">*</span></label>
+                <label for="status_file" class="control-label pull-right"><?php echo $CI->lang->line('LABEL_FILE_STATUS');?> <span style="color:#FF0000">*</span></label>
             </div>
             <div class="col-sm-4 col-xs-8">
                 <select id="status_file" name="item[status_file]" class="form-control">
@@ -200,7 +200,7 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
         </div>
         <div style="" class="row show-grid">
             <div class="col-xs-4">
-                <label for="date_start" class="control-label pull-right"><?php echo $CI->lang->line('LABEL_DATE_OPENING'); ?><span style="color:#FF0000">*</span></label>
+                <label for="date_start" class="control-label pull-right"><?php echo $CI->lang->line('LABEL_DATE_OPENING'); ?> <span style="color:#FF0000">*</span></label>
             </div>
             <div class="col-sm-4 col-xs-8">
                 <input type="text" name="item[date_start]" id="date_start" class="form-control datepicker" value="<?php echo $item['date_start'] ?>" readonly="readonly">
@@ -208,7 +208,7 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
         </div>
         <div style="" class="row show-grid">
             <div class="col-xs-4">
-                <label for="remarks" class="control-label pull-right"><?php echo $CI->lang->line('LABEL_REMARKS'); ?><span style="color:#FF0000">*</span></label>
+                <label for="remarks" class="control-label pull-right"><?php echo $CI->lang->line('LABEL_REMARKS'); ?> </label>
             </div>
             <div class="col-sm-4 col-xs-8">
                 <textarea name="item[remarks]" id="remarks" class="form-control"><?php echo $item['remarks'] ?></textarea>
@@ -216,7 +216,7 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
         </div>
         <div class="row show-grid">
             <div class="col-xs-4">
-                <label class="control-label pull-right">Ordering<span style="color:#FF0000">*</span></label>
+                <label class="control-label pull-right">Ordering <span style="color:#FF0000">*</span></label>
             </div>
             <div class="col-sm-4 col-xs-8">
                 <input type="text" name="item[ordering]" id="ordering" class="form-control float_type_positive " value="<?php echo $item['ordering'];?>"/>
@@ -224,7 +224,7 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
         </div>
         <div style="" class="row show-grid">
             <div class="col-xs-4">
-                <label for="status" class="control-label pull-right"><?php echo $CI->lang->line('LABEL_STATUS');?><span style="color:#FF0000">*</span></label>
+                <label for="status" class="control-label pull-right"><?php echo $CI->lang->line('LABEL_STATUS');?> <span style="color:#FF0000">*</span></label>
             </div>
             <div class="col-sm-4 col-xs-8">
                 <select id="status" name="item[status]" class="form-control">
@@ -238,8 +238,7 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
     <div class="clearfix"></div>
 </form>
 <script type="text/javascript">
-
-    jQuery(document).ready(function()
+    jQuery(document).ready(function($)
     {
         $(".datepicker").datepicker({dateFormat : display_date_format});
 
@@ -295,9 +294,10 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
         });
         $(document).on("change","#id_category",function()
         {
-            $("#id_sub_category").val("");
-            $("#id_class").val("");
-            $("#id_type").val("");
+            $("#id_sub_category").html(get_dropdown_with_select(""));
+            $("#id_class").html(get_dropdown_with_select(""));
+            $("#id_type").html(get_dropdown_with_select(""));
+
             var id_category=$("#id_category").val();
             $("#sub_category_container").hide();
             $("#class_container").hide();
@@ -315,8 +315,9 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
         });
         $(document).on("change","#id_sub_category",function()
         {
-            $("#id_class").val("");
-            $("#id_type").val("");
+            $('#id_class').html(get_dropdown_with_select(""));
+            $("#id_type").html(get_dropdown_with_select(""));
+
             var id_sub_category=$('#id_sub_category').val();
             $('#class_container').hide();
             $('#type_container').hide();
@@ -332,7 +333,8 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
         });
         $(document).on("change","#id_class",function()
         {
-            $("#id_type").val("");
+            $("#id_type").html(get_dropdown_with_select(""));
+
             var id_class=$('#id_class').val();
             $('#type_container').hide();
             if(id_class>0)
