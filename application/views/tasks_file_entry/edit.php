@@ -270,7 +270,7 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
                             <div class="panel panel-success item_panel">
                                 <div class="panel-heading">
                                     <h4 class="panel-title">
-                                        <a class="external" data-toggle="collapse" data-parent="#accordion" href="#collapse_<?php echo $file_item['id']; ?>"><?php echo '+ '.$file_item['name']; ?></a>
+                                        <a class="external" data-toggle="collapse" href="#collapse_<?php echo $file_item['id']; ?>"><?php echo '+ '.$file_item['name']; ?></a>
                                     </h4>
                                 </div>
                                 <div id="collapse_<?php echo $file_item['id']; ?>" class="panel-collapse collapse">
@@ -301,13 +301,13 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
                                                                 if(substr($file['mime_type'],0,5)=='image')
                                                                 {
                                                                     ?>
-                                                                    <img style="max-width: 250px;" src="<?php echo $location.$file['file_path']; ?>">
+                                                                    <img class="img img-thumbnail img-responsive" style="max-width: 250px;max-height:150px" src="<?php echo $location.$file['file_path']; ?>" title="<?php echo $file['name'];?>">
                                                                 <?php
                                                                 }
                                                                 else
                                                                 {
                                                                     ?>
-                                                                    <a href="<?php echo $location.$file['file_path']; ?>" class="external" target="_blank"><?php echo $file['name']; ?></a>
+                                                                    <a href="<?php echo $location.$file['file_path']; ?>" class="external" target="_blank" title="<?php echo $file['name'];?>"><?php echo $file['name']; ?></a>
                                                                 <?php
                                                                 }
                                                                 ?>

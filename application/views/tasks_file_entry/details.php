@@ -120,7 +120,7 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
                         <div class="panel panel-success item_panel">
                             <div class="panel-heading">
                                 <h4 class="panel-title">
-                                    <a class="external" data-toggle="collapse" data-parent="#accordion" href="#collapse_<?php echo $file_item['id']; ?>"><?php echo '+ '.$file_item['name']; ?></a>
+                                    <a class="external" data-toggle="collapse" href="#collapse_<?php echo $file_item['id']; ?>"><?php echo '+ '.$file_item['name']; ?></a>
                                 </h4>
                             </div>
                             <div id="collapse_<?php echo $file_item['id']; ?>" class="panel-collapse collapse">
@@ -129,9 +129,10 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
                                         <table class="table table-bordered">
                                             <thead>
                                             <tr>
-                                                <th>File Name</th>
-                                                <th>Picture/Thumbnail</th>
-                                                <th>Entry Date</th>
+                                                <th width="8%">Entry Date</th>
+                                                <th width="25%">Picture/Thumbnail</th>
+                                                <th width="20%">Create And Update Info</th>
+
                                                 <th><?php echo $CI->lang->line('LABEL_REMARKS'); ?></th>
                                             </tr>
                                             </thead>
@@ -145,13 +146,13 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
                                             {
                                                 ?>
                                                 <tr>
-                                                    <td><?php echo $file['name']; ?></td>
+                                                    <td><?php echo System_helper::display_date($file['date_entry']); ?></td>
                                                     <td>
                                                         <?php
                                                         if(substr($file['mime_type'],0,5)=='image')
                                                         {
                                                             ?>
-                                                            <img src="<?php echo $location.$file['file_path']; ?>" style="max-width: 250px;max-height:150px">
+                                                            <img class="img img-thumbnail img-responsive" src="<?php echo $location.$file['file_path']; ?>" style="max-width: 250px;max-height:150px" title="<?php echo $file['name'];?>">
                                                         <?php
                                                         }
                                                         else
@@ -166,13 +167,22 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
                                                                 $href_text='Download the '.strtoupper($extension).' File';
                                                             }
                                                             ?>
-                                                            <a href="<?php echo $location.$file['file_path']; ?>" class="btn btn-success external" target="_blank"><?php echo $href_text; ?></a>
+                                                            <a href="<?php echo $location.$file['file_path']; ?>" class="btn btn-success external" target="_blank" title="<?php echo $file['name'];?>"><?php echo $href_text; ?></a>
                                                         <?php
                                                         }
                                                         ?>
                                                     </td>
-                                                    <td><?php echo System_helper::display_date($file['date_entry']); ?></td>
-                                                    <td><?php echo $file['remarks']; ?></td>
+                                                    <td>
+                                                        <b>File Created By:</b><?php echo $users[$file['user_created']]['name'] ?><br/>
+                                                        <b>File Created Time:</b><?php echo System_helper::display_date_time($file['date_created']);?><br/>
+                                                        <?php if($file['user_updated']){?>
+                                                            <b>File Updated By:</b><?php echo $users[$file['user_updated']]['name'] ?><br/>
+                                                            <b>File Updated Time:</b><?php echo System_helper::display_date_time($file['date_updated']);?>
+                                                        <?php } ?>
+
+                                                    </td>
+
+                                                    <td><?php echo nl2br($file['remarks']); ?></td>
                                                 </tr>
                                             <?php
                                             }
