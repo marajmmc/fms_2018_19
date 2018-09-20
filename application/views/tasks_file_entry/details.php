@@ -129,9 +129,9 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
                                         <table class="table table-bordered">
                                             <thead>
                                             <tr>
-                                                <th width="8%">Entry Date</th>
-                                                <th width="25%">Picture/Thumbnail</th>
-                                                <th width="20%">Create And Update Info</th>
+                                                <th width="12%">Entry Date</th>
+                                                <th width="28%">Picture/Thumbnail</th>
+                                                <th width="28%">Create And Update Info</th>
 
                                                 <th><?php echo $CI->lang->line('LABEL_REMARKS'); ?></th>
                                             </tr>
