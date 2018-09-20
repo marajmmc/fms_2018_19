@@ -167,7 +167,7 @@ class Tasks_file_entry extends Root_Controller
         $this->db->where('type.status', $this->config->item('system_status_active'));
         $this->db->where('file_name.status !=', $this->config->item('system_status_delete'));
         $this->db->where('user_info.revision', 1);
-        $this->db->where('assigned_file.user_group_id',$user->user_group);
+        $this->db->where('assigned_file.user_group_id', $user->user_group);
         $this->db->where('assigned_file.revision', 1);
         $this->db->order_by('file_name.id', 'DESC');
         $this->db->order_by('category.ordering');
@@ -274,7 +274,7 @@ class Tasks_file_entry extends Root_Controller
             $data['hc_locations'] = Query_helper::get_info($this->config->item('table_fms_setup_file_hc_location'), 'id value,name text', array(), 0, 0, 'ordering');
 
 
-            $data['title']='Create New '.$this->lang->line('LABEL_FILE_NAME');
+            $data['title'] = 'Create New ' . $this->lang->line('LABEL_FILE_NAME');
             $ajax['status'] = true;
             $ajax['system_content'][] = array("id" => "#system_content", "html" => $this->load->view($this->controller_url . "/add", $data, true));
             if ($this->message)
@@ -330,9 +330,9 @@ class Tasks_file_entry extends Root_Controller
             }
             else
             {
-                System_helper::invalid_try('Edit',$item_id,'Dont have file permission');
-                $ajax['status']=false;
-                $ajax['system_message']='Invalid Try';
+                System_helper::invalid_try('Edit', $item_id, 'Dont have file permission');
+                $ajax['status'] = false;
+                $ajax['system_message'] = 'Invalid Try';
                 $this->json_return($ajax);
             }
         }
@@ -369,7 +369,10 @@ class Tasks_file_entry extends Root_Controller
 
     private function system_save_new_file()
     {
+        $data = $this->input->post('item');
         $user = User_helper::get_user();
+        $time = time();
+
         if (!(isset($this->permissions['action1']) && ($this->permissions['action1'] == 1)))
         {
             $ajax['status'] = false;
@@ -383,22 +386,19 @@ class Tasks_file_entry extends Root_Controller
             $this->json_return($ajax);
         }
 
-        $data = $this->input->post('item');
-        $time = time();
+        $this->db->trans_start(); //DB Transaction Handle START
+
         $data['date_start'] = System_helper::get_time($data['date_start']);
-
-        $this->db->trans_begin(); //DB Transaction Handle START
-
         $data['user_created'] = $user->user_id;
         $data['date_created'] = $time;
         $file_name_id = Query_helper::add($this->config->item('table_fms_setup_file_name'), $data);
         if ($file_name_id === false)
         {
-            $this->db->trans_rollback();
             $ajax['status'] = false;
             $ajax['desk_message'] = $this->lang->line('MSG_SAVED_FAIL');
             $this->json_return($ajax);
         }
+
         $data = array();
         $data['user_created'] = $user->user_id;
         $data['date_created'] = $time;
@@ -413,9 +413,10 @@ class Tasks_file_entry extends Root_Controller
         $data['action1'] = 1;
         Query_helper::add($this->config->item('table_fms_setup_assign_file_user_group'), $data);
 
-        if ($this->db->trans_status() === true)
+        $this->db->trans_complete(); //DB Transaction Handle END
+
+        if ($this->db->trans_status() === TRUE)
         {
-            $this->db->trans_commit();
             $save_and_new = $this->input->post('system_save_new_status');
             $this->message = $this->lang->line('MSG_SAVED_SUCCESS');
             if ($save_and_new == 1)
@@ -424,12 +425,11 @@ class Tasks_file_entry extends Root_Controller
             }
             else
             {
-                $this->system_list();
+                $this->system_edit($file_name_id);
             }
         }
         else
         {
-            $this->db->trans_rollback();
             $ajax['status'] = false;
             $ajax['desk_message'] = $this->lang->line('MSG_SAVED_FAIL');
             $this->json_return($ajax);
@@ -500,7 +500,13 @@ class Tasks_file_entry extends Root_Controller
         $time = time();
         $file_open_time_for_edit = $this->input->post('file_open_time_for_edit');
         $allowed_types = 'gif|jpg|png|doc|docx|pdf|xls|xlsx|ppt|pptx|txt';
-
+        
+        if (!($id > 0))
+        {
+            $ajax['status'] = false;
+            $ajax['system_message'] = 'Invalid Edit ID.';
+            $this->json_return($ajax);
+        }
         if (!(isset($this->permissions['action2']) && ($this->permissions['action2'] == 1)))
         {
             $ajax['status'] = false;
@@ -531,9 +537,9 @@ class Tasks_file_entry extends Root_Controller
             }
             else
             {
-                System_helper::invalid_try('Edit',$id,'Dont have file permission');
-                $ajax['status']=false;
-                $ajax['system_message']='Invalid Try';
+                System_helper::invalid_try('Edit', $id, 'Dont have file permission');
+                $ajax['status'] = false;
+                $ajax['system_message'] = 'Invalid Try';
                 $this->json_return($ajax);
             }
             $this->message = $this->lang->line('MSG_SAVED_SUCCESS');
@@ -759,17 +765,17 @@ class Tasks_file_entry extends Root_Controller
     private function check_validation()
     {
         $this->load->library('form_validation');
-        $this->form_validation->set_rules('item[name]',$this->lang->line('LABEL_NAME'),'required|trim');
-        $this->form_validation->set_rules('item[id_type]',$this->lang->line('LABEL_TYPE_NAME'),'required');
-        $this->form_validation->set_rules('item[id_hc_location]',$this->lang->line('LABEL_HC_LOCATION'),'required');
-        $this->form_validation->set_rules('item[date_start]',$this->lang->line('LABEL_DATE_START'),'required');
-        $this->form_validation->set_rules('item[status_file]',$this->lang->line('LABEL_FILE_STATUS'),'required');
-        $this->form_validation->set_rules('item[employee_id]',$this->lang->line('LABEL_RESPONSIBLE_EMPLOYEE'),'required');
-        $this->form_validation->set_rules('item[id_company]',$this->lang->line('LABEL_COMPANY_NAME'),'required');
-        $this->form_validation->set_rules('item[id_department]',$this->lang->line('LABEL_DEPARTMENT_NAME'),'required');
-        if($this->form_validation->run()==false)
+        $this->form_validation->set_rules('item[name]', $this->lang->line('LABEL_NAME'), 'required|trim');
+        $this->form_validation->set_rules('item[id_type]', $this->lang->line('LABEL_TYPE_NAME'), 'required');
+        $this->form_validation->set_rules('item[id_hc_location]', $this->lang->line('LABEL_HC_LOCATION'), 'required');
+        $this->form_validation->set_rules('item[date_start]', $this->lang->line('LABEL_DATE_START'), 'required');
+        $this->form_validation->set_rules('item[status_file]', $this->lang->line('LABEL_FILE_STATUS'), 'required');
+        $this->form_validation->set_rules('item[employee_id]', $this->lang->line('LABEL_RESPONSIBLE_EMPLOYEE'), 'required');
+        $this->form_validation->set_rules('item[id_company]', $this->lang->line('LABEL_COMPANY_NAME'), 'required');
+        $this->form_validation->set_rules('item[id_department]', $this->lang->line('LABEL_DEPARTMENT_NAME'), 'required');
+        if ($this->form_validation->run() == false)
         {
-            $this->message=validation_errors();
+            $this->message = validation_errors();
             return false;
         }
         return true;

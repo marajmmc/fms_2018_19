@@ -338,7 +338,7 @@ class Setup_assign_file_user_group extends Root_Controller
         else
         {
             $ajax['status'] = false;
-            $ajax['system_message'] = 'You are violating your rules.';
+            $ajax['system_message'] = 'Invalid Edit ID.';
             $this->json_return($ajax);
         }
     }
