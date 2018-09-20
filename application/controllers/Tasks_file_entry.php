@@ -178,6 +178,8 @@ class Tasks_file_entry extends Root_Controller
         $this->db->group_by('file_name.id');
         $this->db->limit($pagesize, $current_records);
         $items = $this->db->get()->result_array();
+//        print_r($items);
+//        exit;
         foreach ($items as &$item)
         {
             $item['date_opening'] = System_helper::display_date($item['date_opening']);
@@ -308,6 +310,12 @@ class Tasks_file_entry extends Root_Controller
             if ($file_permissions['action1'] == 1 || $file_permissions['action2'] == 1 || $file_permissions['action3'] == 1)
             {
                 $data['item'] = $this->get_file_info($item_id);
+                if($data['item']['status']==$this->config->item('system_status_inactive'))
+                {
+                    $ajax['status'] = false;
+                    $ajax['system_message'] = 'This File is In-Active. You can not access this page.';
+                    $this->json_return($ajax);
+                }
                 $data['file_permissions'] = $file_permissions;
                 $data['file_items'] = $this->get_file_items($item_id);
                 $items_file_record=array();
@@ -482,7 +490,7 @@ class Tasks_file_entry extends Root_Controller
 
         $this->db->where('user_info.revision', 1);
         $this->db->where('file_name.id', $file_name_id);
-        $this->db->where('file_name.status', $this->config->item('system_status_active'));
+        $this->db->where('file_name.status !=', $this->config->item('system_status_delete'));
         return $this->db->get()->row_array();
     }
 
@@ -725,6 +733,12 @@ class Tasks_file_entry extends Root_Controller
         {
             $data['file_permissions'] = $file_permissions;
             $data['item'] = $this->get_file_info($item_id);
+            if($data['item']['status']==$this->config->item('system_status_inactive'))
+            {
+                $ajax['status'] = false;
+                $ajax['system_message'] = 'This File is In-Active. You can not access this page.';
+                $this->json_return($ajax);
+            }
             $data['file_items'] = $this->get_file_items($item_id);
             $items_file_record=array();
             foreach($data['file_items'] as $file_item)
