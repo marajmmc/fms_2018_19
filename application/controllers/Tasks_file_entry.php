@@ -310,13 +310,23 @@ class Tasks_file_entry extends Root_Controller
                 $data['item'] = $this->get_file_info($item_id);
                 $data['file_permissions'] = $file_permissions;
                 $data['file_items'] = $this->get_file_items($item_id);
+                $items_file_record=array();
+                foreach($data['file_items'] as $file_item)
+                {
+                    $items_file_record[$file_item['id']]=0;
+                }
                 $results = Query_helper::get_info($this->config->item('table_fms_tasks_digital_file'), '*', array('id_file_name =' . $item_id, 'status ="' . $this->config->item('system_status_active') . '"'));
                 $data['stored_files'] = array();
                 foreach ($results as $result)
                 {
                     $data['stored_files'][$result['id_file_item']][] = $result;
+                    if(isset($items_file_record[$result['id_file_item']]))
+                    {
+                        $items_file_record[$result['id_file_item']]=$items_file_record[$result['id_file_item']]+1;
+                    }
                 }
                 $data['hc_locations'] = Query_helper::get_info($this->config->item('table_fms_setup_file_hc_location'), array('id value', 'name text'), array('status ="' . $this->config->item('system_status_active') . '"'), 0, 0, array('ordering ASC'));
+                $data['items_file_record']=$items_file_record;
                 $data['users'] = System_helper::get_users_info(array());
                 $data['title'] = "Entry Pages For::" . $data['item']['name'];
                 $ajax['status'] = true;

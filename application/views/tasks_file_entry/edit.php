@@ -270,7 +270,7 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
                             <div class="panel panel-success item_panel">
                                 <div class="panel-heading">
                                     <h4 class="panel-title">
-                                        <a class="external" data-toggle="collapse" href="#collapse_<?php echo $file_item['id']; ?>"><?php echo '+ '.$file_item['name']; ?></a>
+                                        <a class="external" data-toggle="collapse" href="#collapse_<?php echo $file_item['id']; ?>"><?php echo '+ '.$file_item['name']. ' ('.$items_file_record[$file_item['id']].' records)'; ?></a>
                                     </h4>
                                 </div>
                                 <div id="collapse_<?php echo $file_item['id']; ?>" class="panel-collapse collapse">
