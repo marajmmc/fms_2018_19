@@ -173,11 +173,11 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
                                                         ?>
                                                     </td>
                                                     <td>
-                                                        <b>File Created By:</b><?php echo $users[$file['user_created']]['name'] ?><br/>
-                                                        <b>File Created Time:</b><?php echo System_helper::display_date_time($file['date_created']);?><br/>
+                                                        <i>File Created By</i><b> <i>:: </i></b><i><?php echo $users[$file['user_created']]['name'] ?></i><br/>
+                                                        <i>File Created Time</i><b> <i>:: </i></b><i><?php echo System_helper::display_date_time($file['date_created']);?></i><br/>
                                                         <?php if($file['user_updated']){?>
-                                                            <b>File Updated By:</b><?php echo $users[$file['user_updated']]['name'] ?><br/>
-                                                            <b>File Updated Time:</b><?php echo System_helper::display_date_time($file['date_updated']);?>
+                                                            <i>File Updated By</i><b> <i>:: </i></b><i><?php echo $users[$file['user_updated']]['name'] ?></i><br/>
+                                                            <i>File Updated Time</i><b> <i>:: </i></b><i><?php echo System_helper::display_date_time($file['date_updated']);?></i>
                                                         <?php } ?>
 
                                                     </td>

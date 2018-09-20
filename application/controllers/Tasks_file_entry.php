@@ -122,49 +122,52 @@ class Tasks_file_entry extends Root_Controller
         $pagesize = $this->input->post('pagesize');
         if (!$pagesize)
         {
-            $pagesize = 40;
+            $pagesize = 100;
         }
         else
         {
             $pagesize = $pagesize * 2;
         }
         $user = User_helper::get_user();
+
+        $inactive_txt = $this->config->item('system_status_inactive');
+
         $this->db->from($this->config->item('table_fms_setup_file_name') . ' file_name');
         $this->db->select('file_name.id,file_name.name file_name,file_name.date_start date_opening,file_name.status_file file_status,file_name.status,file_name.ordering');
 
         $this->db->join($this->config->item('table_fms_setup_assign_file_user_group') . ' assigned_file', 'assigned_file.id_file=file_name.id');
         $this->db->join($this->config->item('table_fms_setup_file_type') . ' type', 'type.id=file_name.id_type');
-        $this->db->select('type.name type_name');
+        $this->db->select("IF( (type.status='{$inactive_txt}'), CONCAT( type.name,' ({$inactive_txt})'), type.name ) AS type_name");
 
         $this->db->join($this->config->item('table_fms_setup_file_class') . ' class', 'class.id=type.id_class');
-        $this->db->select('class.name class_name');
+        $this->db->select("IF( (class.status='{$inactive_txt}'), CONCAT( class.name,' ({$inactive_txt})'), class.name ) AS class_name");
 
         $this->db->join($this->config->item('table_fms_setup_file_sub_category') . ' sub_category', 'sub_category.id=class.id_sub_category');
-        $this->db->select('sub_category.name sub_category_name');
+        $this->db->select("IF( (sub_category.status='{$inactive_txt}'), CONCAT( sub_category.name,' ({$inactive_txt})'), sub_category.name ) AS sub_category_name");
 
         $this->db->join($this->config->item('table_fms_setup_file_category') . ' category', 'category.id=sub_category.id_category');
-        $this->db->select('category.name category_name');
+        $this->db->select("IF( (category.status='{$inactive_txt}'), CONCAT( category.name,' ({$inactive_txt})'), category.name ) AS category_name");
 
         $this->db->join($this->config->item('table_fms_setup_file_hc_location') . ' hc_location', 'hc_location.id=file_name.id_hc_location');
-        $this->db->select('hc_location.name hc_location');
+        $this->db->select("IF( (hc_location.status='{$inactive_txt}'), CONCAT( hc_location.name,' ({$inactive_txt})'), hc_location.name ) AS hc_location");
 
         $this->db->join($this->config->item('table_login_setup_user_info') . ' user_info', 'user_info.user_id=file_name.employee_id', 'left');
         $this->db->join($this->config->item('table_login_setup_user') . ' user', 'user.id=user_info.user_id');
         $this->db->select('CONCAT(user_info.name," - ",user.employee_id) responsible_employee');
 
         $this->db->join($this->config->item('table_login_setup_department') . ' department', 'department.id=file_name.id_department', 'left');
-        $this->db->select('department.name department_name');
+        $this->db->select("IF( (department.status='{$inactive_txt}'), CONCAT( department.name,' ({$inactive_txt})'), department.name ) AS department_name");
 
         $this->db->join($this->config->item('table_login_setup_company') . ' company', 'company.id=file_name.id_company', 'left');
-        $this->db->select('company.full_name company_name');
+        $this->db->select("IF( (company.status='{$inactive_txt}'), CONCAT( company.full_name,' ({$inactive_txt})'), company.full_name ) AS company_name");
 
         $this->db->join($this->config->item('table_fms_tasks_digital_file') . ' digital_file', 'digital_file.id_file_name=file_name.id', 'left');
         $this->db->select('SUM(CASE WHEN digital_file.status="' . $this->config->item('system_status_active') . '" AND SUBSTRING(digital_file.mime_type,1,5)="image" THEN 1 ELSE 0 END) number_of_page');
 
-        $this->db->where('category.status', $this->config->item('system_status_active'));
-        $this->db->where('sub_category.status', $this->config->item('system_status_active'));
-        $this->db->where('class.status', $this->config->item('system_status_active'));
-        $this->db->where('type.status', $this->config->item('system_status_active'));
+        $this->db->where('category.status !=', $this->config->item('system_status_delete'));
+        $this->db->where('sub_category.status !=', $this->config->item('system_status_delete'));
+        $this->db->where('class.status !=', $this->config->item('system_status_delete'));
+        $this->db->where('type.status !=', $this->config->item('system_status_delete'));
         $this->db->where('file_name.status !=', $this->config->item('system_status_delete'));
         $this->db->where('user_info.revision', 1);
         $this->db->where('assigned_file.user_group_id', $user->user_group);
@@ -178,8 +181,6 @@ class Tasks_file_entry extends Root_Controller
         $this->db->group_by('file_name.id');
         $this->db->limit($pagesize, $current_records);
         $items = $this->db->get()->result_array();
-//        print_r($items);
-//        exit;
         foreach ($items as &$item)
         {
             $item['date_opening'] = System_helper::display_date($item['date_opening']);
@@ -198,6 +199,7 @@ class Tasks_file_entry extends Root_Controller
             $this->db->join($this->config->item('table_fms_setup_assign_file_user_group') . ' file_user_group', 'file_user_group.id_file = file_name.id');
 
             $this->db->join($this->config->item('table_fms_setup_file_type') . ' file_type', 'file_type.id = file_name.id_type');
+
             $this->db->select('file_type.id type_id, file_type.name type_name');
 
             $this->db->join($this->config->item('table_fms_setup_file_class') . ' file_class', 'file_class.id = file_type.id_class');
@@ -310,12 +312,6 @@ class Tasks_file_entry extends Root_Controller
             if ($file_permissions['action1'] == 1 || $file_permissions['action2'] == 1 || $file_permissions['action3'] == 1)
             {
                 $data['item'] = $this->get_file_info($item_id);
-                if($data['item']['status']==$this->config->item('system_status_inactive'))
-                {
-                    $ajax['status'] = false;
-                    $ajax['system_message'] = 'This File is In-Active. You can not access this page.';
-                    $this->json_return($ajax);
-                }
                 $data['file_permissions'] = $file_permissions;
                 $data['file_items'] = $this->get_file_items($item_id);
                 $items_file_record=array();
@@ -323,7 +319,7 @@ class Tasks_file_entry extends Root_Controller
                 {
                     $items_file_record[$file_item['id']]=0;
                 }
-                $results = Query_helper::get_info($this->config->item('table_fms_tasks_digital_file'), '*', array('id_file_name =' . $item_id, 'status ="' . $this->config->item('system_status_active') . '"'));
+                $results = Query_helper::get_info($this->config->item('table_fms_tasks_digital_file'), '*', array('id_file_name =' . $item_id, 'status !="' . $this->config->item('system_status_delete') . '"'));
                 $data['stored_files'] = array();
                 foreach ($results as $result)
                 {
@@ -333,7 +329,7 @@ class Tasks_file_entry extends Root_Controller
                         $items_file_record[$result['id_file_item']]=$items_file_record[$result['id_file_item']]+1;
                     }
                 }
-                $data['hc_locations'] = Query_helper::get_info($this->config->item('table_fms_setup_file_hc_location'), array('id value', 'name text'), array('status ="' . $this->config->item('system_status_active') . '"'), 0, 0, array('ordering ASC'));
+                $data['hc_locations'] = Query_helper::get_info($this->config->item('table_fms_setup_file_hc_location'), array('id value', 'name text'), array('status !="' . $this->config->item('system_status_delete') . '"'), 0, 0, array('ordering ASC'));
                 $data['items_file_record']=$items_file_record;
                 $data['users'] = System_helper::get_users_info(array());
                 $data['title'] = "Entry Pages For::" . $data['item']['name'];
@@ -501,6 +497,8 @@ class Tasks_file_entry extends Root_Controller
         $this->db->join($this->config->item('table_fms_setup_file_type') . ' file_type', 'file_type.id=file_item.id_type');
         $this->db->join($this->config->item('table_fms_setup_file_name') . ' file_name', 'file_name.id_type=file_type.id');
         $this->db->where('file_name.id', $file_id);
+        $this->db->where('file_item.status !=', $this->config->item('system_status_delete'));
+        $this->db->where('file_name.status !=', $this->config->item('system_status_delete'));
         $this->db->order_by('file_item.ordering');
         $results = $this->db->get()->result_array();
         return $results;
@@ -733,19 +731,13 @@ class Tasks_file_entry extends Root_Controller
         {
             $data['file_permissions'] = $file_permissions;
             $data['item'] = $this->get_file_info($item_id);
-            if($data['item']['status']==$this->config->item('system_status_inactive'))
-            {
-                $ajax['status'] = false;
-                $ajax['system_message'] = 'This File is In-Active. You can not access this page.';
-                $this->json_return($ajax);
-            }
             $data['file_items'] = $this->get_file_items($item_id);
             $items_file_record=array();
             foreach($data['file_items'] as $file_item)
             {
                 $items_file_record[$file_item['id']]=0;
             }
-            $results = Query_helper::get_info($this->config->item('table_fms_tasks_digital_file'), '*', array('id_file_name =' . $item_id, 'status ="' . $this->config->item('system_status_active') . '"'));
+            $results = Query_helper::get_info($this->config->item('table_fms_tasks_digital_file'), '*', array('id_file_name =' . $item_id, 'status !="' . $this->config->item('system_status_delete') . '"'));
             $data['stored_files'] = array();
             foreach ($results as $result)
             {
