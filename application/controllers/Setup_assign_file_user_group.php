@@ -119,7 +119,7 @@ class Setup_assign_file_user_group extends Root_Controller
         $pagesize = $this->input->post('pagesize');
         if (!$pagesize)
         {
-            $pagesize = 40;
+            $pagesize = 100;
         }
         else
         {

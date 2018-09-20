@@ -118,30 +118,30 @@ class Setup_file_item extends Root_Controller
         $pagesize = $this->input->post('pagesize');
         if (!$pagesize)
         {
-            $pagesize = 40;
+            $pagesize = 100;
         }
         else
         {
             $pagesize = $pagesize * 2;
         }
+        $inactive_txt = $this->config->item('system_status_inactive'); // Just a variable for In-active text
 
         $this->db->from($this->config->item('table_fms_setup_file_item') . ' item');
         $this->db->select('item.*');
 
         $this->db->join($this->config->item('table_fms_setup_file_type') . ' type', 'item.id_type=type.id', 'INNER');
-        $this->db->select('type.name type_name');
+        $this->db->select("IF( (type.status='{$inactive_txt}'), CONCAT( type.name,' ({$inactive_txt})'), type.name ) AS type_name");
 
         $this->db->join($this->config->item('table_fms_setup_file_class') . ' class', 'type.id_class=class.id', 'INNER');
-        $this->db->select('class.name class_name');
+        $this->db->select("IF( (class.status='{$inactive_txt}'), CONCAT( class.name,' ({$inactive_txt})'), class.name ) AS class_name");
 
         $this->db->join($this->config->item('table_fms_setup_file_sub_category') . ' sub_category', 'class.id_sub_category=sub_category.id', 'INNER');
-        $this->db->select('sub_category.name sub_category_name');
+        $this->db->select("IF( (sub_category.status='{$inactive_txt}'), CONCAT( sub_category.name,' ({$inactive_txt})'), sub_category.name ) AS sub_category_name");
 
         $this->db->join($this->config->item('table_fms_setup_file_category') . ' category', 'sub_category.id_category=category.id', 'INNER');
-        $this->db->select('category.name category_name');
+        $this->db->select("IF( (category.status='{$inactive_txt}'), CONCAT( category.name,' ({$inactive_txt})'), category.name ) AS category_name");
 
         $this->db->where('item.status !=', $this->config->item('system_status_delete'));
-
         $this->db->order_by('category.ordering');
         $this->db->order_by('sub_category.ordering');
         $this->db->order_by('class.ordering');
@@ -220,16 +220,22 @@ class Setup_file_item extends Root_Controller
             $data['item'] = $this->db->get()->row_array();
             if (!$data['item'])
             {
-                System_helper::invalid_try('Edit', $item_id, 'Edit Non Exists');
+                System_helper::invalid_try('Edit', $item_id, 'Edit Not Exists');
                 $ajax['status'] = false;
                 $ajax['system_message'] = 'Invalid Try.';
                 $this->json_return($ajax);
             }
 
-            $data['categories'] = Query_helper::get_info($this->config->item('table_fms_setup_file_category'), array('id value', 'name text'), array('status ="' . $this->config->item('system_status_active') . '"'), 0, 0, array('ordering ASC'));
-            $data['sub_categories'] = Query_helper::get_info($this->config->item('table_fms_setup_file_sub_category'), array('id value', 'name text'), array('id_category=' . $data['item']['id_category'], 'status ="' . $this->config->item('system_status_active') . '"'), 0, 0, array('ordering ASC'));
-            $data['classes'] = Query_helper::get_info($this->config->item('table_fms_setup_file_class'), array('id value', 'name text'), array('id_sub_category=' . $data['item']['id_sub_category'], 'status ="' . $this->config->item('system_status_active') . '"'), 0, 0, array('ordering ASC'));
-            $data['types'] = Query_helper::get_info($this->config->item('table_fms_setup_file_type'), array('id value', 'name text'), array('id_class=' . $data['item']['id_class'], 'status ="' . $this->config->item('system_status_active') . '"'), 0, 0, array('ordering ASC'));
+            $inactive_txt = $this->config->item('system_status_inactive'); // Just a variable for In-active text
+            $cat_name_field = "IF( ({$this->config->item('table_fms_setup_file_category')}.status='{$inactive_txt}'), CONCAT( {$this->config->item('table_fms_setup_file_category')}.name,' ({$inactive_txt})'), {$this->config->item('table_fms_setup_file_category')}.name ) AS text";
+            $subcat_name_field = "IF( ({$this->config->item('table_fms_setup_file_sub_category')}.status='{$inactive_txt}'), CONCAT( {$this->config->item('table_fms_setup_file_sub_category')}.name,' ({$inactive_txt})'), {$this->config->item('table_fms_setup_file_sub_category')}.name ) AS text";
+            $class_name_field = "IF( ({$this->config->item('table_fms_setup_file_class')}.status='{$inactive_txt}'), CONCAT( {$this->config->item('table_fms_setup_file_class')}.name,' ({$inactive_txt})'), {$this->config->item('table_fms_setup_file_class')}.name ) AS text";
+            $type_name_field = "IF( ({$this->config->item('table_fms_setup_file_type')}.status='{$inactive_txt}'), CONCAT( {$this->config->item('table_fms_setup_file_type')}.name,' ({$inactive_txt})'), {$this->config->item('table_fms_setup_file_type')}.name ) AS text";
+
+            $data['categories'] = Query_helper::get_info($this->config->item('table_fms_setup_file_category'), array('id value', $cat_name_field), array(), 0, 0, array('ordering ASC'));
+            $data['sub_categories'] = Query_helper::get_info($this->config->item('table_fms_setup_file_sub_category'), array('id value', $subcat_name_field), array('id_category=' . $data['item']['id_category']), 0, 0, array('ordering ASC'));
+            $data['classes'] = Query_helper::get_info($this->config->item('table_fms_setup_file_class'), array('id value', $class_name_field), array('id_sub_category=' . $data['item']['id_sub_category']), 0, 0, array('ordering ASC'));
+            $data['types'] = Query_helper::get_info($this->config->item('table_fms_setup_file_type'), array('id value', $type_name_field), array('id_class=' . $data['item']['id_class']), 0, 0, array('ordering ASC'));
 
             $data['title'] = 'Edit Item (' . $data['item']['name'] . ')';
             $ajax['status'] = true;
@@ -266,7 +272,7 @@ class Setup_file_item extends Root_Controller
             $result = Query_helper::get_info($this->config->item('table_fms_setup_file_item'), '*', array('id =' . $id, 'status != "' . $this->config->item('system_status_delete') . '"'), 1);
             if (!$result)
             {
-                System_helper::invalid_try('Update', $id, 'Update Non Exists');
+                System_helper::invalid_try('Update', $id, 'Update Not Exists');
                 $ajax['status'] = false;
                 $ajax['system_message'] = 'Invalid Item.';
                 $this->json_return($ajax);

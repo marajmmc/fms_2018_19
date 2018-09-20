@@ -115,7 +115,7 @@ class Setup_file_category extends Root_Controller
         $pagesize = $this->input->post('pagesize');
         if (!$pagesize)
         {
-            $pagesize = 40;
+            $pagesize = 100;
         }
         else
         {
@@ -169,7 +169,7 @@ class Setup_file_category extends Root_Controller
             $data['item'] = Query_helper::get_info($this->config->item('table_fms_setup_file_category'), array('*'), array('id =' . $item_id, 'status !="' . $this->config->item('system_status_delete') . '"'), 1, 0, array('id ASC'));
             if (!$data['item'])
             {
-                System_helper::invalid_try('Edit Not Exists', $item_id);
+                System_helper::invalid_try('Edit', $item_id, 'Edit Not Exists');
                 $ajax['status'] = false;
                 $ajax['system_message'] = 'Invalid Category.';
                 $this->json_return($ajax);
@@ -212,7 +212,7 @@ class Setup_file_category extends Root_Controller
             $result = Query_helper::get_info($this->config->item('table_fms_setup_file_category'), '*', array('id =' . $id, 'status != "' . $this->config->item('system_status_delete') . '"'), 1);
             if (!$result)
             {
-                System_helper::invalid_try('Update Not Exists', $id);
+                System_helper::invalid_try('Update', $id, 'Update Not Exists');
                 $ajax['status'] = false;
                 $ajax['system_message'] = 'Invalid Item.';
                 $this->json_return($ajax);

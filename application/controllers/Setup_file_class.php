@@ -116,18 +116,20 @@ class Setup_file_class extends Root_Controller
         $pagesize = $this->input->post('pagesize');
         if (!$pagesize)
         {
-            $pagesize = 40;
+            $pagesize = 100;
         }
         else
         {
             $pagesize = $pagesize * 2;
         }
+        $inactive_txt = $this->config->item('system_status_inactive'); // Just a variable for In-active text
+
         $this->db->from($this->config->item('table_fms_setup_file_class') . ' file_class');
         $this->db->select('file_class.*');
         $this->db->join($this->config->item('table_fms_setup_file_sub_category') . ' file_sub_category', 'file_sub_category.id = file_class.id_sub_category');
-        $this->db->select('file_sub_category.name sub_category_name');
+        $this->db->select("IF( (file_sub_category.status='{$inactive_txt}'), CONCAT( file_sub_category.name,' ({$inactive_txt})'), file_sub_category.name ) AS sub_category_name");
         $this->db->join($this->config->item('table_fms_setup_file_category') . ' file_category', 'file_category.id = file_sub_category.id_category');
-        $this->db->select('file_category.name category_name');
+        $this->db->select("IF( (file_category.status='{$inactive_txt}'), CONCAT( file_category.name,' ({$inactive_txt})'), file_category.name ) AS category_name");
         $this->db->order_by('file_category.ordering');
         $this->db->order_by('file_sub_category.ordering');
         $this->db->order_by('file_class.ordering');
@@ -191,14 +193,18 @@ class Setup_file_class extends Root_Controller
             $data['item'] = $this->db->get()->row_array();
             if (!$data['item'])
             {
-                System_helper::invalid_try('Edit Not Exists', $item_id);
+                System_helper::invalid_try('Edit', $item_id, 'Edit Not Exists');
                 $ajax['status'] = false;
                 $ajax['system_message'] = 'Invalid File Class.';
                 $this->json_return($ajax);
             }
 
-            $data['categories'] = Query_helper::get_info($this->config->item('table_fms_setup_file_category'), array('id', 'name'), array('status ="' . $this->config->item('system_status_active') . '"'));
-            $data['sub_categories'] = Query_helper::get_info($this->config->item('table_fms_setup_file_sub_category'), array('id', 'name'), array('id_category=' . $data['item']['id_category'], 'status ="' . $this->config->item('system_status_active') . '"'));
+            $inactive_txt = $this->config->item('system_status_inactive'); // Just a variable for In-active text
+            $cat_name_field = "IF( ({$this->config->item('table_fms_setup_file_category')}.status='{$inactive_txt}'), CONCAT( {$this->config->item('table_fms_setup_file_category')}.name,' ({$inactive_txt})'), {$this->config->item('table_fms_setup_file_category')}.name ) AS name";
+            $subcat_name_field = "IF( ({$this->config->item('table_fms_setup_file_sub_category')}.status='{$inactive_txt}'), CONCAT( {$this->config->item('table_fms_setup_file_sub_category')}.name,' ({$inactive_txt})'), {$this->config->item('table_fms_setup_file_sub_category')}.name ) AS name";
+
+            $data['categories'] = Query_helper::get_info($this->config->item('table_fms_setup_file_category'), array('id', $cat_name_field), array());
+            $data['sub_categories'] = Query_helper::get_info($this->config->item('table_fms_setup_file_sub_category'), array('id', $subcat_name_field), array('id_category=' . $data['item']['id_category']));
 
             $data['title'] = "Edit File Class :: " . $data['item']['name'];
             $ajax['status'] = true;
@@ -237,7 +243,7 @@ class Setup_file_class extends Root_Controller
             $result = Query_helper::get_info($this->config->item('table_fms_setup_file_class'), '*', array('id =' . $id, 'status != "' . $this->config->item('system_status_delete') . '"'), 1);
             if (!$result)
             {
-                System_helper::invalid_try('Update Not Exists', $id);
+                System_helper::invalid_try('Update', $id, 'Update Not Exists');
                 $ajax['status'] = false;
                 $ajax['system_message'] = 'Invalid Item.';
                 $this->json_return($ajax);

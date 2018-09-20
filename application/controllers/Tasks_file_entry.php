@@ -518,7 +518,7 @@ class Tasks_file_entry extends Root_Controller
         $time = time();
         $file_open_time_for_edit = $this->input->post('file_open_time_for_edit');
         $allowed_types = 'gif|jpg|png|doc|docx|pdf|xls|xlsx|ppt|pptx|txt';
-        
+
         if (!($id > 0))
         {
             $ajax['status'] = false;
