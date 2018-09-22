@@ -44,40 +44,54 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
             <table class="table table-bordered table-responsive system_table_details_view">
                 <thead>
                     <tr>
-                        <th class="widget-header header_caption"><label class="control-label pull-right"><?php echo $CI->lang->line('LABEL_FILE_NAME'); ?></label></th>
-                        <th class=""><label class="control-label"><?php echo $item['name'] ?></label></th>
                         <th class="widget-header header_caption"><label class="control-label pull-right"><?php echo $CI->lang->line('LABEL_CATEGORY_NAME'); ?></label></th>
                         <th class=" header_value"><label class="control-label"><?php echo $item['category_name'] ?></label></th>
+                        <th class="widget-header header_caption"><label class="control-label pull-right"><?php echo $CI->lang->line('LABEL_FILE_NAME'); ?></label></th>
+                        <th class=""><label class="control-label"><?php echo $item['name'] ?></label></th>
                     </tr>
                     <tr>
-                        <th class="widget-header header_caption"><label class="control-label pull-right"><?php echo $CI->lang->line('LABEL_RESPONSIBLE_EMPLOYEE'); ?></label></th>
-                        <th class=""><label class="control-label"><?php echo $item['responsible_employee'] ?></label></th>
                         <th class="widget-header header_caption"><label class="control-label pull-right"><?php echo $CI->lang->line('LABEL_SUB_CATEGORY_NAME'); ?></label></th>
                         <th class=" header_value"><label class="control-label"><?php echo $item['sub_category_name'] ?></label></th>
-                    </tr>
-                    <tr>
-                        <th class="widget-header header_caption"><label class="control-label pull-right"><?php echo $CI->lang->line('LABEL_HC_LOCATION'); ?></label></th>
-                        <th class=""><label class="control-label"><?php echo $item['hc_location'] ?></label></th>
-                        <th class="widget-header header_caption"><label class="control-label pull-right"><?php echo $CI->lang->line('LABEL_CLASS_NAME'); ?></label></th>
-                        <th class=" header_value"><label class="control-label"><?php echo $item['class_name'] ?></label></th>
-                    </tr>
-                    <tr>
                         <th class="widget-header header_caption"><label class="control-label pull-right"><?php echo $CI->lang->line('LABEL_DATE_OPENING'); ?></label></th>
                         <th class=""><label class="control-label"><?php echo System_helper::display_date($item['date_start']); ?></label></th>
+                    </tr>
+                    <tr>
+                        <th class="widget-header header_caption"><label class="control-label pull-right"><?php echo $CI->lang->line('LABEL_CLASS_NAME'); ?></label></th>
+                        <th class=" header_value"><label class="control-label"><?php echo $item['class_name'] ?></label></th>
+                        <th class="widget-header header_caption"><label class="control-label pull-right"><?php echo $CI->lang->line('LABEL_RESPONSIBLE_EMPLOYEE'); ?></label></th>
+                        <th class=""><label class="control-label"><?php echo $item['responsible_employee'] ?></label></th>
+                    </tr>
+                    <tr>
                         <th class="widget-header header_caption"><label class="control-label pull-right"><?php echo $CI->lang->line('LABEL_TYPE_NAME'); ?></label></th>
                         <th class=" header_value"><label class="control-label"><?php echo $item['type_name'] ?></label></th>
+                        <th class="widget-header header_caption"><label class="control-label pull-right"><?php echo $CI->lang->line('LABEL_HC_LOCATION'); ?></label></th>
+                        <th class=""><label class="control-label"><?php echo $item['hc_location'] ?></label></th>
                     </tr>
                     <tr>
-                        <th class="widget-header header_caption"><label class="control-label pull-right"><?php echo $CI->lang->line('LABEL_FILE_STATUS'); ?></label></th>
-                        <th class=""><label class="control-label"><?php echo $item['status_file']; ?></label></th>
-                        <th class="widget-header header_caption"><label class="control-label pull-right"><?php echo $CI->lang->line('LABEL_COMPANY_NAME'); ?></label></th>
-                        <th class=" header_value"><label class="control-label"><?php echo $item['company_name'] ?></label></th>
-                    </tr>
-                    <tr>
+                        <th class="widget-header header_caption"></th>
+                        <th></th>
                         <th class="widget-header header_caption"><label class="control-label pull-right"><?php echo $CI->lang->line('LABEL_NUMBER_OF_PAGE'); ?></label></th>
                         <th class=""><label class="control-label"><?php echo $item['number_of_page'] ?></label></th>
+
+                    </tr>
+                    <tr>
+                        <th class="widget-header header_caption"></th>
+                        <th></th>
+                        <th class="widget-header header_caption"><label class="control-label pull-right"><?php echo $CI->lang->line('LABEL_FILE_STATUS'); ?></label></th>
+                        <th class=""><label class="control-label"><?php echo $item['status_file']; ?></label></th>
+                    </tr>
+                    <tr>
+                        <th class="widget-header header_caption"></th>
+                        <th></th>
                         <th class="widget-header header_caption"><label class="control-label pull-right"><?php echo $CI->lang->line('LABEL_DEPARTMENT_NAME'); ?></label></th>
                         <th class=" header_value"><label class="control-label"><?php echo $item['department_name'] ?></label></th>
+                    </tr>
+                    <tr>
+                        <th class="widget-header header_caption"></th>
+                        <th></th>
+                        <th class="widget-header header_caption"><label class="control-label pull-right"><?php echo $CI->lang->line('LABEL_COMPANY_NAME'); ?></label></th>
+                        <th class=" header_value"><label class="control-label"><?php echo $item['company_name'] ?></label></th>
+
                     </tr>
                     <tr>
                         <th class="widget-header header_caption"><label class="control-label pull-right">File Created By</label></th>
@@ -123,15 +137,15 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
                                     <a class="external" data-toggle="collapse" href="#collapse_<?php echo $file_item['id']; ?>"><?php echo '+ '.$file_item['name']. ' ('.$items_file_record[$file_item['id']].' records)'; ?></a>
                                 </h4>
                             </div>
-                            <div id="collapse_<?php echo $file_item['id']; ?>" class="panel-collapse collapse">
+                            <div id="collapse_<?php echo $file_item['id']; ?>" class="panel-collapse collapse <?php if($items_file_record[$file_item['id']]>0){echo 'in';}?>">
                                 <div class="panel-body">
                                     <div style="overflow-x: auto;" class="row show-grid">
                                         <table class="table table-bordered">
                                             <thead>
                                             <tr>
-                                                <th width="12%">Entry Date</th>
-                                                <th width="28%">Picture/Thumbnail</th>
-                                                <th width="28%">Create And Update Info</th>
+                                                <th width="110">Entry Date</th>
+                                                <th width="280">Picture/Thumbnail</th>
+                                                <th width="350">Create And Update Info</th>
 
                                                 <th><?php echo $CI->lang->line('LABEL_REMARKS'); ?></th>
                                             </tr>
@@ -152,7 +166,9 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
                                                         if(substr($file['mime_type'],0,5)=='image')
                                                         {
                                                             ?>
-                                                            <img class="img img-thumbnail img-responsive" src="<?php echo $location.$file['file_path']; ?>" style="max-width: 250px;max-height:150px" title="<?php echo $file['name'];?>">
+                                                            <a href="<?php echo $location.$file['file_path']; ?>" class="external" target="_blank"><img class="img img-thumbnail img-responsive" style="max-width: 250px;max-height:150px" src="<?php echo $location.$file['file_path']; ?>" title="<?php echo $file['name']; ?>"></a>
+
+<!--                                                            <img class="img img-thumbnail img-responsive" src="--><?php //echo $location.$file['file_path']; ?><!--" style="max-width: 250px;max-height:150px" title="--><?php //echo $file['name'];?><!--">-->
                                                         <?php
                                                         }
                                                         else

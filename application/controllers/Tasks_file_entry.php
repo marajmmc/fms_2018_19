@@ -14,7 +14,6 @@ class Tasks_file_entry extends Root_Controller
         $this->permissions = User_helper::get_permission(get_class($this));
         $this->controller_url = strtolower(get_class($this));
     }
-
     public function index($action = "list", $id = 0)
     {
         if ($action == 'list')
@@ -58,7 +57,6 @@ class Tasks_file_entry extends Root_Controller
             $this->system_list();
         }
     }
-
     private function get_preference_headers($method)
     {
         if ($method == 'list')
@@ -86,7 +84,6 @@ class Tasks_file_entry extends Root_Controller
 
         return $data;
     }
-
     private function system_list()
     {
         $user = User_helper::get_user();
@@ -111,7 +108,6 @@ class Tasks_file_entry extends Root_Controller
             $this->json_return($ajax);
         }
     }
-
     private function system_get_items()
     {
         $current_records = $this->input->post('total_records');
@@ -187,7 +183,6 @@ class Tasks_file_entry extends Root_Controller
         }
         $this->json_return($items);
     }
-
     private function system_add()
     {
         if (isset($this->permissions['action1']) && ($this->permissions['action1'] == 1))
@@ -295,7 +290,6 @@ class Tasks_file_entry extends Root_Controller
             $this->json_return($ajax);
         }
     }
-
     private function system_edit($id)
     {
         if ((isset($this->permissions['action2']) && ($this->permissions['action2'] == 1)))
@@ -357,7 +351,6 @@ class Tasks_file_entry extends Root_Controller
             $this->json_return($ajax);
         }
     }
-
     private function get_file_permission($file_name_id)
     {
         $user = User_helper::get_user();
@@ -380,7 +373,6 @@ class Tasks_file_entry extends Root_Controller
         }
         return $actions;
     }
-
     private function system_save_new_file()
     {
         $data = $this->input->post('item');
@@ -449,7 +441,6 @@ class Tasks_file_entry extends Root_Controller
             $this->json_return($ajax);
         }
     }
-
     private function get_file_info($file_name_id)
     {
         $this->db->from($this->config->item('table_fms_setup_file_name') . ' file_name');
@@ -489,7 +480,6 @@ class Tasks_file_entry extends Root_Controller
         $this->db->where('file_name.status !=', $this->config->item('system_status_delete'));
         return $this->db->get()->row_array();
     }
-
     private function get_file_items($file_id)
     {
         $this->db->from($this->config->item('table_fms_setup_file_item') . ' file_item');
@@ -503,7 +493,6 @@ class Tasks_file_entry extends Root_Controller
         $results = $this->db->get()->result_array();
         return $results;
     }
-
     private function system_save()
     {
         $id = $this->input->post('id');
@@ -571,10 +560,6 @@ class Tasks_file_entry extends Root_Controller
             {
                 $time_last_saved = $result['date_updated'];
             }
-//            echo $time_last_saved;
-//            echo '<br/>';
-//            echo $file_open_time_for_edit;
-//            exit;
             if ($file_open_time_for_edit < $time_last_saved)
             {
                 $this->message = 'This file already saved by another person while you editing.<br>Please try again.';
@@ -719,7 +704,6 @@ class Tasks_file_entry extends Root_Controller
             $this->json_return($ajax);
         }
     }
-
     private function system_details($id)
     {
         if ($id > 0)
@@ -770,7 +754,6 @@ class Tasks_file_entry extends Root_Controller
             $this->json_return($ajax);
         }
     }
-
     private function system_set_preference()
     {
         $user = User_helper::get_user();
@@ -791,7 +774,6 @@ class Tasks_file_entry extends Root_Controller
             $this->json_return($ajax);
         }
     }
-
     private function check_validation()
     {
         $this->load->library('form_validation');
