@@ -571,7 +571,11 @@ class Tasks_file_entry extends Root_Controller
             {
                 $time_last_saved = $result['date_updated'];
             }
-            if ($file_open_time_for_edit <= $time_last_saved)
+//            echo $time_last_saved;
+//            echo '<br/>';
+//            echo $file_open_time_for_edit;
+//            exit;
+            if ($file_open_time_for_edit < $time_last_saved)
             {
                 $this->message = 'This file already saved by another person while you editing.<br>Please try again.';
                 $this->system_edit($id);
