@@ -620,8 +620,8 @@ class Tasks_file_entry extends Root_Controller
                     {
                         if (isset($uploaded_files['file_old_' . $file['id']]))
                         {
-                            $data['name'] = $uploaded_files['file_old_' . $file['id']]['info']['file_name'];
-                            $data['file_path'] = $this->config->item('system_folder_upload') . '/' . $id . '/' . $uploaded_files['file_old_' . $file['id']]['info']['file_name'];
+                            $data['file_name'] = $uploaded_files['file_old_' . $file['id']]['info']['file_name'];
+                            $data['file_location'] = $this->config->item('system_folder_upload') . '/' . $id . '/' . $uploaded_files['file_old_' . $file['id']]['info']['file_name'];
                             $data['mime_type'] = $uploaded_files['file_old_' . $file['id']]['info']['file_type'];
                         }
                         if ($file['remarks'] != $items_old[$file['id']]['remarks'])
@@ -651,8 +651,8 @@ class Tasks_file_entry extends Root_Controller
                 {
                     foreach ($items_new as $key => $data)
                     {
-                        $data['name'] = 'no_image.jpg';
-                        $data['file_path'] = 'images/no_image.jpg';
+                        $data['file_name'] = 'no_image.jpg';
+                        $data['file_location'] = 'images/no_image.jpg';
                         $data['id_file_name'] = $id;
                         $data['mime_type'] = 'image/jpeg';
                         $data['date_entry'] = System_helper::get_time($data['date_entry']);
@@ -661,8 +661,8 @@ class Tasks_file_entry extends Root_Controller
                         $data['user_created'] = $user->user_id;
                         if (isset($uploaded_files['file_new_' . $key]))
                         {
-                            $data['name'] = $uploaded_files['file_new_' . $key]['info']['file_name'];
-                            $data['file_path'] = $this->config->item('system_folder_upload') . '/' . $id . '/' . $uploaded_files['file_new_' . $key]['info']['file_name'];
+                            $data['file_name'] = $uploaded_files['file_new_' . $key]['info']['file_name'];
+                            $data['file_location'] = $this->config->item('system_folder_upload') . '/' . $id . '/' . $uploaded_files['file_new_' . $key]['info']['file_name'];
                             $data['mime_type'] = $uploaded_files['file_new_' . $key]['info']['file_type'];
                         }
                         Query_helper::add($this->config->item('table_fms_tasks_digital_file'), $data);

@@ -166,12 +166,12 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
                                                         if(substr($file['mime_type'],0,5)=='image')
                                                         {
                                                             ?>
-                                                            <a href="<?php echo $location.$file['file_path']; ?>" class="external" target="_blank"><img class="img img-thumbnail img-responsive" style="max-width: 250px;max-height:150px" src="<?php echo $location.$file['file_path']; ?>" title="<?php echo $file['name']; ?>"></a>
+                                                            <a href="<?php echo $location.$file['file_location']; ?>" class="external" target="_blank"><img class="img img-thumbnail img-responsive" style="max-width: 250px;max-height:150px" src="<?php echo $location.$file['file_location']; ?>" title="<?php echo $file['file_name']; ?>"></a>
                                                         <?php
                                                         }
                                                         else
                                                         {
-                                                            $extension=pathinfo($file['name'],PATHINFO_EXTENSION);
+                                                            $extension=pathinfo($file['file_name'],PATHINFO_EXTENSION);
                                                             if(strtolower($extension)=='pdf')
                                                             {
                                                                 $href_text='Read the PDF File';
@@ -181,7 +181,7 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
                                                                 $href_text='Download the '.strtoupper($extension).' File';
                                                             }
                                                             ?>
-                                                            <a href="<?php echo $location.$file['file_path']; ?>" class="btn btn-success external" target="_blank" title="<?php echo $file['name'];?>"><?php echo $href_text; ?></a>
+                                                            <a href="<?php echo $location.$file['file_location']; ?>" class="btn btn-success external" target="_blank" title="<?php echo $file['file_name'];?>"><?php echo $href_text; ?></a>
                                                         <?php
                                                         }
                                                         ?>

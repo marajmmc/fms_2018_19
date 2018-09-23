@@ -303,7 +303,7 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
                                                                 if(substr($file['mime_type'],0,5)=='image')
                                                                 {
                                                                     ?>
-                                                                    <a href="<?php echo $location.$file['file_path']; ?>" class="external" target="_blank"><img class="img img-thumbnail img-responsive" style="max-width: 250px;max-height:150px" src="<?php echo $location.$file['file_path']; ?>" title="<?php echo $file['name']; ?>"></a>
+                                                                    <a href="<?php echo $location.$file['file_location']; ?>" class="external" target="_blank"><img class="img img-thumbnail img-responsive" style="max-width: 250px;max-height:150px" src="<?php echo $location.$file['file_location']; ?>" title="<?php echo $file['file_name']; ?>"></a>
 
 <!--                                                                    <img class="img img-thumbnail img-responsive" style="max-width: 250px;max-height:150px" src="--><?php //echo $location.$file['file_path']; ?><!--" title="--><?php //echo $file['name'];?><!--">-->
                                                                 <?php
@@ -311,7 +311,7 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
                                                                 else
                                                                 {
                                                                     ?>
-                                                                    <a href="<?php echo $location.$file['file_path']; ?>" class="external" target="_blank" title="<?php echo $file['name'];?>"><?php echo $file['name']; ?></a>
+                                                                    <a href="<?php echo $location.$file['file_location']; ?>" class="external" target="_blank" title="<?php echo $file['file_name'];?>"><?php echo $file['file_name']; ?></a>
                                                                 <?php
                                                                 }
                                                                 ?>
