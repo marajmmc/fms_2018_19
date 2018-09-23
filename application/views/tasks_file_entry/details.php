@@ -167,8 +167,6 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
                                                         {
                                                             ?>
                                                             <a href="<?php echo $location.$file['file_path']; ?>" class="external" target="_blank"><img class="img img-thumbnail img-responsive" style="max-width: 250px;max-height:150px" src="<?php echo $location.$file['file_path']; ?>" title="<?php echo $file['name']; ?>"></a>
-
-<!--                                                            <img class="img img-thumbnail img-responsive" src="--><?php //echo $location.$file['file_path']; ?><!--" style="max-width: 250px;max-height:150px" title="--><?php //echo $file['name'];?><!--">-->
                                                         <?php
                                                         }
                                                         else

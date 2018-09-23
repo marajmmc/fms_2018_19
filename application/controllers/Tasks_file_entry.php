@@ -482,8 +482,9 @@ class Tasks_file_entry extends Root_Controller
     }
     private function get_file_items($file_id)
     {
+        $inactive_txt = $this->config->item('system_status_inactive');
         $this->db->from($this->config->item('table_fms_setup_file_item') . ' file_item');
-        $this->db->select('file_item.id,file_item.name,file_item.status');
+        $this->db->select("IF( (file_item.status='{$inactive_txt}'), CONCAT( file_item.name,' ({$inactive_txt})'), file_item.name ) AS name,file_item.id,file_item.status");
         $this->db->join($this->config->item('table_fms_setup_file_type') . ' file_type', 'file_type.id=file_item.id_type');
         $this->db->join($this->config->item('table_fms_setup_file_name') . ' file_name', 'file_name.id_type=file_type.id');
         $this->db->where('file_name.id', $file_id);
@@ -566,13 +567,15 @@ class Tasks_file_entry extends Root_Controller
                 $this->system_edit($id);
             }
 
-            //upload files and check if ok upload
-            $folder = FCPATH . $this->config->item('system_folder_upload') . '/' . $id;
-            if (!is_dir($folder))
+            $path =$this->config->item('system_folder_upload') . '/' . $id;
+            $dir=(FCPATH).$path;
+            if(!is_dir($dir))
             {
-                mkdir($folder, 0777);
+                mkdir($dir, 0777);
             }
-            $uploaded_files = System_helper::upload_file($this->config->item('system_folder_upload') . '/' . $id, $allowed_types);
+            $uploaded_files = System_helper::upload_file($path,$allowed_types);
+
+
             foreach ($uploaded_files as $file)
             {
                 if (!$file['status'])

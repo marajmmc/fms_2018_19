@@ -249,10 +249,12 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
                     {
                         $show_item=true;
                         $active_add_more=true;
+                        $active_edit=false;
                         if($file_item['status']==$CI->config->item('system_status_active'))
                         {
                             $show_item=true;
                             $active_add_more=true;
+                            $active_edit=true;
                         }
                         elseif(isset($stored_files[$file_item['id']]))
                         {
@@ -280,9 +282,9 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
                                                 <thead>
                                                 <tr>
                                                     <th style="min-width: 250px;">File/Picture</th>
-                                                    <th style="min-width: 50px;">Upload</th>
+                                                    <th style="min-width: 80px;">Upload</th>
                                                     <th style="min-width: 50px;">Entry Date</th>
-                                                    <th style="min-width: 100px;"><?php echo $CI->lang->line('LABEL_REMARKS'); ?></th>
+                                                    <th style="min-width: 350px;"><?php echo $CI->lang->line('LABEL_REMARKS'); ?></th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
@@ -301,7 +303,9 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
                                                                 if(substr($file['mime_type'],0,5)=='image')
                                                                 {
                                                                     ?>
-                                                                    <img class="img img-thumbnail img-responsive" style="max-width: 250px;max-height:150px" src="<?php echo $location.$file['file_path']; ?>" title="<?php echo $file['name'];?>">
+                                                                    <a href="<?php echo $location.$file['file_path']; ?>" class="external" target="_blank"><img class="img img-thumbnail img-responsive" style="max-width: 250px;max-height:150px" src="<?php echo $location.$file['file_path']; ?>" title="<?php echo $file['name']; ?>"></a>
+
+<!--                                                                    <img class="img img-thumbnail img-responsive" style="max-width: 250px;max-height:150px" src="--><?php //echo $location.$file['file_path']; ?><!--" title="--><?php //echo $file['name'];?><!--">-->
                                                                 <?php
                                                                 }
                                                                 else
@@ -315,13 +319,13 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
                                                         </td>
                                                         <td>
                                                             <?php
-                                                            if($file_permissions['action2']==1 && $file_permissions['editable'])
+                                                            if($file_permissions['action2']==1 && $file_permissions['editable'] && $active_edit)
                                                             {
                                                                 ?>
                                                                 <input type="file" name="file_old_<?php echo $file['id']; ?>" data-current-id="<?php echo $file['id']; ?>" data-preview-container="#preview_container_file_old_<?php echo $file['id']; ?>" class="browse_button_old"><br>
                                                             <?php
                                                             }
-                                                            if($file_permissions['action3']==1 && $file_permissions['editable'])
+                                                            if($file_permissions['action3']==1 && $file_permissions['editable'] && $active_edit)
                                                             {
                                                                 ?>
                                                                 <button type="button" class="btn btn-danger system_button_add_delete"><?php echo $CI->lang->line('DELETE'); ?></button>
@@ -331,7 +335,7 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
                                                         </td>
                                                         <td>
                                                             <?php
-                                                            if($file_permissions['action2']==1 && $file_permissions['editable'])
+                                                            if($file_permissions['action2']==1 && $file_permissions['editable'] && $active_edit)
                                                             {
                                                                 ?>
                                                                 <input type="text" name="items_old[<?php echo $file['id']; ?>][date_entry]" class="form-control datepicker_old" value="<?php echo System_helper::display_date($file['date_entry']); ?>" readonly>
@@ -351,7 +355,7 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
                                                         </td>
                                                         <td>
                                                             <?php
-                                                            if($file_permissions['action2']==1 && $file_permissions['editable'])
+                                                            if($file_permissions['action2']==1 && $file_permissions['editable'] && $active_edit)
                                                             {
                                                                 ?>
                                                                 <textarea  name="items_old[<?php echo $file['id']; ?>][remarks]" class="form-control"><?php echo $file['remarks']; ?></textarea>
