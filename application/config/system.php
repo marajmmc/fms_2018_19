@@ -5,7 +5,6 @@ $config['system_site_short_name']='ems';
 $config['offline_controllers']=array('home','sys_site_offline');
 $config['external_controllers']=array('home');//user can use them without login
 $config['system_max_actions']=8;
-$config['system_fms_max_actions']=4;
 
 $config['system_status_yes']='Yes';
 $config['system_status_no']='No';
@@ -48,6 +47,8 @@ $config['system_file_type_video_max_size']=102400;//100mb
 $config['system_status_file_open']='Open';
 $config['system_status_file_close']='Close';
 
+//Assign file to user group
 $config['system_fms_max_actions']=4;
+
 $config['system_image_base_url']='http://localhost/fms_2018_19/';
 $config['system_folder_upload']='files';
