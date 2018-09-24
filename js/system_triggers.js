@@ -77,4 +77,6 @@ function system_off_events()
     $(document).off("click",".system_button_add_delete");
     $(document).off("click",".fms_tasks_edit");
 
+    $(document).off("click",".id_name");
+    $(document).off("click",".button_action_report");
 }

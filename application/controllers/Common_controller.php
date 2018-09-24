@@ -72,9 +72,9 @@ class Common_controller extends Root_Controller
         $id_company=$this->input->post('id_company');
         $id_department=$this->input->post('id_department');
 
-        $this->db->select("u.id value,CONCAT(ui.name,' - ',u.employee_id) AS text");
         $this->db->from($this->config->item('table_login_setup_user').' u');
         $this->db->join($this->config->item('table_login_setup_user_info').' ui','u.id=ui.user_id','INNER');
+        $this->db->select("u.id value,CONCAT(ui.name,' - ',u.employee_id) AS text");
         $this->db->join($this->config->item('table_login_setup_users_company').' uc','u.id=uc.user_id','INNER');
         $this->db->where('u.status',$this->config->item('system_status_active'));
         $this->db->where('ui.revision',1);
@@ -87,7 +87,6 @@ class Common_controller extends Root_Controller
         {
             $this->db->where('ui.department_id',$id_department);
         }
-
         $this->db->order_by('u.employee_id');
         $this->db->group_by('u.id');
         $data['items']=$this->db->get()->result_array();
