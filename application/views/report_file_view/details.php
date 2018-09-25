@@ -131,9 +131,9 @@ $CI=& get_instance();
                                             </thead>
                                             <tbody>
                                             <?php
-                                            if(!isset($stored_files[$file_item['id']]))
+                                            if(!isset($item_files[$file_item['id']]))
                                             {
-                                                $stored_files[$file_item['id']]=array();
+                                                $item_files[$file_item['id']]=array();
                                             }
                                             foreach($item_files[$file_item['id']] as $file)
                                             {

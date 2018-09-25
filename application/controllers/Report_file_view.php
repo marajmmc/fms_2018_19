@@ -52,7 +52,7 @@ class Report_file_view extends Root_Controller
             $data['id'] = 1;
             $data['file_name'] = 1;
             $data['responsible_employee'] = 1;
-            $data['date_start'] = 1;
+            $data['date_opening'] = 1;
             $data['file_status'] = 1;
             $data['hc_location'] = 1;
             $data['category_name'] = 1;
@@ -62,19 +62,19 @@ class Report_file_view extends Root_Controller
             $data['company_name'] = 1;
             $data['department_name'] = 1;
             $data['ordering'] = 1;
+            $data['details_button'] = 1;
         }
         else
         {
             $data = array();
         }
-
         return $data;
     }
     private function system_search()
     {
         if(isset($this->permissions['action0']) && ($this->permissions['action0']==1))
         {
-            $data['title']='Report View';
+            $data['title']='Files Report';
             $data['item']=array
             (
                 'id_category'=>'',
@@ -121,12 +121,26 @@ class Report_file_view extends Root_Controller
         $method = 'search';
         if(isset($this->permissions['action0']) && ($this->permissions['action0']==1))
         {
-            $item=$this->input->post('item');
-            if($item['id_name']>0)
+            $reports=$this->input->post('report');
+            $date_from_start_page=System_helper::get_time($reports['date_from_start_page']);
+            $date_to_start_page=System_helper::get_time($reports['date_to_start_page']);
+            if($reports['date_from_start_file']>$reports['date_to_start_file'])
+            {
+                $ajax['status']=false;
+                $ajax['system_message']='File Opening From Date should be less than File Opening To Date';
+                $this->json_return($ajax);
+            }
+            if($date_from_start_page>$date_to_start_page)
+            {
+                $ajax['status']=false;
+                $ajax['system_message']='Page Entry From Date should be less than Page Entry To Date';
+                $this->json_return($ajax);
+            }
+            if($reports['id_name']>0)
             {
                 $data=array();
-                $this->get_file_info($data,$item['id_name'],System_helper::get_time($item['date_from_start_page']),System_helper::get_time($item['date_to_start_page']));
-                $data['file_items']=$this->get_file_items($item['id_name']);
+                $this->get_file_info($data,$reports['id_name'],$date_from_start_page,$date_to_start_page);
+                $data['file_items']=$this->get_file_items($reports['id_name']);
                 $data['item_files']=array();
                 $items_file_record=array();
                 foreach($data['file_items'] as $file_item)
@@ -147,14 +161,9 @@ class Report_file_view extends Root_Controller
             }
             else
             {
-                $data['title']='Report for '.$this->lang->line('LABEL_FILE_NAME').' List';
+                $data['title']='Files Report';
                 $data['system_preference_items'] = System_helper::get_preference($user->user_id, $this->controller_url, $method, $this->get_preference_headers($method));
-                $ajax_post='';
-                foreach($item as $key=>$val)
-                {
-                    $ajax_post.=$key.':"'.$val.'",';
-                }
-                $data['ajax_post']=substr($ajax_post,0,-1);
+                $data['options']=$reports;
                 $ajax['system_content'][]=array('id'=>'#system_report_container','html'=>$this->load->view($this->controller_url.'/list',$data,true));
             }
             if($this->message)
@@ -242,7 +251,7 @@ class Report_file_view extends Root_Controller
         $date_to_start_file=$this->input->post('date_to_start_file');
 
         $this->db->from($this->config->item('table_fms_setup_file_name') . ' file_name');
-        $this->db->select('file_name.id,file_name.name file_name,file_name.date_start,file_name.status_file file_status,file_name.ordering');
+        $this->db->select('file_name.id,file_name.name file_name,file_name.date_start date_opening,file_name.status_file file_status,file_name.ordering');
 
         $this->db->join($this->config->item('table_fms_setup_file_hc_location') . ' hc_location', 'hc_location.id=file_name.id_hc_location');
         $this->db->select('hc_location.name hc_location');
@@ -319,35 +328,60 @@ class Report_file_view extends Root_Controller
         $items=$this->db->get()->result_array();
         foreach($items as &$item)
         {
-            $item['date_start']=System_helper::display_date($item['date_start']);
+            $item['date_opening']=System_helper::display_date($item['date_opening']);
         }
-//        print_r($items);
-//        exit;
         $this->json_return($items);
     }
     private function system_details($id)
     {
-        $id=$this->input->post('id');
-        $html_id=$this->input->post('html_container_id');
-        $date_from_start_page=System_helper::get_time($this->input->post('date_from_start_page'));
-        $date_to_start_page=System_helper::get_time($this->input->post('date_to_start_page'));
+        if(isset($this->permissions['action0'])&&($this->permissions['action0']==1))
+        {
+            if($id>0)
+            {
+                $item_id=$id;
+            }
+            else
+            {
+                $item_id=$this->input->post('id');
+            }
+            $html_id=$this->input->post('html_container_id');
+            $date_from_start_page=System_helper::get_time($this->input->post('date_from_start_page'));
+            $date_to_start_page=System_helper::get_time($this->input->post('date_to_start_page'));
 
-        $data=array();
-        $this->get_file_info($data,$id,$date_from_start_page,$date_to_start_page);
-        $data['file_items']=$this->get_file_items($id);
-        $data['item_files']=array();
-        foreach($data['stored_files'] as $file)
-        {
-            $data['item_files'][$file['id_file_item']][]=$file;
+            $data=array();
+            $this->get_file_info($data,$item_id,$date_from_start_page,$date_to_start_page);
+            $data['file_items']=$this->get_file_items($item_id);
+            $data['item_files']=array();
+            $items_file_record=array();
+            foreach($data['file_items'] as $file_item)
+            {
+                $items_file_record[$file_item['id']]=0;
+            }
+            foreach($data['stored_files'] as $file)
+            {
+                $data['item_files'][$file['id_file_item']][]=$file;
+                if(isset($items_file_record[$file['id_file_item']]))
+                {
+                    $items_file_record[$file['id_file_item']]=$items_file_record[$file['id_file_item']]+1;
+                }
+            }
+            unset($data['stored_files']);
+            $data['items_file_record']=$items_file_record;
+            $data['users'] = System_helper::get_users_info(array());
+            $ajax['system_content'][]=array('id'=>$html_id,'html'=>$this->load->view($this->controller_url.'/details',$data,true));
+            if($this->message)
+            {
+                $ajax['system_message']=$this->message;
+            }
+            $ajax['status']=true;
+            $this->json_return($ajax);
         }
-        unset($data['stored_files']);
-        $ajax['system_content'][]=array('id'=>$html_id,'html'=>$this->load->view($this->controller_url.'/details',$data,true));
-        if($this->message)
+        else
         {
-            $ajax['system_message']=$this->message;
+            $ajax['status']=false;
+            $ajax['system_message']=$this->lang->line("YOU_DONT_HAVE_ACCESS");
+            $this->json_return($ajax);
         }
-        $ajax['status']=true;
-        $this->json_return($ajax);
     }
     private function two_date_between_query_generator($start_date,$end_date,$field)
     {

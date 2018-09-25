@@ -20,7 +20,7 @@ $CI= & get_instance();
                 </label>
             </div>
             <div class="col-xs-6">
-                <select name="item[id_category]" id="id_category" class="form-control" tabindex="-1">
+                <select name="report[id_category]" id="id_category" class="form-control" tabindex="-1">
                     <option value=""><?php echo $CI->lang->line('SELECT');?></option>
                     <?php
                     foreach($categories as $category)
@@ -40,7 +40,7 @@ $CI= & get_instance();
                 </label>
             </div>
             <div class="col-xs-6">
-                <select name="item[id_sub_category]" id="id_sub_category" class="form-control" tabindex="-1">
+                <select name="report[id_sub_category]" id="id_sub_category" class="form-control" tabindex="-1">
                     <option value=""><?php echo $CI->lang->line('SELECT');?></option>
                     <?php
                     foreach($sub_categories as $sub_category)
@@ -60,7 +60,7 @@ $CI= & get_instance();
                 </label>
             </div>
             <div class="col-xs-6">
-                <select name="item[id_class]" id="id_class" class="form-control" tabindex="-1">
+                <select name="report[id_class]" id="id_class" class="form-control" tabindex="-1">
                     <option value=""><?php echo $CI->lang->line('SELECT');?></option>
                     <?php
                     foreach($classes as $class)
@@ -80,7 +80,7 @@ $CI= & get_instance();
                 </label>
             </div>
             <div class="col-xs-6">
-                <select name="item[id_type]" id="id_type" class="form-control">
+                <select name="report[id_type]" id="id_type" class="form-control">
                     <option value=""><?php echo $CI->lang->line('SELECT');?></option>
                     <?php
                     foreach($types as $type)
@@ -100,7 +100,7 @@ $CI= & get_instance();
                 </label>
             </div>
             <div class="col-xs-6">
-                <select name="item[id_name]" id="id_name" class="form-control">
+                <select name="report[id_name]" id="id_name" class="form-control">
                     <option value=""><?php echo $CI->lang->line('SELECT');?></option>
                     <?php
                     foreach($names as $name)
@@ -117,7 +117,7 @@ $CI= & get_instance();
     <div class="col-xs-6">
         <div style="" class="row show-grid">
             <div class="col-xs-6">
-                <select name="item[id_company]" id="id_company" class="form-control" tabindex="-1">
+                <select name="report[id_company]" id="id_company" class="form-control" tabindex="-1">
                     <option value=""><?php echo $CI->lang->line('SELECT');?></option>
                     <?php
                     foreach($companies as $company)
@@ -137,7 +137,7 @@ $CI= & get_instance();
 
         <div style="" class="row show-grid">
             <div class="col-xs-6">
-                <select name="item[id_department]" id="id_department" class="form-control" tabindex="-1">
+                <select name="report[id_department]" id="id_department" class="form-control" tabindex="-1">
                     <option value=""><?php echo $CI->lang->line('SELECT');?></option>
                     <?php
                     foreach($departments as $department)
@@ -157,7 +157,7 @@ $CI= & get_instance();
 
         <div style="<?php if(!($item['employee_id']>0)){echo 'display: none';} ?>" class="row show-grid" id="employee_id_container">
             <div class="col-xs-6">
-                <select name="item[employee_id]" id="employee_id" class="form-control" tabindex="-1">
+                <select name="report[employee_id]" id="employee_id" class="form-control" tabindex="-1">
                     <option value=""><?php echo $CI->lang->line('SELECT');?></option>
                     <?php
                     foreach($employees as $employee)
@@ -176,7 +176,7 @@ $CI= & get_instance();
     </div>
 </div>
 
-<div style="" class="row show-grid">
+<div style="" class="row show-grid" id="file_opening_container">
     <div class="col-xs-3">
         <label class="control-label pull-right">
             File Opening Date
@@ -188,7 +188,7 @@ $CI= & get_instance();
                         <span class="input-group-addon" id="sizing-addon2">
                             <label for="date_from_start_file">From:</label>
                         </span>
-                <input name="item[date_from_start_file]" type="text" id="date_from_start_file" class="form-control datepicker" value="<?php echo $item['date_from_start_file'] ?>" placeholder="File Opening From Date">
+                <input name="report[date_from_start_file]" type="text" id="date_from_start_file" class="form-control datepicker" value="<?php echo $item['date_from_start_file'] ?>" placeholder="File Opening From Date">
             </div>
         </div>
         <div class="col-xs-6">
@@ -196,14 +196,14 @@ $CI= & get_instance();
                         <span class="input-group-addon" id="sizing-addon2">
                             <label for="date_to_start_file">To:</label>
                         </span>
-                <input name="item[date_to_start_file]" type="text" id="date_to_start_file" class="form-control datepicker" value="<?php echo $item['date_to_start_file'] ?>" placeholder="File Opening To Date">
+                <input name="report[date_to_start_file]" type="text" id="date_to_start_file" class="form-control datepicker" value="<?php echo $item['date_to_start_file'] ?>" placeholder="File Opening To Date">
             </div>
         </div>
     </div>
     <div class="col-xs-3"></div>
 </div>
 
-<div style="" class="row show-grid">
+<div style="<?php if(!($item['id_name']>0)){echo 'display:none';} ?>" class="row show-grid" id="page_entry_container">
     <div class="col-xs-3">
         <label class="control-label pull-right">
             Page Entry Date
@@ -215,7 +215,7 @@ $CI= & get_instance();
                         <span class="input-group-addon" id="sizing-addon2">
                             <label for="date_from_start_page">From:</label>
                         </span>
-                <input name="item[date_from_start_page]" type="text" id="date_from_start_page" class="form-control datepicker" value="<?php echo $item['date_from_start_page'] ?>" placeholder="Page Entry From Date">
+                <input name="report[date_from_start_page]" type="text" id="date_from_start_page" class="form-control datepicker" value="<?php echo $item['date_from_start_page'] ?>" placeholder="Page Entry From Date">
             </div>
         </div>
         <div class="col-xs-6">
@@ -223,7 +223,7 @@ $CI= & get_instance();
                         <span class="input-group-addon" id="sizing-addon2">
                             <label for="date_to_start_page">To:</label>
                         </span>
-                <input name="item[date_to_start_page]" type="text" id="date_to_start_page" class="form-control datepicker" value="<?php echo $item['date_to_start_page'] ?>" placeholder="Page Entry To Date">
+                <input name="report[date_to_start_page]" type="text" id="date_to_start_page" class="form-control datepicker" value="<?php echo $item['date_to_start_page'] ?>" placeholder="Page Entry To Date">
             </div>
         </div>
     </div>
@@ -260,12 +260,19 @@ jQuery(document).ready(function()
         $('#class_container').hide();
         $('#type_container').hide();
         $('#name_container').hide();
+        $('#page_entry_container').hide();
+        $('#file_opening_container').show();
         var id_category=$('#id_category').val();
         if(id_category>0)
         {
-            $('#sub_category_container').show();
-            if (system_sub_categories[id_category] !== undefined) {
+            if (system_sub_categories[id_category] !== undefined)
+            {
+                $('#sub_category_container').show();
                 $('#id_sub_category').html(get_dropdown_with_select(system_sub_categories[id_category]));
+            }
+            else
+            {
+                $('#sub_category_container').hide();
             }
         }
     });
@@ -277,12 +284,19 @@ jQuery(document).ready(function()
         $('#class_container').hide();
         $('#type_container').hide();
         $('#name_container').hide();
+        $('#page_entry_container').hide();
+        $('#file_opening_container').show();
         var id_sub_category=$('#id_sub_category').val();
         if(id_sub_category>0)
         {
-            $('#class_container').show();
-            if (system_class[id_sub_category] !== undefined) {
+            if (system_class[id_sub_category] !== undefined)
+            {
+                $('#class_container').show();
                 $('#id_class').html(get_dropdown_with_select(system_class[id_sub_category]));
+            }
+            else
+            {
+                $('#class_container').hide();
             }
         }
     });
@@ -292,12 +306,19 @@ jQuery(document).ready(function()
         $("#id_name").val("");
         $('#type_container').hide();
         $('#name_container').hide();
+        $('#page_entry_container').hide();
+        $('#file_opening_container').show();
         var id_class=$('#id_class').val();
         if(id_class>0)
         {
-            $('#type_container').show();
-            if (system_types[id_class] !== undefined) {
+            if (system_types[id_class] !== undefined)
+            {
+                $('#type_container').show();
                 $('#id_type').html(get_dropdown_with_select(system_types[id_class]));
+            }
+            else
+            {
+                $('#type_container').hide();
             }
         }
     });
@@ -305,6 +326,8 @@ jQuery(document).ready(function()
     {
         $("#id_name").val("");
         $('#name_container').hide();
+        $('#page_entry_container').hide();
+        $('#file_opening_container').show();
         var id_type=$('#id_type').val();
         if(id_type>0)
         {
@@ -329,6 +352,18 @@ jQuery(document).ready(function()
             });
         }
     });
+    $(document).on("change","#id_name",function()
+    {
+        $('#page_entry_container').hide();
+        $('#file_opening_container').show();
+        var id_name=$('#id_name').val();
+        if(id_name>0)
+        {
+            $('#page_entry_container').show();
+            $('#file_opening_container').hide();
+        }
+    });
+
 
     $(document).on("change","#id_company,#id_department",function()
     {
@@ -367,7 +402,6 @@ jQuery(document).ready(function()
         var left=((($(window).width()-450)/2)+$(window).scrollLeft());
         var top=((($(window).height()-550)/2)+$(window).scrollTop());
         $("#popup_window").jqxWindow({width: 1200,height:550,position:{x:left,y:top}}); //to change position always
-        //$("#popup_window").jqxWindow({position:{x:left,y:top}});
         var row=$(this).attr('data-item-no');
         var id=$("#system_jqx_container").jqxGrid('getrowdata',row).id;
         $.ajax(

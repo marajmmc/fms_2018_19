@@ -68,7 +68,7 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
             id: 'id',
             url: url,
             type: 'POST',
-            data:{<?php echo $ajax_post; ?>}
+            data:JSON.parse('<?php echo json_encode($options);?>')
         };
         var cellsrenderer=function(row,column,value,defaultHtml,columnSettings,record)
         {
@@ -88,26 +88,22 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
         $("#system_jqx_container").jqxGrid(
             {
                 width: '100%',
-                //height:'350px',
+                height:'350px',
                 source: dataAdapter,
+                sortable: true,
+                filterable: true,
+                showfilterrow: true,
                 columnsresize: true,
                 columnsreorder: true,
-                pageable: true,
-                filterable: true,
-                sortable: true,
-                showfilterrow: true,
-                pagesize:50,
-                pagesizeoptions: ['20', '50', '100', '200','300','500','1000','3000','5000'],
-                selectionmode: 'singlerow',
                 altrows: true,
                 enabletooltips: true,
-                //showaggregates: true,
+                enablebrowserselection: true,
                 rowsheight: 45,
                 columns:[
                     { text: '<?php echo $CI->lang->line('LABEL_ID'); ?>',pinned:true,dataField: 'id',width:'50',cellsalign: 'right',rendered:tooltiprenderer,hidden: <?php echo $system_preference_items['id']?0:1;?>},
                     { text: '<?php echo $CI->lang->line('LABEL_FILE_NAME'); ?>',pinned:true,dataField: 'file_name',width:'220',rendered: tooltiprenderer,hidden: <?php echo $system_preference_items['file_name']?0:1;?>},
                     { text: '<?php echo $CI->lang->line('LABEL_RESPONSIBLE_EMPLOYEE'); ?>',dataField: 'responsible_employee',width:'180',rendered: tooltiprenderer,hidden: <?php echo $system_preference_items['responsible_employee']?0:1;?>},
-                    { text: 'Date Start',dataField: 'date_start',width:'100',rendered: tooltiprenderer,hidden: <?php echo $system_preference_items['date_start']?0:1;?>},
+                    { text: '<?php echo $CI->lang->line('LABEL_DATE_OPENING'); ?>',dataField: 'date_opening',width:'100',rendered: tooltiprenderer,hidden: <?php echo $system_preference_items['date_opening']?0:1;?>},
                     { text: '<?php echo $CI->lang->line('LABEL_FILE_STATUS'); ?>',dataField: 'file_status',width:'80',rendered: tooltiprenderer,hidden:true,filtertype:'list',hidden: <?php echo $system_preference_items['file_status']?0:1;?>},
                     { text: '<?php echo $CI->lang->line('LABEL_HC_LOCATION'); ?>',dataField: 'hc_location',width:130,rendered: tooltiprenderer,filtertype:'list',hidden: <?php echo $system_preference_items['hc_location']?0:1;?>},
                     { text: '<?php echo $CI->lang->line('LABEL_CATEGORY_NAME'); ?>',dataField: 'category_name',width:130,rendered: tooltiprenderer,filtertype:'list',hidden: <?php echo $system_preference_items['category_name']?0:1;?>},
@@ -117,7 +113,7 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
                     { text: '<?php echo $CI->lang->line('LABEL_COMPANY_NAME'); ?>',dataField: 'company_name',width:200,rendered: tooltiprenderer,filtertype:'list',hidden: <?php echo $system_preference_items['company_name']?0:1;?>},
                     { text: '<?php echo $CI->lang->line('LABEL_DEPARTMENT_NAME'); ?>',dataField: 'department_name',width:170,rendered: tooltiprenderer,filtertype:'list',hidden: <?php echo $system_preference_items['department_name']?0:1;?>},
                     { text: '<?php echo $CI->lang->line('LABEL_ORDERING'); ?>',dataField: 'ordering',width:60,cellsalign: 'right',rendered: tooltiprenderer,hidden: <?php echo $system_preference_items['ordering']?0:1;?>},
-                    { text: '<?php echo $CI->lang->line('ACTION_DETAILS'); ?>', dataField: 'details_button',width:'85',cellsrenderer:cellsrenderer}
+                    { text: '<?php echo $CI->lang->line('ACTION_DETAILS'); ?>', dataField: 'details_button',width:'85',cellsrenderer:cellsrenderer,hidden: <?php echo $system_preference_items['details_button']?0:1;?>}
                 ]
             });
     });
