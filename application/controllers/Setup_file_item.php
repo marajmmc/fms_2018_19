@@ -90,6 +90,7 @@ class Setup_file_item extends Root_Controller
             $user = User_helper::get_user();
             $method = 'list';
             $data['system_preference_items'] = System_helper::get_preference($user->user_id, $this->controller_url, $method, $this->get_preference_headers($method));
+
             $data['title'] = "File Item List";
             $ajax['status'] = true;
             $ajax['system_content'][] = array("id" => "#system_content", "html" => $this->load->view($this->controller_url . "/list", $data, true));
@@ -142,11 +143,8 @@ class Setup_file_item extends Root_Controller
         $this->db->select("IF( (category.status='{$inactive_txt}'), CONCAT( category.name,' ({$inactive_txt})'), category.name ) AS category_name");
 
         $this->db->where('item.status !=', $this->config->item('system_status_delete'));
-        $this->db->order_by('category.ordering');
-        $this->db->order_by('sub_category.ordering');
-        $this->db->order_by('class.ordering');
-        $this->db->order_by('type.ordering');
-        $this->db->order_by('item.ordering');
+        $this->db->order_by('item.ordering', 'ASC');
+        $this->db->order_by('item.id', 'ASC');
         $this->db->limit($pagesize, $current_records);
         $items = $this->db->get()->result_array();
         $this->json_return($items);
@@ -156,7 +154,7 @@ class Setup_file_item extends Root_Controller
     {
         if (isset($this->permissions['action1']) && ($this->permissions['action1'] == 1))
         {
-            $data['title'] = "Create New File Item";
+            $data['title'] = "New File Item";
             $data['item'] = array
             (
                 'id' => 0,
@@ -220,7 +218,7 @@ class Setup_file_item extends Root_Controller
             $data['item'] = $this->db->get()->row_array();
             if (!$data['item'])
             {
-                System_helper::invalid_try('Edit', $item_id, 'Edit Not Exists');
+                System_helper::invalid_try(__FUNCTION__, $item_id, 'Edit Not Exists');
                 $ajax['status'] = false;
                 $ajax['system_message'] = 'Invalid Try.';
                 $this->json_return($ajax);
@@ -237,7 +235,7 @@ class Setup_file_item extends Root_Controller
             $data['classes'] = Query_helper::get_info($this->config->item('table_fms_setup_file_class'), array('id value', $class_name_field), array('id_sub_category=' . $data['item']['id_sub_category']), 0, 0, array('ordering ASC'));
             $data['types'] = Query_helper::get_info($this->config->item('table_fms_setup_file_type'), array('id value', $type_name_field), array('id_class=' . $data['item']['id_class']), 0, 0, array('ordering ASC'));
 
-            $data['title'] = 'Edit Item (' . $data['item']['name'] . ')';
+            $data['title'] = 'Edit File Item :: ' . $data['item']['name'];
             $ajax['status'] = true;
             $ajax['system_content'][] = array("id" => "#system_content", "html" => $this->load->view($this->controller_url . "/add_edit", $data, true));
             if ($this->message)
@@ -272,9 +270,9 @@ class Setup_file_item extends Root_Controller
             $result = Query_helper::get_info($this->config->item('table_fms_setup_file_item'), '*', array('id =' . $id, 'status != "' . $this->config->item('system_status_delete') . '"'), 1);
             if (!$result)
             {
-                System_helper::invalid_try('Update', $id, 'Update Not Exists');
+                System_helper::invalid_try(__FUNCTION__, $id, 'Update Not Exists');
                 $ajax['status'] = false;
-                $ajax['system_message'] = 'Invalid Item.';
+                $ajax['system_message'] = 'Invalid Try.';
                 $this->json_return($ajax);
             }
         }

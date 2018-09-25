@@ -88,6 +88,7 @@ class Setup_file_class extends Root_Controller
             $user = User_helper::get_user();
             $method = 'list';
             $data['system_preference_items'] = System_helper::get_preference($user->user_id, $this->controller_url, $method, $this->get_preference_headers($method));
+
             $data['title'] = "File Class List";
             $ajax['status'] = true;
             $ajax['system_content'][] = array("id" => "#system_content", "html" => $this->load->view($this->controller_url . "/list", $data, true));
@@ -130,9 +131,8 @@ class Setup_file_class extends Root_Controller
         $this->db->select("IF( (file_sub_category.status='{$inactive_txt}'), CONCAT( file_sub_category.name,' ({$inactive_txt})'), file_sub_category.name ) AS sub_category_name");
         $this->db->join($this->config->item('table_fms_setup_file_category') . ' file_category', 'file_category.id = file_sub_category.id_category');
         $this->db->select("IF( (file_category.status='{$inactive_txt}'), CONCAT( file_category.name,' ({$inactive_txt})'), file_category.name ) AS category_name");
-        $this->db->order_by('file_category.ordering');
-        $this->db->order_by('file_sub_category.ordering');
-        $this->db->order_by('file_class.ordering');
+        $this->db->order_by('file_class.ordering', 'ASC');
+        $this->db->order_by('file_class.id', 'ASC');
         $this->db->limit($pagesize, $current_records);
         $items = $this->db->get()->result_array();
         $this->json_return($items);
@@ -142,7 +142,6 @@ class Setup_file_class extends Root_Controller
     {
         if (isset($this->permissions['action1']) && ($this->permissions['action1'] == 1))
         {
-            $data['title'] = "Create New File Class";
             $data['item'] = array
             (
                 'id' => 0,
@@ -153,8 +152,10 @@ class Setup_file_class extends Root_Controller
                 'status' => $this->config->item('system_status_active'),
                 'remarks' => ''
             );
-            $data['categories'] = Query_helper::get_info($this->config->item('table_fms_setup_file_category'), array('id', 'name'), array('status ="' . $this->config->item('system_status_active') . '"'));
+            $data['categories'] = Query_helper::get_info($this->config->item('table_fms_setup_file_category'), array('id', 'name'), array('status ="' . $this->config->item('system_status_active') . '"'), 0, 0, array('ordering ASC', 'id ASC'));
             $data['sub_categories'] = array();
+
+            $data['title'] = "New File Class";
             $ajax['status'] = true;
             $ajax['system_content'][] = array("id" => "#system_content", "html" => $this->load->view($this->controller_url . "/add_edit", $data, true));
             if ($this->message)
@@ -203,8 +204,8 @@ class Setup_file_class extends Root_Controller
             $cat_name_field = "IF( ({$this->config->item('table_fms_setup_file_category')}.status='{$inactive_txt}'), CONCAT( {$this->config->item('table_fms_setup_file_category')}.name,' ({$inactive_txt})'), {$this->config->item('table_fms_setup_file_category')}.name ) AS name";
             $subcat_name_field = "IF( ({$this->config->item('table_fms_setup_file_sub_category')}.status='{$inactive_txt}'), CONCAT( {$this->config->item('table_fms_setup_file_sub_category')}.name,' ({$inactive_txt})'), {$this->config->item('table_fms_setup_file_sub_category')}.name ) AS name";
 
-            $data['categories'] = Query_helper::get_info($this->config->item('table_fms_setup_file_category'), array('id', $cat_name_field), array());
-            $data['sub_categories'] = Query_helper::get_info($this->config->item('table_fms_setup_file_sub_category'), array('id', $subcat_name_field), array('id_category=' . $data['item']['id_category']));
+            $data['categories'] = Query_helper::get_info($this->config->item('table_fms_setup_file_category'), array('id', $cat_name_field), array(), 0, 0, array('ordering ASC', 'id ASC'));
+            $data['sub_categories'] = Query_helper::get_info($this->config->item('table_fms_setup_file_sub_category'), array('id', $subcat_name_field), array('id_category=' . $data['item']['id_category']), 0, 0, array('ordering ASC', 'id ASC'));
 
             $data['title'] = "Edit File Class :: " . $data['item']['name'];
             $ajax['status'] = true;
@@ -227,9 +228,9 @@ class Setup_file_class extends Root_Controller
     private function system_save()
     {
         $id = $this->input->post("id");
+        $item = $this->input->post('item');
         $user = User_helper::get_user();
         $time = time();
-        $item = $this->input->post('item');
 
         if ($id > 0) // EDIT
         {

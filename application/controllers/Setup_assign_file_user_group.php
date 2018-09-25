@@ -91,6 +91,7 @@ class Setup_assign_file_user_group extends Root_Controller
             $user = User_helper::get_user();
             $method = 'list';
             $data['system_preference_items'] = System_helper::get_preference($user->user_id, $this->controller_url, $method, $this->get_preference_headers($method));
+
             $data['title'] = "List of User Group to Assign Files";
             $ajax['status'] = true;
             $ajax['system_content'][] = array("id" => "#system_content", "html" => $this->load->view($this->controller_url . "/list", $data, true));

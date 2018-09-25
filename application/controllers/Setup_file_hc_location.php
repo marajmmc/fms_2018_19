@@ -87,7 +87,8 @@ class Setup_file_hc_location extends Root_Controller
             $user = User_helper::get_user();
             $method = 'list';
             $data['system_preference_items'] = System_helper::get_preference($user->user_id, $this->controller_url, $method, $this->get_preference_headers($method));
-            $data['title'] = "List of Hard Copy Location";
+
+            $data['title'] = "Hard Copy Location List";
             $ajax['status'] = true;
             $ajax['system_content'][] = array("id" => "#system_content", "html" => $this->load->view($this->controller_url . "/list", $data, true));
             if ($this->message)
@@ -136,13 +137,13 @@ class Setup_file_hc_location extends Root_Controller
     {
         if (isset($this->permissions['action1']) && ($this->permissions['action1'] == 1))
         {
-            $data['title'] = "Create New Hard Copy Location";
             $data['item']['id'] = 0;
             $data['item']['name'] = '';
             $data['item']['remarks'] = '';
             $data['item']['status'] = 'Active';
             $data['item']['ordering'] = 99;
 
+            $data['title'] = "New Hard Copy Location";
             $ajax['status'] = true;
             $ajax['system_content'][] = array("id" => "#system_content", "html" => $this->load->view($this->controller_url . "/add_edit", $data, true));
             if ($this->message)
@@ -176,7 +177,7 @@ class Setup_file_hc_location extends Root_Controller
             $data['item'] = Query_helper::get_info($this->config->item('table_fms_setup_file_hc_location'), array('*'), array('id =' . $item_id, 'status !="' . $this->config->item('system_status_delete') . '"'), 1, 0, array('id ASC'));
             if (!$data['item'])
             {
-                System_helper::invalid_try('Edit', $item_id, 'Edit Not Exists');
+                System_helper::invalid_try(__FUNCTION__, $item_id, 'Edit Not Exists');
                 $ajax['status'] = false;
                 $ajax['system_message'] = 'Invalid Try.';
                 $this->json_return($ajax);
@@ -217,9 +218,9 @@ class Setup_file_hc_location extends Root_Controller
             $result = Query_helper::get_info($this->config->item('table_fms_setup_file_hc_location'), '*', array('id =' . $id, 'status != "' . $this->config->item('system_status_delete') . '"'), 1);
             if (!$result)
             {
-                System_helper::invalid_try('Update', $id, 'Update Not Exists');
+                System_helper::invalid_try(__FUNCTION__, $id, 'Update Not Exists');
                 $ajax['status'] = false;
-                $ajax['system_message'] = 'Invalid Item.';
+                $ajax['system_message'] = 'Invalid Try.';
                 $this->json_return($ajax);
             }
         }

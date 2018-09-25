@@ -188,69 +188,14 @@ class Tasks_file_entry extends Root_Controller
         if (isset($this->permissions['action1']) && ($this->permissions['action1'] == 1))
         {
             $user = User_helper::get_user();
-            $data = array();
+            $data['item'] = array(
+                'date_start' => System_helper::display_date(time()),
+                'ordering' => 99
+            );
+            $data['categories'] = Query_helper::get_info($this->config->item('table_fms_setup_file_category'), array('id value', 'name text'), array('status ="' . $this->config->item('system_status_active') . '"'), 0, 0, array('ordering ASC'));
+            $data['hc_locations'] = Query_helper::get_info($this->config->item('table_fms_setup_file_hc_location'), array('id value', 'name text'), array('status ="' . $this->config->item('system_status_active') . '"'), 0, 0, array('ordering ASC'));
 
-            $this->db->from($this->config->item('table_fms_setup_file_name') . ' file_name');
-            $this->db->join($this->config->item('table_fms_setup_assign_file_user_group') . ' file_user_group', 'file_user_group.id_file = file_name.id');
-
-            $this->db->join($this->config->item('table_fms_setup_file_type') . ' file_type', 'file_type.id = file_name.id_type');
-
-            $this->db->select('file_type.id type_id, file_type.name type_name');
-
-            $this->db->join($this->config->item('table_fms_setup_file_class') . ' file_class', 'file_class.id = file_type.id_class');
-            $this->db->select('file_class.id class_id, file_class.name class_name');
-
-            $this->db->join($this->config->item('table_fms_setup_file_sub_category') . ' file_sub_category', 'file_sub_category.id = file_class.id_sub_category');
-            $this->db->select('file_sub_category.id sub_category_id, file_sub_category.name sub_category_name');
-
-            $this->db->join($this->config->item('table_fms_setup_file_category') . ' file_category', 'file_category.id = file_sub_category.id_category');
-            $this->db->select('file_category.id category_id, file_category.name category_name');
-
-            $this->db->where('file_user_group.user_group_id', $user->user_group);
-            $this->db->where('file_user_group.action0', 1);
-            $this->db->where('file_user_group.revision', 1);
-            $this->db->where('file_category.status', $this->config->item('system_status_active'));
-            $this->db->where('file_sub_category.status', $this->config->item('system_status_active'));
-            $this->db->where('file_class.status', $this->config->item('system_status_active'));
-            $this->db->where('file_type.status', $this->config->item('system_status_active'));
-            $this->db->where('file_name.status', $this->config->item('system_status_active'));
-
-            $this->db->order_by('file_category.ordering');
-            $this->db->order_by('file_sub_category.ordering');
-            $this->db->order_by('file_class.ordering');
-            $this->db->order_by('file_type.ordering');
-
-            $this->db->group_by('file_type.id');
-            $results = $this->db->get()->result_array();
-            if (sizeof($results) < 1)
-            {
-                $ajax['status'] = false;
-                $ajax['system_message'] = $this->lang->line('YOU_DONT_HAVE_ACCESS');
-                $this->json_return($ajax);
-            }
-            $data['categories'] = array();
-            $data['sub_categories'] = array();
-            $data['classes'] = array();
-            $data['types'] = array();
-            $data['sub_category_counter'] = 0;
-            $data['class_counter'] = 0;
-            $data['type_counter'] = count($results);
-            foreach ($results as $result)
-            {
-                $data['categories'][$result['category_id']] = array('value' => $result['category_id'], 'text' => $result['category_name']);
-                if (!isset($data['sub_categories'][$result['category_id']][$result['sub_category_id']]))
-                {
-                    $data['sub_categories'][$result['category_id']][$result['sub_category_id']] = array('value' => $result['sub_category_id'], 'text' => $result['sub_category_name']);
-                    ++$data['sub_category_counter'];
-                }
-                if (!isset($data['classes'][$result['sub_category_id']][$result['class_id']]))
-                {
-                    $data['classes'][$result['sub_category_id']][$result['class_id']] = array('value' => $result['class_id'], 'text' => $result['class_name']);
-                    ++$data['class_counter'];
-                }
-                $data['types'][$result['class_id']][$result['type_id']] = array('value' => $result['type_id'], 'text' => $result['type_name']);
-            }
-
+            // Fetching companies of logged in user
             $this->db->from($this->config->item('table_login_setup_company') . ' setup_company');
             $this->db->select('setup_company.id value, setup_company.full_name text');
             $this->db->join($this->config->item('table_login_setup_users_company') . ' setup_users_company', 'setup_users_company.company_id = setup_company.id');
@@ -258,8 +203,10 @@ class Tasks_file_entry extends Root_Controller
             $this->db->where('setup_users_company.revision', 1);
             $this->db->where('setup_users_company.user_id', $user->user_id);
             $this->db->order_by('setup_company.ordering');
+            $this->db->order_by('setup_company.id');
             $data['companies'] = $this->db->get()->result_array();
 
+            // Fetching department of logged in user
             if ($user->department_id > 0)
             {
                 $result = Query_helper::get_info($this->config->item('table_login_setup_department'), 'name', array('id=' . $user->department_id), 1, 0);
@@ -269,9 +216,9 @@ class Tasks_file_entry extends Root_Controller
             {
                 $data['department'] = array('value' => '', 'text' => 'Not Assigned');
             }
-            $data['employee'] = array('value' => $user->user_id, 'text' => $user->name);
-            $data['hc_locations'] = Query_helper::get_info($this->config->item('table_fms_setup_file_hc_location'), 'id value,name text', array(), 0, 0, 'ordering');
 
+            // Fetching employee name of logged in user
+            $data['employee'] = array('value' => $user->user_id, 'text' => $user->name);
 
             $data['title'] = 'Create New ' . $this->lang->line('LABEL_FILE_NAME');
             $ajax['status'] = true;
@@ -780,14 +727,15 @@ class Tasks_file_entry extends Root_Controller
     private function check_validation()
     {
         $this->load->library('form_validation');
-        $this->form_validation->set_rules('item[name]', $this->lang->line('LABEL_NAME'), 'required|trim');
-        $this->form_validation->set_rules('item[id_type]', $this->lang->line('LABEL_TYPE_NAME'), 'required');
-        $this->form_validation->set_rules('item[id_hc_location]', $this->lang->line('LABEL_HC_LOCATION'), 'required');
-        $this->form_validation->set_rules('item[date_start]', $this->lang->line('LABEL_DATE_START'), 'required');
-        $this->form_validation->set_rules('item[status_file]', $this->lang->line('LABEL_FILE_STATUS'), 'required');
-        $this->form_validation->set_rules('item[employee_id]', $this->lang->line('LABEL_RESPONSIBLE_EMPLOYEE'), 'required');
         $this->form_validation->set_rules('item[id_company]', $this->lang->line('LABEL_COMPANY_NAME'), 'required');
         $this->form_validation->set_rules('item[id_department]', $this->lang->line('LABEL_DEPARTMENT_NAME'), 'required');
+        $this->form_validation->set_rules('item[employee_id]', $this->lang->line('LABEL_RESPONSIBLE_EMPLOYEE'), 'required');
+        $this->form_validation->set_rules('item[id_type]', $this->lang->line('LABEL_TYPE_NAME'), 'required');
+        $this->form_validation->set_rules('item[id_hc_location]', $this->lang->line('LABEL_HC_LOCATION'), 'required');
+        $this->form_validation->set_rules('item[name]', $this->lang->line('LABEL_NAME'), 'required|trim');
+        $this->form_validation->set_rules('item[status_file]', $this->lang->line('LABEL_FILE_STATUS'), 'required');
+        $this->form_validation->set_rules('item[ordering]', $this->lang->line('LABEL_ORDER'), 'required');
+        $this->form_validation->set_rules('item[date_start]', $this->lang->line('LABEL_DATE_START'), 'required');
         if ($this->form_validation->run() == false)
         {
             $this->message = validation_errors();

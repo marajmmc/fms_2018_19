@@ -96,7 +96,7 @@ class Setup_file_name extends Root_Controller
             $user = User_helper::get_user();
             $method = 'list';
             $data['system_preference_items'] = System_helper::get_preference($user->user_id, $this->controller_url, $method, $this->get_preference_headers($method));
-            $data['title'] = "File Name List";
+            $data['title'] = $this->lang->line('LABEL_FILE_NAME'). " List";
             $ajax['status'] = true;
             $ajax['system_content'][] = array("id" => "#system_content", "html" => $this->load->view($this->controller_url . "/list", $data, true));
             if ($this->message)
@@ -164,12 +164,8 @@ class Setup_file_name extends Root_Controller
         $this->db->select('SUM(CASE WHEN digital_file.status="' . $this->config->item('system_status_active') . '" AND SUBSTRING(digital_file.mime_type,1,5)="image" THEN 1 ELSE 0 END) number_of_page');
 
         $this->db->where('ui.revision', 1);
-        $this->db->order_by('category.ordering');
-        $this->db->order_by('sub_category.ordering');
-        $this->db->order_by('class.ordering');
-        $this->db->order_by('type.ordering');
-        $this->db->order_by('file_name.ordering');
-        $this->db->group_by('file_name.id');
+        $this->db->order_by('file_name.ordering', 'ASC');
+        $this->db->group_by('file_name.id', 'ASC');
         $this->db->limit($pagesize, $current_records);
         $items = $this->db->get()->result_array();
         foreach ($items as &$item)
@@ -183,7 +179,6 @@ class Setup_file_name extends Root_Controller
     {
         if (isset($this->permissions['action1']) && ($this->permissions['action1'] == 1))
         {
-            $data['title'] = "Create New File";
             $data['item'] = array
             (
                 'id' => 0,
@@ -213,6 +208,7 @@ class Setup_file_name extends Root_Controller
             $data['departments'] = Query_helper::get_info($this->config->item('table_login_setup_department'), array('id value', 'name text'), array('status ="' . $this->config->item('system_status_active') . '"'), 0, 0, array('ordering ASC'));
             $data['employees'] = array();
 
+            $data['title'] = "New " . $this->lang->line('LABEL_FILE_NAME');
             $ajax['status'] = true;
             $ajax['system_content'][] = array("id" => "#system_content", "html" => $this->load->view($this->controller_url . "/add_edit", $data, true));
             if ($this->message)
@@ -259,7 +255,7 @@ class Setup_file_name extends Root_Controller
             $data['item'] = $this->db->get()->row_array();
             if (!$data['item'])
             {
-                System_helper::invalid_try('Edit', $item_id, 'Edit Not Exists');
+                System_helper::invalid_try(__FUNCTION__, $item_id, 'Edit Not Exists');
                 $ajax['status'] = false;
                 $ajax['system_message'] = 'Invalid Try.';
                 $this->json_return($ajax);
@@ -333,7 +329,7 @@ class Setup_file_name extends Root_Controller
             $result = Query_helper::get_info($this->config->item('table_fms_setup_file_name'), '*', array('id =' . $id, 'status != "' . $this->config->item('system_status_delete') . '"'), 1);
             if (!$result)
             {
-                System_helper::invalid_try('Update', $id, 'Update Not Exists');
+                System_helper::invalid_try(__FUNCTION__, $id, 'Update Not Exists');
                 $ajax['status'] = false;
                 $ajax['system_message'] = 'Invalid Try.';
                 $this->json_return($ajax);
