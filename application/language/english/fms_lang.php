@@ -57,6 +57,7 @@ $lang['ACTION_SET_PACKING_COST'] = 'Set Packing Cost';
 $lang['ACTION_REPORT_VIEW'] = 'Report View';
 $lang['ACTION_REPORT'] = 'View Report';
 
+
 // Added by saiful
 
 $lang['ACTION_ATTENDANCE'] = 'Attendance';
@@ -116,6 +117,10 @@ $lang['LABEL_STATUS_COMPLETE']="Complete";
 $lang['LABEL_STATUS_OPEN']="Open";
 $lang['LABEL_STATUS_CLOSE']="Close";
 
+// User Information
+$lang['LABEL_USER_GROUP'] = 'User Group';
+$lang['LABEL_DESIGNATION_NAME'] = 'User Designation';
+$lang['LABEL_USERNAME'] = 'User Name';
 
 // Common information related
 $lang['LABEL_EMPLOYEE_ID'] = 'Employee id';
