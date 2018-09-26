@@ -318,6 +318,10 @@ class Report_file_view extends Root_Controller
         }
 
         $this->two_date_between_query_generator(System_helper::get_time($date_from_start_file),System_helper::get_time($date_to_start_file),'file_name.date_start');
+        $this->db->where('category.status',$this->config->item('system_status_active'));
+        $this->db->where('sub_category.status',$this->config->item('system_status_active'));
+        $this->db->where('class.status',$this->config->item('system_status_active'));
+        $this->db->where('type.status',$this->config->item('system_status_active'));
         $this->db->where('file_name.status',$this->config->item('system_status_active'));
         $this->db->group_by('file_name.id');
         $this->db->order_by('category.ordering');
