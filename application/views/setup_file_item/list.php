@@ -134,8 +134,8 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
                     { text: '<?php echo $CI->lang->line('LABEL_ID'); ?>', dataField: 'id', pinned: true, width:'50', hidden: <?php echo $system_preference_items['id']?0:1;?>},
                     { text: '<?php echo $CI->lang->line('LABEL_NAME'); ?>', dataField: 'name', pinned: true, hidden: <?php echo $system_preference_items['name']?0:1;?>},
                     { text: '<?php echo $CI->lang->line('LABEL_CATEGORY_NAME'); ?>', dataField: 'category_name', filtertype: 'list', width:'200', hidden: <?php echo $system_preference_items['category_name']?0:1;?>},
-                    { text: '<?php echo $CI->lang->line('LABEL_SUB_CATEGORY_NAME'); ?>', dataField: 'sub_category_name', filtertype: 'list', width:'200', hidden: <?php echo $system_preference_items['sub_category_name']?0:1;?>},
-                    { text: '<?php echo $CI->lang->line('LABEL_CLASS_NAME'); ?>', dataField: 'class_name', width:'200', filtertype: 'list', hidden: <?php echo $system_preference_items['class_name']?0:1;?>},
+                    { text: '<?php echo $CI->lang->line('LABEL_SUB_CATEGORY_NAME'); ?>', dataField: 'sub_category_name',width:'200', hidden: <?php echo $system_preference_items['sub_category_name']?0:1;?>},
+                    { text: '<?php echo $CI->lang->line('LABEL_CLASS_NAME'); ?>', dataField: 'class_name', width:'200',hidden: <?php echo $system_preference_items['class_name']?0:1;?>},
                     { text: '<?php echo $CI->lang->line('LABEL_TYPE_NAME'); ?>', dataField: 'type_name', width:'200', hidden: <?php echo $system_preference_items['type_name']?0:1;?>},
                     { text: '<?php echo $CI->lang->line('LABEL_ORDERING'); ?>', dataField: 'ordering', cellsalign: 'right', width:'70', hidden: <?php echo $system_preference_items['ordering']?0:1;?>},
                     { text: '<?php echo $CI->lang->line('LABEL_STATUS');?>', dataField: 'status', cellsalign: 'center', filtertype: 'list', width: 80, hidden: <?php echo $system_preference_items['status']?0:1;?>}
