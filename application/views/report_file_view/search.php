@@ -256,6 +256,8 @@ jQuery(document).ready(function()
         $("#id_class").val("");
         $("#id_type").val("");
         $("#id_name").val("");
+        $("#date_from_start_page").val("");
+        $("#date_to_start_page").val("");
         $('#sub_category_container').hide();
         $('#class_container').hide();
         $('#type_container').hide();
@@ -281,6 +283,8 @@ jQuery(document).ready(function()
         $("#id_class").val("");
         $("#id_type").val("");
         $("#id_name").val("");
+        $("#date_from_start_page").val("");
+        $("#date_to_start_page").val("");
         $('#class_container').hide();
         $('#type_container').hide();
         $('#name_container').hide();
@@ -304,6 +308,8 @@ jQuery(document).ready(function()
     {
         $("#id_type").val("");
         $("#id_name").val("");
+        $("#date_from_start_page").val("");
+        $("#date_to_start_page").val("");
         $('#type_container').hide();
         $('#name_container').hide();
         $('#page_entry_container').hide();
@@ -325,6 +331,8 @@ jQuery(document).ready(function()
     $(document).on("change","#id_type",function()
     {
         $("#id_name").val("");
+        $("#date_from_start_page").val("");
+        $("#date_to_start_page").val("");
         $('#name_container').hide();
         $('#page_entry_container').hide();
         $('#file_opening_container').show();
@@ -354,6 +362,10 @@ jQuery(document).ready(function()
     });
     $(document).on("change","#id_name",function()
     {
+        $("#date_from_start_file").val("");
+        $("#date_to_start_file").val("");
+        $("#date_from_start_page").val("");
+        $("#date_to_start_page").val("");
         $('#page_entry_container').hide();
         $('#file_opening_container').show();
         var id_name=$('#id_name').val();
