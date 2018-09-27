@@ -16,37 +16,27 @@ if (isset($CI->permissions['action2']) && ($CI->permissions['action2'] == 1))
 }
 $CI->load->view('action_buttons', array('action_buttons' => $action_buttons));
 
+// ------Counting Category, Subcategory, Class & Type Id's------
+$cat_count = $sub_cat_count = $class_count = $type_count = array();
+if (!empty($all_files))
+{
+    foreach ($all_files as $value)
+    {
+        $cat_count[] = $value['category_id'];
+        $sub_cat_count[] = $value['sub_category_id'];
+        $class_count[] = $value['class_id'];
+        $type_count[] = $value['type_id'];
+    }
+    $cat_count = array_count_values($cat_count);
+    $sub_cat_count = array_count_values($sub_cat_count);
+    $class_count = array_count_values($class_count);
+    $type_count = array_count_values($type_count);
+}
+$current_cat = $current_sub_cat = $current_class = $current_type = -1;
+
+//-------------------------------------------------------------
 ?>
-<style>
-    .panel {
-        border: none
-    }
-
-    .normal {
-        font-weight: normal !important
-    }
-
-    .right-align {
-        text-align: right !important
-    }
-
-    .center-align {
-        text-align: center !important
-    }
-
-    span.text-danger {
-        font-style: italic;
-        color: #FF0000
-    }
-
-    .summary-wrap .show-grid {
-        margin: 0;
-    }
-
-    .summary-wrap .show-grid:nth-child(2) > div {
-        padding-top: 5px;
-    }
-</style>
+<style> .normal {font-weight: normal !important} </style>
 
 <div class="row widget">
     <div class="widget-header" style="margin:0">
@@ -57,110 +47,81 @@ $CI->load->view('action_buttons', array('action_buttons' => $action_buttons));
     <div class="row show-grid">
         <table class="table table-bordered table-responsive">
             <thead>
-                <tr>
-                    <th><?php echo $CI->lang->line('LABEL_CATEGORY_NAME'); ?></th>
-                    <th><?php echo $CI->lang->line('LABEL_SUB_CATEGORY_NAME'); ?></th>
-                    <th><?php echo $CI->lang->line('LABEL_CLASS_NAME'); ?></th>
-                    <th><?php echo $CI->lang->line('LABEL_TYPE_NAME'); ?></th>
-                    <th><?php echo $CI->lang->line('LABEL_FILE_NAME'); ?></th>
-                    <?php for ($index = 0; $index < $CI->config->item('system_fms_max_actions'); $index++){ ?>
-                        <th><?php echo $CI->lang->line('LABEL_ACTION' . $index); ?></th>
-                    <?php } ?>
-                </tr>
+            <tr>
+                <th><?php echo $CI->lang->line('LABEL_CATEGORY_NAME'); ?></th>
+                <th><?php echo $CI->lang->line('LABEL_SUB_CATEGORY_NAME'); ?></th>
+                <th><?php echo $CI->lang->line('LABEL_CLASS_NAME'); ?></th>
+                <th><?php echo $CI->lang->line('LABEL_TYPE_NAME'); ?></th>
+                <th><?php echo $CI->lang->line('LABEL_FILE_NAME'); ?></th>
+                <?php for ($index = 0; $index < $CI->config->item('system_fms_max_actions'); $index++){ ?>
+                    <th><?php echo $CI->lang->line('LABEL_ACTION' . $index); ?></th>
+                <?php } ?>
+            </tr>
             </thead>
             <tbody>
-                <?php
-                $check_array = array();
+            <?php
+            $check_array = array();
+            if (!empty($all_files))
+            {
                 foreach ($all_files as $file)
                 {
-                    $is_first_category = false;
-                    $is_first_sub_category = false;
-                    $is_first_class = false;
-                    $is_first_type = false;
-                    if (isset($check_array['category'][$file['category_id']]))
-                    {
-                        $check_array['category'][$file['category_id']] += 1;
-                    }
-                    else
-                    {
-                        $is_first_category = '_first';
-                        $check_array['category'][$file['category_id']] = 1;
-                    }
-                    if (isset($check_array['sub_category'][$file['sub_category_id']]))
-                    {
-                        $check_array['sub_category'][$file['sub_category_id']] += 1;
-                    }
-                    else
-                    {
-                        $is_first_sub_category = '_first';
-                        $check_array['sub_category'][$file['sub_category_id']] = 1;
-                    }
-                    if (isset($check_array['class'][$file['class_id']]))
-                    {
-                        $check_array['class'][$file['class_id']] += 1;
-                    }
-                    else
-                    {
-                        $is_first_class = '_first';
-                        $check_array['class'][$file['class_id']] = 1;
-                    }
-                    if (isset($check_array['type'][$file['type_id']]))
-                    {
-                        $check_array['type'][$file['type_id']] += 1;
-                    }
-                    else
-                    {
-                        $is_first_type = '_first';
-                        $check_array['type'][$file['type_id']] = 1;
-                    }
-
-                    for ($i = 0; $i < $CI->config->item('system_fms_max_actions'); $i++)
-                    {
-                        $temp_variable_name = 'action' . $i;
-                        if ($file[$temp_variable_name] == 1)
-                        {
-                            $$temp_variable_name = 'ok';
-                        }
-                        else
-                        {
-                            $$temp_variable_name = 'remove';
-                        }
-                    }
                     ?>
                     <tr>
-                        <td class="category-<?php echo $file['category_id'] . $is_first_category; ?>">
-                            <label><?php echo $file['category_name']; ?></label>
-                        </td>
-                        <td class="sub_category-<?php echo $file['sub_category_id'] . $is_first_sub_category; ?>">
-                            <label><?php echo $file['sub_category_name']; ?></label>
-                        </td>
-                        <td class="class-<?php echo $file['class_id'] . $is_first_class; ?>">
-                            <label><?php echo $file['class_name']; ?></label>
-                        </td>
-                        <td class="type-<?php echo $file['type_id'] . $is_first_type; ?>">
-                            <label><?php echo $file['type_name']; ?></label>
-                        </td>
-                        <td>
-                            <label><?php echo $file['file_name']; ?></label>
-                        </td>
-                        <?php for ($i = 0; $i < $CI->config->item('system_fms_max_actions'); $i++){
-                            $temp_variable_name = 'action' . $i;
+                        <?php if ($current_cat != $file['category_id'])
+                        {
                             ?>
-                            <td>
-                                <span class="glyphicon glyphicon-<?php echo $$temp_variable_name; ?>" aria-hidden="true"></span>
+                            <td rowspan="<?php echo $cat_count[$file['category_id']]; ?>">
+                                <label class="normal"><?php echo $file['category_name']; ?></label>
+                            </td>
+                            <?php
+                            $current_cat = $file['category_id'];
+                        }
+                        if ($current_sub_cat != $file['sub_category_id'])
+                        {
+                            ?>
+                            <td rowspan="<?php echo $sub_cat_count[$file['sub_category_id']]; ?>">
+                                <label class="normal"><?php echo $file['sub_category_name']; ?></label>
+                            </td>
+                            <?php
+                            $current_sub_cat = $file['sub_category_id'];
+                        }
+                        if ($current_class != $file['class_id'])
+                        {
+                            ?>
+                            <td rowspan="<?php echo $class_count[$file['class_id']]; ?>">
+                                <label class="normal"><?php echo $file['class_name']; ?></label>
+                            </td>
+                            <?php
+                            $current_class = $file['class_id'];
+                        }
+                        if ($current_type != $file['type_id'])
+                        {
+                            ?>
+                            <td rowspan="<?php echo $type_count[$file['type_id']]; ?>">
+                                <label class="normal"><?php echo $file['type_name']; ?></label>
+                            </td>
+                            <?php
+                            $current_type = $file['type_id'];
+                        } ?>
+                        <td>
+                            <label class="normal"><?php echo $file['file_name']; ?></label>
+                        </td>
+                        <?php for ($i = 0; $i < $CI->config->item('system_fms_max_actions'); $i++){ ?>
+                            <td title="<?php echo $CI->lang->line('LABEL_ACTION' . $i); ?>">
+                                <span class="glyphicon <?php echo ($file['action' . $i]) ? 'glyphicon-ok text-primary' : 'glyphicon-remove text-danger'; ?>"></span>
                             </td>
                         <?php } ?>
                     </tr>
                 <?php
                 }
-                if (!isset($check_array['category']))
-                {
-                    $check_array['category'] = array();
-                    $check_array['class'] = array();
-                    $check_array['type'] = array();
-                    echo '<tr style="text-align: center;font-size: 18px;"><td colspan="9">No data to display.</td></tr>';
-                }
+            }
+            else
+            {
                 ?>
+                <tr style="text-align:center">
+                    <td colspan="10">- NO RECORD FOUND -</td>
+                </tr>
+            <?php } ?>
             </tbody>
         </table>
     </div>

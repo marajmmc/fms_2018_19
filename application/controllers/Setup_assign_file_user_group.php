@@ -392,7 +392,7 @@ class Setup_assign_file_user_group extends Root_Controller
             $user_group_name = $this->db->get()->row_array();
 
             $data['item_id'] = $item_id;
-            $data['title'] = 'Details File Permissions for (' . $user_group_name['name'] . ')';
+            $data['title'] = 'Details File Permissions :: ' . $user_group_name['name'];
             $ajax['status'] = true;
             $ajax['system_content'][] = array("id" => "#system_content", "html" => $this->load->view($this->controller_url . "/details", $data, true));
             if ($this->message)
