@@ -33,7 +33,7 @@ $CI= & get_instance();
             </div>
         </div>
 
-        <div style="<?php if(!($item['id_sub_category']>0)){echo 'display:none';} ?>" class="row show-grid" id="sub_category_container">
+        <div style="display: none;" class="row show-grid" id="sub_category_container">
             <div class="col-xs-6">
                 <label for="id_sub_category" class="control-label pull-right">
                     <?php echo $CI->lang->line('LABEL_SUB_CATEGORY_NAME');?>
@@ -53,7 +53,7 @@ $CI= & get_instance();
             </div>
         </div>
 
-        <div style="<?php if(!($item['id_class']>0)){echo 'display:none';} ?>" class="row show-grid" id="class_container">
+        <div style="display: none;" class="row show-grid" id="class_container">
             <div class="col-xs-6">
                 <label for="id_class" class="control-label pull-right">
                     <?php echo $CI->lang->line('LABEL_CLASS_NAME');?>
@@ -73,7 +73,7 @@ $CI= & get_instance();
             </div>
         </div>
 
-        <div style="<?php if(!($item['id_type']>0)){echo 'display:none';} ?>" class="row show-grid" id="type_container">
+        <div style="display: none;" class="row show-grid" id="type_container">
             <div class="col-xs-6">
                 <label for="id_type" class="control-label pull-right">
                     <?php echo $CI->lang->line('LABEL_TYPE_NAME');?>
@@ -92,8 +92,40 @@ $CI= & get_instance();
                 </select>
             </div>
         </div>
-
-        <div style="<?php if(!($item['id_name']>0)){echo 'display:none';} ?>" class="row show-grid" id="name_container">
+        <div style="display: none;" class="row show-grid" id="item_container">
+            <div class="col-xs-6">
+                <label for="id_item" class="control-label pull-right">
+                    <?php echo $CI->lang->line('LABEL_ITEM');?>
+                </label>
+            </div>
+            <div class="col-xs-6">
+                <select name="report[id_item]" id="id_item" class="form-control">
+                    <option value=""><?php echo $CI->lang->line('SELECT');?></option>
+                    <?php
+                    foreach($items as $item)
+                    {?>
+                        <option value="<?php echo $item['value']?>"><?php echo $item['text'];?></option>
+                    <?php
+                    }
+                    ?>
+                </select>
+            </div>
+        </div>
+        <div style="display: none;" class="row show-grid" id="upload_container">
+            <div class="col-xs-6">
+                <label for="id_item_upload" class="control-label pull-right">
+                    Upload
+                </label>
+            </div>
+            <div class="col-xs-6">
+                <select name="report[item_upload]" id="id_item_upload" class="form-control">
+                    <option value=""><?php echo $CI->lang->line('LABEL_SELECT_ALL');?></option>
+                    <option value="Yes"><?php echo $CI->lang->line('LABEL_YES');?></option>
+                    <option value="No"><?php echo $CI->lang->line('LABEL_NO');?></option>
+                </select>
+            </div>
+        </div>
+        <div style="display: none;" class="row show-grid" id="name_container">
             <div class="col-xs-6">
                 <label for="id_name" class="control-label pull-right">
                     <?php echo $CI->lang->line('LABEL_FILE_NAME');?>
@@ -155,7 +187,7 @@ $CI= & get_instance();
             </div>
         </div>
 
-        <div style="<?php if(!($item['employee_id']>0)){echo 'display: none';} ?>" class="row show-grid" id="employee_id_container">
+        <div style="display: none;" class="row show-grid" id="employee_id_container">
             <div class="col-xs-6">
                 <select name="report[employee_id]" id="employee_id" class="form-control" tabindex="-1">
                     <option value=""><?php echo $CI->lang->line('SELECT');?></option>
@@ -203,7 +235,7 @@ $CI= & get_instance();
     <div class="col-xs-3"></div>
 </div>
 
-<div style="<?php if(!($item['id_name']>0)){echo 'display:none';} ?>" class="row show-grid" id="page_entry_container">
+<div style="display: none;" class="row show-grid" id="page_entry_container">
     <div class="col-xs-3">
         <label class="control-label pull-right">
             Page Entry Date
@@ -249,18 +281,21 @@ jQuery(document).ready(function()
 {
     system_off_events();
     $(".datepicker").datepicker({dateFormat : display_date_format});
-
     $(document).on("change","#id_category",function()
     {
         $("#id_sub_category").val("");
         $("#id_class").val("");
         $("#id_type").val("");
+        $("#id_item").val("");
+        $("#id_item_upload").val("");
         $("#id_name").val("");
         $("#date_from_start_page").val("");
         $("#date_to_start_page").val("");
         $('#sub_category_container').hide();
         $('#class_container').hide();
         $('#type_container').hide();
+        $('#item_container').hide();
+        $('#upload_container').hide();
         $('#name_container').hide();
         $('#page_entry_container').hide();
         $('#file_opening_container').show();
@@ -282,11 +317,15 @@ jQuery(document).ready(function()
     {
         $("#id_class").val("");
         $("#id_type").val("");
+        $("#id_item").val("");
+        $("#id_item_upload").val("");
         $("#id_name").val("");
         $("#date_from_start_page").val("");
         $("#date_to_start_page").val("");
         $('#class_container').hide();
         $('#type_container').hide();
+        $('#item_container').hide();
+        $('#upload_container').hide();
         $('#name_container').hide();
         $('#page_entry_container').hide();
         $('#file_opening_container').show();
@@ -307,10 +346,14 @@ jQuery(document).ready(function()
     $(document).on("change","#id_class",function()
     {
         $("#id_type").val("");
+        $("#id_item").val("");
+        $("#id_item_upload").val("");
         $("#id_name").val("");
         $("#date_from_start_page").val("");
         $("#date_to_start_page").val("");
         $('#type_container').hide();
+        $('#item_container').hide();
+        $('#upload_container').hide();
         $('#name_container').hide();
         $('#page_entry_container').hide();
         $('#file_opening_container').show();
@@ -330,23 +373,29 @@ jQuery(document).ready(function()
     });
     $(document).on("change","#id_type",function()
     {
+        $("#id_item").val("");
+        $("#id_item_upload").val("");
         $("#id_name").val("");
         $("#date_from_start_page").val("");
         $("#date_to_start_page").val("");
+        $('#item_container').hide();
+        $('#upload_container').hide();
         $('#name_container').hide();
         $('#page_entry_container').hide();
         $('#file_opening_container').show();
         var id_type=$('#id_type').val();
         if(id_type>0)
         {
+            $('#item_container').show();
             $('#name_container').show();
             $.ajax({
-                url: '<?php echo site_url('common_controller/get_names_by_type_id'); ?>',
+                url: '<?php echo site_url('common_controller/get_names_and_items_by_type_id'); ?>',
                 type: 'POST',
                 datatype: "JSON",
                 data:
                 {
-                    html_container_id:'#id_name',
+                    container_id_item:'#id_item',
+                    container_id_name:'#id_name',
                     id_type:id_type
                 },
                 success: function (data, status)
@@ -358,6 +407,16 @@ jQuery(document).ready(function()
                     console.log("error");
                 }
             });
+        }
+    });
+    $(document).on("change","#id_item",function()
+    {
+        $("#id_item_upload").val("");
+        $('#upload_container').hide();
+        var id_item=$('#id_item').val();
+        if(id_item>0)
+        {
+            $('#upload_container').show();
         }
     });
     $(document).on("change","#id_name",function()
@@ -375,8 +434,6 @@ jQuery(document).ready(function()
             $('#file_opening_container').hide();
         }
     });
-
-
     $(document).on("change","#id_company,#id_department",function()
     {
         $("#employee_id").val("");
@@ -408,7 +465,6 @@ jQuery(document).ready(function()
                 });
         }
     });
-
     $(document).on("click", ".pop_up", function(event)
     {
         var left=((($(window).width()-450)/2)+$(window).scrollLeft());

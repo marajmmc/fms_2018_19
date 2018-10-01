@@ -77,23 +77,16 @@ class Report_file_view extends Root_Controller
             $data['title']='Files Report';
             $data['item']=array
             (
-                'id_category'=>'',
-                'id_sub_category'=>'',
-                'id_class'=>'',
-                'id_type'=>'',
-                'id_name'=>'',
                 'date_from_start_file'=>'',
                 'date_to_start_file'=>'',
                 'date_from_start_page'=>'',
-                'date_to_start_page'=>'',
-                'id_company'=>'',
-                'id_department'=>'',
-                'employee_id'=>''
+                'date_to_start_page'=>''
             );
             $data['categories']=Query_helper::get_info($this->config->item('table_fms_setup_file_category'),array('id value','name text'),array('status ="'.$this->config->item('system_status_active').'"'),0,0,array('ordering ASC'));
             $data['sub_categories']=array();
             $data['classes']=array();
             $data['types']=array();
+            $data['items']=array();
             $data['names']=array();
 
             $data['companies']=Query_helper::get_info($this->config->item('table_login_setup_company'),array('id value','full_name text'),array('status ="'.$this->config->item('system_status_active').'"'),0,0,array('ordering ASC'));
@@ -122,9 +115,11 @@ class Report_file_view extends Root_Controller
         if(isset($this->permissions['action0']) && ($this->permissions['action0']==1))
         {
             $reports=$this->input->post('report');
+            $date_from_start_file=System_helper::get_time($reports['date_from_start_file']);
+            $date_to_start_file=System_helper::get_time($reports['date_to_start_file']);
             $date_from_start_page=System_helper::get_time($reports['date_from_start_page']);
             $date_to_start_page=System_helper::get_time($reports['date_to_start_page']);
-            if($reports['date_from_start_file']>$reports['date_to_start_file'])
+            if($date_from_start_file>$date_to_start_file)
             {
                 $ajax['status']=false;
                 $ajax['system_message']='File Opening From Date should be less than File Opening To Date';
@@ -244,6 +239,8 @@ class Report_file_view extends Root_Controller
         $id_sub_category=$this->input->post('id_sub_category');
         $id_class=$this->input->post('id_class');
         $id_type=$this->input->post('id_type');
+        $id_item=$this->input->post('id_item');
+        $item_upload=$this->input->post('item_upload');
         $employee_id=$this->input->post('employee_id');
         $id_department=$this->input->post('id_department');
         $id_company=$this->input->post('id_company');

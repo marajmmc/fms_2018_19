@@ -62,6 +62,28 @@ class Common_controller extends Root_Controller
         $ajax['status']=true;
         $this->json_return($ajax);
     }
+    public function get_names_and_items_by_type_id()
+    {
+        $container_id_item='#id_item';
+        $container_id_name='#id_name';
+        if($this->input->post('container_id_item'))
+        {
+            $container_id_item=$this->input->post('container_id_item');
+        }
+        if($this->input->post('container_id_name'))
+        {
+            $container_id_name=$this->input->post('container_id_name');
+        }
+        $id_type=$this->input->post('id_type');
+        $data['items']=array();
+        $data['items']=Query_helper::get_info($this->config->item('table_fms_setup_file_name'),array('id value','name text'),array('id_type='.$id_type,'status="'.$this->config->item('system_status_active').'"'),0,0,array('ordering ASC'));
+        $ajax['system_content'][]=array('id'=>$container_id_name,'html'=>$this->load->view('dropdown_with_select',$data,true));
+        $data['items']=array();
+        $data['items']=Query_helper::get_info($this->config->item('table_fms_setup_file_item'),array('id value','name text'),array('id_type='.$id_type,'status="'.$this->config->item('system_status_active').'"'),0,0,array('ordering ASC'));
+        $ajax['system_content'][]=array('id'=>$container_id_item,'html'=>$this->load->view('dropdown_with_select',$data,true));
+        $ajax['status']=true;
+        $this->json_return($ajax);
+    }
     public function get_employees_by_company_department()
     {
         $html_container_id='#employee_id';
