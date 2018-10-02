@@ -515,11 +515,11 @@ class Tasks_file_entry extends Root_Controller
             }
 
             $path =$this->config->item('system_folder_upload') . '/' . $id;
-            $dir=(FCPATH).$path;
-            if(!is_dir($dir))
-            {
-                mkdir($dir, 0777);
-            }
+//            $dir=(FCPATH).$path;
+//            if(!is_dir($dir))
+//            {
+//                mkdir($dir, 0777);
+//            }
             $uploaded_files = System_helper::upload_file($path,$allowed_types);
 
 

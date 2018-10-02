@@ -6,6 +6,10 @@ $config['offline_controllers']=array('home','sys_site_offline');
 $config['external_controllers']=array('home');//user can use them without login
 $config['system_max_actions']=8;
 
+$config['system_site_root_folder']='fms_2018_19';
+$config['system_upload_image_auth_key']='ems_2018_19';
+$config['system_upload_api_url']='http://180.234.223.205/api_file_server/upload';
+
 $config['system_status_yes']='Yes';
 $config['system_status_no']='No';
 $config['system_status_active']='Active';
@@ -28,8 +32,8 @@ $config['system_status_present']='Present';
 $config['system_status_absent']='Absent';
 $config['system_status_cl']='Casual Leave';
 
-
-$config['system_base_url_profile_picture']='http://50.116.76.180/login/';
+$config['system_base_url_profile_picture']='http://180.234.223.205/login_2018_19/';
+$config['system_base_url_picture']='http://180.234.223.205/fms_2018_19/';
 
 $config['system_customer_type_outlet_id']=1;
 $config['system_customer_type_customer_id']=2;
@@ -49,6 +53,4 @@ $config['system_status_file_close']='Close';
 
 //Assign file to user group
 $config['system_fms_max_actions']=4;
-
-$config['system_image_base_url']='http://localhost/fms_2018_19/';
 $config['system_folder_upload']='files';

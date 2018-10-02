@@ -244,7 +244,7 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
             <div id="files_container" data-current-id="0">
                 <div class="panel-group" id="accordion">
                     <?php
-                    $location=$CI->config->item('system_image_base_url');
+                    $location=$CI->config->item('system_base_url_picture');
                     foreach($file_items as $file_item)
                     {
                         $show_item=true;

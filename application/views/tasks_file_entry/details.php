@@ -120,7 +120,7 @@ $CI->load->view('action_buttons',array('action_buttons'=>$action_buttons));
         <div id="collapse_item_info" class="panel-collapse collapse in item_panel_content">
             <div class="panel-group" id="accordion">
                 <?php
-                $location=$CI->config->item('system_image_base_url');
+                $location=$CI->config->item('system_base_url_picture');
                 foreach($file_items as $file_item)
                 {
                     $show_item=true;
