@@ -331,6 +331,40 @@ class Report_file_view extends Root_Controller
         {
             $item['date_opening']=System_helper::display_date($item['date_opening']);
         }
+
+        $digital_file=array();
+        if($id_item>0)
+        {
+            if($item_upload)
+            {
+                $this->db->from($this->config->item('table_fms_tasks_digital_file') . ' digital_file');
+                $this->db->select('digital_file.*');
+                $this->db->where('digital_file.id_file_item',$id_item);
+                $items_digital_file=$this->db->get()->result_array();
+                foreach($items_digital_file as $item_digital_file)
+                {
+                    $digital_file[$item_digital_file['id_file_name']]=$item_digital_file;
+                }
+                foreach($items as $key=>$item)
+                {
+                    if($item_upload=='Yes')
+                    {
+                        if(!(isset($digital_file[$item['id']])))
+                        {
+                            unset($items[$key]);
+                        }
+                    }
+                    elseif($item_upload=='No')
+                    {
+                        if(isset($digital_file[$item['id']]))
+                        {
+                            unset($items[$key]);
+                        }
+                    }
+                }
+                $items = array_values($items);
+            }
+        }
         $this->json_return($items);
     }
     private function system_details($id)
