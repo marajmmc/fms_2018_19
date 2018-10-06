@@ -8,7 +8,7 @@ $config['system_max_actions']=8;
 
 $config['system_site_root_folder']='fms_2018_19';
 $config['system_upload_image_auth_key']='ems_2018_19';
-$config['system_upload_api_url']='http://180.234.223.205/api_file_server/upload';
+$config['system_upload_api_url']='http://45.251.59.5/api_file_server/upload';
 
 $config['system_status_yes']='Yes';
 $config['system_status_no']='No';
@@ -32,8 +32,8 @@ $config['system_status_present']='Present';
 $config['system_status_absent']='Absent';
 $config['system_status_cl']='Casual Leave';
 
-$config['system_base_url_profile_picture']='http://180.234.223.205/login_2018_19/';
-$config['system_base_url_picture']='http://180.234.223.205/fms_2018_19/';
+$config['system_base_url_profile_picture']='http://45.251.59.5/login_2018_19/';
+$config['system_base_url_picture']='http://45.251.59.5/fms_2018_19/';
 
 $config['system_customer_type_outlet_id']=1;
 $config['system_customer_type_customer_id']=2;
