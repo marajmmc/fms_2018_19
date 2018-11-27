@@ -102,6 +102,9 @@ if($result)
             var display_date_format = "dd-M-yy";
             var SELECT_ONE_ITEM = "<?php echo $CI->lang->line('SELECT_ONE_ITEM'); ?>";
             var DELETE_CONFIRM = "<?php echo $CI->lang->line('DELETE_CONFIRM'); ?>";
+            var SYSTEM_IMAGE_SIZE_TO_RESIZE=1372022;//1372022=1.3mb,409600=400KB
+            var SYSTEM_IMAGE_MAX_WIDTH=800;
+            var SYSTEM_IMAGE_MAX_HEIGHT=600;
             var resized_image_files=[];
             var system_categories=JSON.parse('<?php echo json_encode($system_categories);?>');
             var system_sub_categories=JSON.parse('<?php echo json_encode($system_sub_categories);?>');
